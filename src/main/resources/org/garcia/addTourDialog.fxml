@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.controller.ToursController">
+    <children>
+        <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
+            <children>
+                <Text strokeType="OUTSIDE" text="Add new Tour">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </VBox.margin></Text>
+                <HBox alignment="CENTER" prefWidth="150" spacing="20">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100" text="Title">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="title" minWidth="100" prefWidth="150" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="150" spacing="20">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100" text="Origin" />
+                        <TextField fx:id="origin" minWidth="100" prefWidth="150" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="150" spacing="20">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100" text="Destination" />
+                        <TextField fx:id="destination" minWidth="100" prefWidth="150" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="150" spacing="20">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100" text="Description" />
+                        <TextField fx:id="description" maxHeight="100" minWidth="100" prefHeight="Infinity" prefWidth="150" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
+                    <children>
+                        <Button alignment="CENTER" defaultButton="true" onAction="#addTour" prefWidth="55.0" text="Save" textAlignment="CENTER" />
+                        <Button alignment="CENTER" onAction="#closeAddTourDialog" prefWidth="55.0" text="Cancel" textAlignment="CENTER" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
+
+</AnchorPane>

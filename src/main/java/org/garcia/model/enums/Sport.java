@@ -1,4 +1,4 @@
-package at.garcia.enums;
+package org.garcia.model.enums;
 
 public enum Sport {
     BIKE,
