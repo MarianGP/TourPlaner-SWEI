@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.controller.ToursController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.controller.ToursController">
     <children>
         <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
             <children>
@@ -56,7 +58,7 @@
                 <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
                     <children>
                         <Button alignment="CENTER" defaultButton="true" onAction="#addTour" prefWidth="55.0" text="Save" textAlignment="CENTER" />
-                        <Button alignment="CENTER" onAction="#closeAddTourDialog" prefWidth="55.0" text="Cancel" textAlignment="CENTER" />
+                        <Button alignment="CENTER" onAction="#closeDialog" prefWidth="55.0" text="Cancel" textAlignment="CENTER" />
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" />

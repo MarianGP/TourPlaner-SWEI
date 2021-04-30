@@ -1,10 +1,12 @@
 package org.garcia.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class Tour {
     private int id;
     private String title;

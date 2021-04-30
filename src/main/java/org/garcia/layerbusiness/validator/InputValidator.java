@@ -6,13 +6,11 @@ public class InputValidator {
 
     //range > 0 < 999999999
 
-    private static final Pattern LOCATION_PATTERN =
-            Pattern.compile("[0-9a-zA-Z\\p{Space}äöüÄÖÜß,/'-]*");
+    private static final Pattern LOCATION_PATTERN = Pattern.compile("[0-9a-zA-Z\\p{Space}äöüÄÖÜß,/'-]*");
 
     public static boolean validString(String input) {
-        if(input == null)
+        if(input == null || input.length() > 180)
             return false;
-
         return LOCATION_PATTERN.matcher(input).matches();
     }
 
@@ -25,6 +23,14 @@ public class InputValidator {
         catch (NumberFormatException ex) {
             return 0f;
         }
+    }
+
+    public static boolean validateStringList(String[] inputs) {
+        for(String input: inputs) {
+            if(!validString(input))
+                return false;
+        }
+        return true;
     }
 }
 

@@ -2,6 +2,7 @@ package org.garcia.layerbusiness.appmanager;
 
 import org.garcia.layerbusiness.validator.InputValidator;
 import org.garcia.model.Tour;
+import org.garcia.model.TourLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,7 @@ public class AppManagerDB implements IAppManager {
     }
 
     @Override
-    public boolean addTour(Tour tour) {
-        if(validTour(tour)) {
-            //add to db
-            return true;
-        }
+    public boolean addTour(String[] parameters) {
         return false;
     }
 
@@ -53,6 +50,11 @@ public class AppManagerDB implements IAppManager {
                 InputValidator.validString(tour.getDestination()) &&
                 InputValidator.validString(tour.getOrigin())
         );
+    }
+
+    @Override
+    public List<TourLog> searchLogs(int id) {
+        return null;
     }
 
 }
