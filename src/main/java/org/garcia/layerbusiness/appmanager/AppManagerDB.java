@@ -57,4 +57,14 @@ public class AppManagerDB implements IAppManager {
         return null;
     }
 
+    @Override
+    public boolean addLog(Object[] parameters, int tourId) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteLog(int id) {
+        return false;
+    }
+
 }

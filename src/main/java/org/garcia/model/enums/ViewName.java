@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 public enum ViewName {
     HOME("homeView"),
     TOURS("toursView"),
-    ADDTOUR("addTourDialog")
+    ADD_TOUR("addTourDialog"),
+    ADD_LOG("addTourLogDialog")
     ;
 
     private final String viewName;

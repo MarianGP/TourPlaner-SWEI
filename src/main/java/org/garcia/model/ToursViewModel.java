@@ -4,16 +4,18 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 public class ToursViewModel {
 
+    private static ToursViewModel viewModel;
+
     //tours
-    private Tour currentTour = Tour.builder().description("").origin("").title("").build();
+    private Tour currentTour;
     private Tour newTour;
     private ObservableList<Tour> tourObservableList = FXCollections.observableArrayList();
 
@@ -22,9 +24,13 @@ public class ToursViewModel {
     private TourLog newLog;
     private ObservableList<TourLog> tourLogObservableList = FXCollections.observableArrayList();
 
+    //new log
     private StringProperty duration = new SimpleStringProperty("");
     private StringProperty distance = new SimpleStringProperty("");
     private StringProperty date = new SimpleStringProperty("");
+
+    //time
+    private LocalDate localDate;
 
     //tour methods
     public void addAllToursObsList(List<Tour> foundTours) {
@@ -39,17 +45,6 @@ public class ToursViewModel {
         tourObservableList.clear();
     }
 
-    public void setCurrentLog(TableView<TourLog> logsTableView) { //to delete log usefull
-        logsTableView.getSelectionModel().selectedItemProperty().addListener(
-                (((observableValue, oldLog, newLog) -> {
-                    if (newLog != null) {
-                        currentLog = newLog;
-                    }
-                    System.out.println(currentLog);
-                }))
-        );
-    }
-
     public void addTourLogs(List<TourLog> allLogs) {
         if (allLogs == null) {
             tourLogObservableList.addAll();
@@ -58,11 +53,13 @@ public class ToursViewModel {
         }
     }
 
-    public void addOneTourLog(TourLog log) {
-        tourLogObservableList.add(log);
-    }
-
     public void clearLogsObservableList() {
         tourLogObservableList.clear();
+    }
+
+    public static ToursViewModel getInstance() {
+        if (viewModel == null)
+            viewModel = new ToursViewModel();
+        return viewModel;
     }
 }

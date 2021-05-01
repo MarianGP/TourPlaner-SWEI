@@ -15,7 +15,7 @@ public interface IAppManager {
 
     List<TourLog> searchLogs(int id);
 
-    static IAppManager getInstance() {
-        return null;
-    }
+    boolean addLog(Object[] parameters, int tourId);
+    boolean deleteLog(int id);
+
 }
