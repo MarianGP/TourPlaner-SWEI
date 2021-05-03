@@ -3,7 +3,6 @@ import java.sql.*;
 
 public interface DBConnection {
 
-    Connection connect();
-
+    Connection connect() throws SQLException;
     void installDriver();
 }

@@ -6,15 +6,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 class PostgresDBConnectionTest {
     @Mock
-    DBConnection connection = new PostgresDBConnection();
+    DBConnection db = new PostgresDBConnection();;
 
     @Test
     @DisplayName("Connection established")
-    void testConnectionEstablished() {
-        Connection conn = connection.connect();
+    void testConnectionEstablished() throws SQLException {
+        Connection conn = db.connect();
         Assertions.assertNotNull(conn);
     }
 }

@@ -12,9 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 import org.garcia.App;
+import org.garcia.layerbusiness.appmanager.AppManagerDB;
 import org.garcia.layerbusiness.appmanager.AppManagerFactory;
-import org.garcia.layerbusiness.appmanager.AppManagerMock;
 import org.garcia.layerbusiness.appmanager.IAppManager;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -60,7 +62,7 @@ public class ToursController implements Initializable {
     public TableColumn<TourLog, Integer> durationColumn = new TableColumn<>();
     public TableColumn<TourLog, Integer> distanceColumn = new TableColumn<>();
 
-    public void searchTours(ActionEvent actionEvent) {
+    public void searchTours(ActionEvent actionEvent) throws SQLException {
         toursViewModel.clearObservableList();
         toursViewModel.clearLogsObservableList();
         List<Tour> foundTours = tourManager.searchTours(inputSearch.textProperty().getValue(), false);
@@ -76,7 +78,7 @@ public class ToursController implements Initializable {
         tourImageView.setImage(null);
     }
 
-    public void addTour(ActionEvent actionEvent) {
+    public void addTour(ActionEvent actionEvent) throws SQLException {
         String[] inputFields = {title.getText(), origin.getText(), destination.getText(), description.getText()};
         if (tourManager.addTour(inputFields)) {
             closeDialog(actionEvent);
@@ -87,13 +89,13 @@ public class ToursController implements Initializable {
         }
     }
 
-    public void deleteTour(ActionEvent actionEvent) {
+    public void deleteTour(ActionEvent actionEvent) throws SQLException {
         int idTourToDelete = toursViewModel.getCurrentTour().getId();
         tourManager.deleteTour(idTourToDelete);
         searchTours(null);
     }
 
-    public void searchTourLogs(int tourId) {
+    public void searchTourLogs(int tourId) throws SQLException {
         toursViewModel.clearLogsObservableList();
         List<TourLog> foundTourLogs = tourManager.searchLogs(tourId);
         if (foundTourLogs != null) {
@@ -104,7 +106,7 @@ public class ToursController implements Initializable {
         }
     }
 
-    public void addLog(ActionEvent actionEvent) {
+    public void addLog(ActionEvent actionEvent) throws SQLException {
         int tourId = toursViewModel.getCurrentTour().getId();
         Object[] inputFields = {
                 toursViewModel.getLocalDate(),
@@ -118,9 +120,11 @@ public class ToursController implements Initializable {
         }
     }
 
-    public void deleteLogTour(ActionEvent actionEvent) {
+    public void deleteLogTour(ActionEvent actionEvent) throws SQLException {
         int logId = toursViewModel.getCurrentLog().getId();
-        tourManager.deleteLog(logId);
+        if(!tourManager.deleteLog(logId)) {
+            //show alert
+        }
         searchTourLogs(toursViewModel.getCurrentLog().getTourId());
         deleteLogBtn.setDisable(true);
         System.out.println("delete: " + logId);
@@ -146,10 +150,12 @@ public class ToursController implements Initializable {
         stage.close();
     }
 
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         toursViewModel = ToursViewModel.getInstance();
-        tourManager = AppManagerFactory.getInstance(new AppManagerMock());
+        // tourManager = AppManagerFactory.getInstance(new AppManagerMock());
+        tourManager = AppManagerFactory.getInstance(new AppManagerDB());
         initializeTours();
         initializeLogs();
     }
@@ -163,7 +169,7 @@ public class ToursController implements Initializable {
         tourLogTableView.setItems(toursViewModel.getTourLogObservableList());
     }
 
-    private void initializeTours() {
+    private void initializeTours() throws SQLException {
         toursListView.setItems(toursViewModel.getTourObservableList());
         setTourListViewFormatCells();
         selectTourListener();
@@ -177,9 +183,15 @@ public class ToursController implements Initializable {
                     if ((newTour != null) && (oldTour != newTour) && (newTour.getId() != 0)) {
                         toursViewModel.setCurrentTour(newTour);
                         setTourDescription();
-                        searchTourLogs(toursViewModel.getCurrentTour().getId());
-                        tourImageView.setImage(new Image(toursViewModel.getCurrentTour().getImg()));
+
+                        try {
+                            searchTourLogs(toursViewModel.getCurrentTour().getId());
+                            tourImageView.setImage(new Image(toursViewModel.getCurrentTour().getImg()));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
+
                     System.out.println("Current tour: " + toursViewModel.getCurrentTour());
                 })
         );

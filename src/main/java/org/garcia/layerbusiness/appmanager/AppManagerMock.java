@@ -5,8 +5,10 @@ import org.garcia.layerbusiness.mapper.TourMapper;
 import org.garcia.layerbusiness.validator.InputValidator;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
+import org.garcia.model.enums.Sport;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +17,10 @@ public class AppManagerMock implements IAppManager {
 
     private final List<Tour> foundTours = new ArrayList<>();
     private final List<TourLog> foundTourLogs = new ArrayList<>();
+
+    public AppManagerMock() {
+
+    }
 
     @Override
     public List<Tour> searchTours(String inputSearch, boolean isCaseSensitive) {
@@ -73,9 +79,9 @@ public class AppManagerMock implements IAppManager {
     }
 
     private void addLogs() {
-        foundTourLogs.add(new TourLog(0, 0, LocalDate.of(2012, 6, 30), 25, 60));
-        foundTourLogs.add(new TourLog(1, 0, LocalDate.of(2015, 8, 15), 50, 60));
-        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60));
+        foundTourLogs.add(new TourLog(0, 0, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(),  LocalTime.now(), 120, 1));
+        foundTourLogs.add(new TourLog(1, 0, LocalDate.of(2015, 8, 15), 50, 60, 1, Sport.BIKE, 20, LocalTime.now(),  LocalTime.now(), 120, 1));
+        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.BIKE, 20, LocalTime.now(),  LocalTime.now(), 120, 1));
     }
 
     @Override
@@ -86,7 +92,7 @@ public class AppManagerMock implements IAppManager {
 
     @Override
     public boolean addTour(String[] parameters) {
-        Tour newTour = TourMapper.GUIInputToTour(parameters);
+        Tour newTour = TourMapper.ParametersToTour(parameters);
         if (newTour != null) {
             foundTours.add(newTour);
             return true;

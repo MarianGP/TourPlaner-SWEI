@@ -1,4 +1,4 @@
 package org.garcia.layerdataaccess.persistance.service;
 
-public interface ITourLogService extends IService {
+public interface IService {
 }

@@ -1,23 +1,19 @@
 package org.garcia.layerdataaccess.persistance.dbconnection;
 
-import lombok.AllArgsConstructor;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
-@AllArgsConstructor
 public class PostgresDBConnection implements DBConnection {
 
-    private static Connection conn;
     private String dbFullPath;
     private String dbUsername;
     private String dbPassword;
-    private String dbName;
 
     public PostgresDBConnection() {
         Path configDirectory = Paths.get("src", "main", "java", "org", "garcia", "config");
@@ -36,26 +32,25 @@ public class PostgresDBConnection implements DBConnection {
     }
 
     private void setDBProperties(Properties prop) {
-        dbName = prop.getProperty("db.name");
+        String dbName = prop.getProperty("db.name");
         dbUsername = prop.getProperty("db.username");
         dbPassword = prop.getProperty("db.password");
         dbFullPath = prop.getProperty("db.url") + ":" + prop.getProperty("db.port") + "/" + dbName;
     }
 
     @Override
-    public Connection connect() {
-        if (conn == null) {
-            try {
-                conn = DriverManager.getConnection(dbFullPath, dbUsername, dbPassword);
-                conn.setAutoCommit(false);
-            } catch (Exception e) {
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
-                System.exit(0);
-                return null;
-            }
+    public Connection connect() throws SQLException {
+        try {
+            Connection conn = DriverManager.getConnection(dbFullPath, dbUsername, dbPassword);
+            conn.setAutoCommit(false);
+            return conn;
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
         }
-        return conn;
+        throw new SQLException("Connection Failed");
     }
+
 
     @Override
     public void installDriver() {
