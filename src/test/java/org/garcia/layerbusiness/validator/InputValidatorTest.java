@@ -1,5 +1,6 @@
 package org.garcia.layerbusiness.validator;
 
+import org.garcia.layerbusiness.util.InputValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

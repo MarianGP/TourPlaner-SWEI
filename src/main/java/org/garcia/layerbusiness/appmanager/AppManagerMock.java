@@ -2,7 +2,7 @@ package org.garcia.layerbusiness.appmanager;
 
 import org.garcia.layerbusiness.mapper.TourLogMapper;
 import org.garcia.layerbusiness.mapper.TourMapper;
-import org.garcia.layerbusiness.validator.InputValidator;
+import org.garcia.layerbusiness.util.InputValidator;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 import org.garcia.model.enums.Sport;
@@ -85,19 +85,19 @@ public class AppManagerMock implements IAppManager {
     }
 
     @Override
-    public boolean deleteTour(int id) {
-        foundTours.remove(id); // index position
+    public boolean deleteTour(Tour tour) {
+        foundTours.remove(1); // index position
         return true;
     }
 
     @Override
-    public boolean addTour(String[] parameters) {
+    public int addTour(String[] parameters) {
         Tour newTour = TourMapper.ParametersToTour(parameters);
         if (newTour != null) {
             foundTours.add(newTour);
-            return true;
+            return 1;
         }
-        return false;
+        return 0;
     }
 
     @Override

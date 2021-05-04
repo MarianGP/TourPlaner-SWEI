@@ -2,16 +2,18 @@ package org.garcia.layerbusiness.appmanager;
 
 import org.garcia.layerbusiness.mapper.TourLogMapper;
 import org.garcia.layerbusiness.mapper.TourMapper;
-import org.garcia.layerbusiness.validator.InputValidator;
-import org.garcia.layerdataaccess.persistance.dbconnection.DBConnection;
-import org.garcia.layerdataaccess.persistance.dbconnection.PostgresDBConnection;
-import org.garcia.layerdataaccess.persistance.repository.Repository;
-import org.garcia.layerdataaccess.persistance.service.ServiceFactory;
-import org.garcia.layerdataaccess.persistance.service.TourLogService;
-import org.garcia.layerdataaccess.persistance.service.TourService;
+import org.garcia.layerbusiness.util.InputValidator;
+import org.garcia.layerdataaccess.common.dbconnection.DBConnection;
+import org.garcia.layerdataaccess.common.dbconnection.PostgresDBConnection;
+import org.garcia.layerdataaccess.mapAPI.MapAPIConnection;
+import org.garcia.layerdataaccess.repository.Repository;
+import org.garcia.layerdataaccess.service.ServiceFactory;
+import org.garcia.layerdataaccess.service.TourLogService;
+import org.garcia.layerdataaccess.service.TourService;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,8 +21,9 @@ public class AppManagerDB implements IAppManager {
 
     private final TourService tourService;
     private final TourLogService tourLogService;
+    private final MapAPIConnection mapAPI = new MapAPIConnection();
 
-    public AppManagerDB() {
+    public AppManagerDB() throws IOException {
         DBConnection dbConnection = new PostgresDBConnection();
         Repository repository = new Repository(dbConnection);
         ServiceFactory serviceFactory = new ServiceFactory(repository);
@@ -39,30 +42,25 @@ public class AppManagerDB implements IAppManager {
     }
 
     @Override
-    public boolean deleteTour(int id) throws SQLException {
-        if(tourLogService.deleteByTourId(id) != 0) {
-            return tourService.deleteTour(id) != 0;
+    public boolean deleteTour(Tour tour) throws SQLException {
+        if(tourService.deleteTour(tour.getId()) != 0 && !tour.getImg().equals("")) {
+            mapAPI.deleteFile("img", tour.getImg());
+            return true;
         }
         return false;
     }
 
     @Override
-    public boolean addTour(String[] parameters) throws SQLException {
+    public int addTour(String[] parameters) throws SQLException, IOException {
         Tour newTour = TourMapper.ParametersToTour(parameters);
         if (newTour != null) {
-            tourService.addTour(newTour);
-            return true;
+            String imgPath = mapAPI.getMap(newTour);
+            newTour.setImg(imgPath);
+            newTour.setDistance(200);
+            newTour.setDuration(3);
+            return tourService.addTour(newTour);
         }
-        return false;
-    }
-
-    @Override
-    public boolean editTour(Tour tour) {
-        if (validTour(tour)) {
-            //edit by id
-            return true;
-        }
-        return false;
+        return 0;
     }
 
     @Override
@@ -92,6 +90,15 @@ public class AppManagerDB implements IAppManager {
     public boolean deleteLog(int id) throws SQLException {
         if(id != 0) {
             return tourLogService.deleteById(id) != 0;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean editTour(Tour tour) {
+        if (validTour(tour)) {
+            //edit by id
+            return true;
         }
         return false;
     }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" gridLinesVisible="true" hgap="10" minHeight="400.0" minWidth="400.0" prefHeight="700.0" prefWidth="550.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.controller.ToursController">
+<GridPane alignment="center" gridLinesVisible="true" hgap="10" minHeight="400.0" minWidth="400.0" prefHeight="700.0" prefWidth="550.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.ToursController">
     <children>
         <MenuBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
             <menus>
@@ -80,6 +80,20 @@
         <!-- selected tour (tabs) -->
         <TabPane prefHeight="400.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <tabs>
+                <Tab text=" Route Map ">
+                    <content>
+                        <AnchorPane minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <HBox alignment="CENTER" centerShape="true" maxHeight="1000.0" maxWidth="1000.0" minHeight="150.0" minWidth="150.0" prefHeight="150.0" prefWidth="380.0" style="-fx-alignment: center;">
+                                    <children>
+                                        <ImageView fx:id="tourImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
                 <Tab text=" Details ">
                     <content>
                         <AnchorPane minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0">
@@ -94,21 +108,6 @@
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </padding>
                                 </VBox>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab text=" Route Map ">
-                    <content>
-                        <AnchorPane minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <HBox alignment="CENTER" centerShape="true" maxHeight="1000.0" maxWidth="1000.0" minHeight="150.0" minWidth="150.0" prefHeight="150.0" prefWidth="380.0" style="-fx-alignment: center;">
-                                    <children>
-                                        <ImageView fx:id="tourImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                                            <Image url="@img/chocobo.jpg" />
-                                        </ImageView>
-                                    </children>
-                                </HBox>
                             </children>
                         </AnchorPane>
                     </content>

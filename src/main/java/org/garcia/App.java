@@ -19,7 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML(initialView));
-//        stage.getIcons().add(new Image(String.valueOf(this.getClass().getResource("img/icon.png"))));
+//        stage.getIcons().add(new Image(String.valueOf(this.getClass().getResource("img/dummy.png"))));
         stage.setMaxWidth(640);
         stage.setMaxHeight(800);
         stage.setTitle("Tour Planer");

@@ -1,8 +1,8 @@
 package org.garcia.layerbusiness.mapper;
 
-import org.garcia.layerbusiness.validator.InputValidator;
-import org.garcia.layerdataaccess.persistance.entity.ResourceEntity;
-import org.garcia.layerdataaccess.persistance.entity.TourLogEntity;
+import org.garcia.layerbusiness.util.InputValidator;
+import org.garcia.layerdataaccess.entity.ResourceEntity;
+import org.garcia.layerdataaccess.entity.TourLogEntity;
 import org.garcia.model.TourLog;
 import org.garcia.model.enums.Sport;
 

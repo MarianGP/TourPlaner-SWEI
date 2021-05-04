@@ -1,8 +1,8 @@
 package org.garcia.layerbusiness.mapper;
 
-import org.garcia.layerbusiness.validator.InputValidator;
-import org.garcia.layerdataaccess.persistance.entity.ResourceEntity;
-import org.garcia.layerdataaccess.persistance.entity.TourEntity;
+import org.garcia.layerbusiness.util.InputValidator;
+import org.garcia.layerdataaccess.entity.ResourceEntity;
+import org.garcia.layerdataaccess.entity.TourEntity;
 import org.garcia.model.Tour;
 
 import java.sql.ResultSet;
@@ -52,8 +52,7 @@ public class TourMapper {
                 .user_id(rs.getInt("user_id"))
                 .distance(rs.getInt("distance"))
                 .duration(rs.getInt("duration"))
-                .img("org/garcia/img/kupo.jpg")
-//                            .img(rs.getString("img")) TODO: add maps url
+                .img(rs.getString("img"))
                 .build();
     }
 
