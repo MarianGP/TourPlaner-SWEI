@@ -10,7 +10,7 @@ import org.garcia.model.enums.ViewName;
 
 import java.io.IOException;
 
-
+// --module-path "C:\Users\mgarc\IdeaProjects\javafx-sdk-15.0.1\lib" --add-modules javafx.controls,javafx.fxml
 public class App extends Application {
 
     private static Scene scene;
@@ -19,7 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML(initialView));
-//        stage.getIcons().add(new Image(String.valueOf(this.getClass().getResource("img/dummy.png"))));
+//        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("img/dummy.png"))));
         stage.setMaxWidth(640);
         stage.setMaxHeight(800);
         stage.setTitle("Tour Planer");

@@ -1,6 +1,6 @@
 package org.garcia.layerdataaccess.repository;
 
-import org.garcia.layerdataaccess.common.dbconnection.DBConnection;
+import org.garcia.layerdataaccess.dbconnection.DBConnection;
 
 public class RepositoryFactory {
     private static IRepository repo;

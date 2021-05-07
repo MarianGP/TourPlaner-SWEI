@@ -1,9 +1,9 @@
 package org.garcia.layerView.viewModel;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import lombok.Data;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
@@ -18,12 +18,12 @@ public class ToursViewModel {
 
     //tours
     private Tour currentTour;
-    private Tour newTour;
     private ObservableList<Tour> tourObservableList = FXCollections.observableArrayList();
+    private ObjectProperty<Image> tourImageProperty = new SimpleObjectProperty<>();
+    private StringProperty currentTourDescription = new SimpleStringProperty("");
 
     //logs
     private TourLog currentLog;
-    private TourLog newLog;
     private ObservableList<TourLog> tourLogObservableList = FXCollections.observableArrayList();
 
     //new log
@@ -34,13 +34,29 @@ public class ToursViewModel {
     //time
     private LocalDate localDate;
 
-    //tour methods
+    //report
+    private StringProperty reportTypeName = new SimpleStringProperty();
+    private StringProperty reportUrl = new SimpleStringProperty();
+    private StringProperty reportName = new SimpleStringProperty();
+
+    private final String tourReportName = "tour";
+    private final String summaryReportName = "summary";
+
+    //menu buttons
+    private BooleanProperty menuItemDisabled = new SimpleBooleanProperty();
+
+    public void setCurrentTour(Tour tour) {
+        currentTour = tour;
+        setCurrentTourDescription();
+    }
+
     public void addAllToursObsList(List<Tour> foundTours) {
         if (foundTours == null) {
             tourObservableList.addAll();
         } else {
             tourObservableList.addAll(foundTours);
         }
+        menuItemDisabled.setValue(tourObservableList.size() == 0);
     }
 
     public void clearObservableList() {
@@ -63,5 +79,19 @@ public class ToursViewModel {
         if (viewModel == null)
             viewModel = new ToursViewModel();
         return viewModel;
+    }
+
+    private void setCurrentTourDescription() {
+        if(currentTour != null)
+            currentTourDescription.setValue(
+                    "Title: \t\t" + currentTour.getTitle() + "\n" +
+                            "Description: \t" + currentTour.getDescription() + "\n" +
+                            "Origin: \t\t" + currentTour.getOrigin() + "\n" +
+                            "Destination: \t" + currentTour.getDestination() + "\n" +
+                            "Duration: \t\t" + currentTour.getDuration()
+            );
+        else
+            currentTourDescription.setValue("");
+
     }
 }

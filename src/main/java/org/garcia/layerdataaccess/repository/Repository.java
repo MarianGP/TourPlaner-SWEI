@@ -1,8 +1,10 @@
 package org.garcia.layerdataaccess.repository;
 
+import lombok.Getter;
 import org.garcia.layerbusiness.mapper.TourLogMapper;
 import org.garcia.layerbusiness.mapper.TourMapper;
-import org.garcia.layerdataaccess.common.dbconnection.DBConnection;
+import org.garcia.layerdataaccess.dbconnection.DBConnection;
+import org.garcia.layerdataaccess.dbconnection.visitor.DBVisitor;
 import org.garcia.layerdataaccess.entity.ResourceEntity;
 
 import java.io.IOException;
@@ -12,18 +14,19 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Repository implements IRepository {
 
-    //    @Inject
     private final DBConnection dbConnection;
+    private String containerName;
 
     public Repository(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
     @Override
-    public int modifyResources(String query, List<Object> parameters) throws SQLException {
-        try (Connection conn = dbConnection.connect()) {
+    public int modifyResources(String query, List<Object> parameters) throws SQLException  {
+        try (Connection conn = this.dbConnection.connect()) {
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < parameters.size(); i++) {
                 if (parameters.get(i) instanceof Number)
@@ -59,7 +62,7 @@ public class Repository implements IRepository {
 
     @Override
     public List<ResourceEntity> findByTerm(String query, List<Object> parameters, String resourceType) throws SQLException {
-        try (Connection conn = dbConnection.connect()) {
+        try (Connection conn = this.dbConnection.connect()) {
             PreparedStatement stmt = conn.prepareStatement(query);
 
             for (int i = 0; i < parameters.size(); i++) {
@@ -82,7 +85,7 @@ public class Repository implements IRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        throw new SQLException("Couldn't retrieve data");
+        throw new SQLException("Couldn't retrieve data. Is your container running?");
     }
 
     private List<ResourceEntity> tourEntityList(ResultSet rs, Connection conn) throws SQLException {
@@ -117,18 +120,10 @@ public class Repository implements IRepository {
         throw new SQLException("Couldn't create LogEntity");
     }
 
-    @Override
-    public ResourceEntity getById(String query, int id) {
-        return null;
+    public void accept(DBVisitor visitor, String newContainerName) {
+        this.containerName = newContainerName;
+        visitor.visit(this);
     }
 
-    @Override
-    public int edit(String query, List<Object> parameters) {
-        return 0;
-    }
 
-    @Override
-    public int deleteById(String query, int id) throws SQLException {
-        return 0;
-    }
 }

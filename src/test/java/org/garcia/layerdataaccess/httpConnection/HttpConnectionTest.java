@@ -12,7 +12,7 @@ class HttpConnectionTest {
     @Mock
     // TODO: sankt pölten
     Tour tour = new Tour(1, "first", "nice long tour1", "wien", "graz", "me", "org/garcia/img/kupo.jpg", 10, 60);
-    MapAPIConnection mapAPI = new MapAPIConnection();
+    MapAPIConnection mapAPI = new MapAPIConnection("7iPw8LaPBNon9nRTgKkwuL9zL6KfnQPD");
 
     @Test
     void testGetMap() throws IOException {

@@ -1,6 +1,6 @@
 package org.garcia.layerdataaccess.service;
 
-import org.garcia.layerdataaccess.common.dbconnection.PostgresDBConnection;
+import org.garcia.layerdataaccess.dbconnection.PostgresDBConnection;
 import org.garcia.layerdataaccess.repository.Repository;
 import org.garcia.model.Tour;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import java.util.List;
 class TourServiceTest {
 
     @Mock
-    TourService tourService = new TourService(new Repository(new PostgresDBConnection()));
+    TourService tourService = new TourService(new Repository(new PostgresDBConnection("postgresDB1")));
 
     TourServiceTest() throws IOException {
     }

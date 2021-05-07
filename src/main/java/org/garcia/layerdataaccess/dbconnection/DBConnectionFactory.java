@@ -1,4 +1,4 @@
-package org.garcia.layerdataaccess.common.dbconnection;
+package org.garcia.layerdataaccess.dbconnection;
 
 public class DBConnectionFactory {
     private static DBConnection connSingleton;

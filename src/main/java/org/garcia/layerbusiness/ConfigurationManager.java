@@ -1,4 +1,4 @@
-package org.garcia.config;
+package org.garcia.layerbusiness;
 
 import java.io.FileInputStream;
 import java.io.IOException;

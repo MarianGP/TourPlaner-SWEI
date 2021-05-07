@@ -9,15 +9,21 @@ import java.util.List;
 
 public interface IAppManager {
 
-    List<Tour> searchTours(String inputSearch, boolean b) throws SQLException;
+    List<Tour> searchTours(String inputSearch) throws SQLException;
+    List<TourLog> searchLogsByTourId(int id) throws SQLException;
+
     boolean deleteTour(Tour tour) throws SQLException;
+    boolean deleteLogById(int id) throws SQLException;
+
     int addTour(String[] parameters) throws SQLException, IOException;
+    int addLog(Object[] parameters, int tourId) throws SQLException;
+
     boolean editTour(Tour tour);
     boolean validTour(Tour tour);
 
-    List<TourLog> searchLogs(int id) throws SQLException;
+    boolean importTourNLogs(String fileName, String location) throws IOException, SQLException;
+    boolean exportTourNLogs(String fileName, String location) throws SQLException, IOException;
 
-    boolean addLog(Object[] parameters, int tourId) throws SQLException;
-    boolean deleteLog(int id) throws SQLException;
-
+    void createSummaryReport(String url);
+    void createTourReport(Tour currentTour, String url);
 }

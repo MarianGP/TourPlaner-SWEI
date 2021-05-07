@@ -7,7 +7,8 @@ public enum ViewName {
     HOME("homeView"),
     TOURS("toursView"),
     ADD_TOUR("addTourDialog"),
-    ADD_LOG("addTourLogDialog")
+    ADD_LOG("addTourLogDialog"),
+    SAVE_TOUR_REPORT("saveReportDialog")
     ;
 
     private final String viewName;

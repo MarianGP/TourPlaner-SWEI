@@ -14,11 +14,13 @@ public class TourService implements ITourService {
 
     private final Repository repository;
 
-    private final static String SQL_FIND_TOUR_IMAGE_URL = "select * from public.tour where tour_id=?;";
-    private final static String SQL_FIND_TOUR_BY_TERM = "select * from public.tour where title LIKE ? or description LIKE ? or destination LIKE ? or origin LIKE ?;";
-    private final static String SQL_FIND_ALL_TOURS = "select * from public.tour;";
+    private final static String SQL_FIND_TOUR_IMAGE_URL = "SELECT * FROM public.tour WHERE tour_id=?;";
+    private final static String SQL_FIND_TOUR_BY_TERM = "SELECT * FROM public.tour WHERE title LIKE ? or description LIKE ? or destination LIKE ? or origin LIKE ?;";
+    private final static String SQL_FIND_ALL_TOURS = "SELECT * FROM public.tour;";
     private final static String SQL_ADD_NEW_TOUR = "INSERT INTO public.tour (title, description, origin, destination, user_id, distance, duration, img)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private final static String SQL_ADD_NEW_TOUR_WITH_ID = "INSERT INTO public.tour (tour_id, title, description, origin, destination, user_id, distance, duration, img)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final static String SQL_DELETE_TOUR = "DELETE FROM public.tour WHERE tour_id = ?;";
 
     public TourService(Repository repo) {
@@ -92,8 +94,15 @@ public class TourService implements ITourService {
 
     @Override
     public int addTour(Tour tour) throws SQLException {
-
         List<Object> tourParameters = new ArrayList<>();
+        String query;
+
+        if(tour.getId() == 0) {
+            query = SQL_ADD_NEW_TOUR ;
+        } else {
+            tourParameters.add(tour.getId());
+            query = SQL_ADD_NEW_TOUR_WITH_ID;
+        }
 
         tourParameters.add(tour.getTitle());
         tourParameters.add(tour.getDescription());
@@ -104,7 +113,7 @@ public class TourService implements ITourService {
         tourParameters.add(tour.getDuration());
         tourParameters.add(tour.getImg());
 
-        return repository.modifyResources(SQL_ADD_NEW_TOUR, tourParameters);
+        return repository.modifyResources(query, tourParameters);
     }
 
     @Override

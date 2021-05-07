@@ -5,22 +5,18 @@ import org.garcia.layerdataaccess.repository.Repository;
 
 @AllArgsConstructor
 public class ServiceFactory {
-    private final Repository repository;
-    private IService tourService = null;
-    private IService tourLogService = null;
 
-    public ServiceFactory(Repository repository) {
-        this.repository = repository;
-    }
+    private static IService tourService = null;
+    private static IService tourLogService = null;
 
-    public IService getTourServiceInstance() {
+    public static IService getTourServiceInstance(Repository repository) {
         if(tourService == null) {
             tourService = new TourService(repository);
         }
         return tourService;
     }
 
-    public IService getTourLogServiceInstance() {
+    public static IService getTourLogServiceInstance(Repository repository) {
         if(tourLogService == null) {
             tourLogService = new TourLogService(repository);
         }

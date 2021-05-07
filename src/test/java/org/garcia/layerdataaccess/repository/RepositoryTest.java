@@ -1,6 +1,6 @@
 package org.garcia.layerdataaccess.repository;
 
-import org.garcia.layerdataaccess.common.dbconnection.PostgresDBConnection;
+import org.garcia.layerdataaccess.dbconnection.PostgresDBConnection;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -12,7 +12,7 @@ import java.util.List;
 class RepositoryTest {
 
     @Mock
-    Repository repository = new Repository(new PostgresDBConnection());
+    Repository repository = new Repository(new PostgresDBConnection("postgresDB1"));
 
     RepositoryTest() throws IOException {
     }

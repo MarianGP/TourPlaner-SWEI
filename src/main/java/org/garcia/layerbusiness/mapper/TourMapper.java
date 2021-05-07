@@ -19,8 +19,10 @@ public class TourMapper {
                     .origin(parameters[1])
                     .destination(parameters[2])
                     .description(parameters[3])
-                    .img("org/garcia/img/kupo.jpg")
                     .build();
+            if(parameters.length > 4) {
+                tour.setId(Integer.parseInt(parameters[4]));
+            }
             return tour;
         } else {
             return null;

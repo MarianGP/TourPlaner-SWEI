@@ -1,15 +1,20 @@
-package org.garcia.layerdataaccess.common.dbconnection;
+package org.garcia.layerdataaccess.dbconnection;
 
-import org.garcia.config.ConfigurationManager;
+import lombok.Data;
+import org.garcia.layerbusiness.ConfigurationManager;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Data
 public class PostgresDBConnection implements DBConnection {
 
-    public PostgresDBConnection() {
+    private String containerName;
+
+    public PostgresDBConnection(String aContainerName) {
+        this.containerName = aContainerName;
         installDriver();
     }
 
@@ -17,9 +22,9 @@ public class PostgresDBConnection implements DBConnection {
     public Connection connect() throws SQLException {
         try {
             Connection conn = DriverManager.getConnection(
-                    ConfigurationManager.getConfigProperty("db.url"),
-                    ConfigurationManager.getConfigProperty("db.username"),
-                    ConfigurationManager.getConfigProperty("db.password"));
+                    ConfigurationManager.getConfigProperty(this.containerName + ".url"),
+                    ConfigurationManager.getConfigProperty(this.containerName + ".username"),
+                    ConfigurationManager.getConfigProperty(this.containerName + ".password"));
             conn.setAutoCommit(false);
             return conn;
         } catch (SQLException | IOException e) {
@@ -36,6 +41,11 @@ public class PostgresDBConnection implements DBConnection {
             System.err.println("PostgreSQL JDBC driver not found");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void changeContainer(String containerName) {
+        this.containerName = containerName;
     }
 
 }

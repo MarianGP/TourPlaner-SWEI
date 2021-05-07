@@ -12,6 +12,6 @@
       <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
    </children>
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.1" />
    </padding>
 </VBox>

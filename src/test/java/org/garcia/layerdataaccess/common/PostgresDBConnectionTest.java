@@ -1,7 +1,7 @@
 package org.garcia.layerdataaccess.common;
 
-import org.garcia.layerdataaccess.common.dbconnection.DBConnection;
-import org.garcia.layerdataaccess.common.dbconnection.PostgresDBConnection;
+import org.garcia.layerdataaccess.dbconnection.DBConnection;
+import org.garcia.layerdataaccess.dbconnection.PostgresDBConnection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 class PostgresDBConnectionTest {
     @Mock
-    DBConnection db = new PostgresDBConnection();;
+    DBConnection db = new PostgresDBConnection("postgresDB1");;
 
     PostgresDBConnectionTest() throws IOException {
     }
