@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import lombok.Data;
+import org.garcia.layerBusiness.util.SecondsToTime;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class ToursViewModel {
 
     private static ToursViewModel viewModel;
+    private final String tourReportName = "tour";
+    private final String summaryReportName = "summary";
 
     //tours
     private Tour currentTour;
@@ -39,11 +42,14 @@ public class ToursViewModel {
     private StringProperty reportUrl = new SimpleStringProperty();
     private StringProperty reportName = new SimpleStringProperty();
 
-    private final String tourReportName = "tour";
-    private final String summaryReportName = "summary";
-
     //menu buttons
     private BooleanProperty menuItemDisabled = new SimpleBooleanProperty();
+
+    public static ToursViewModel getInstance() {
+        if (viewModel == null)
+            viewModel = new ToursViewModel();
+        return viewModel;
+    }
 
     public void setCurrentTour(Tour tour) {
         currentTour = tour;
@@ -75,23 +81,22 @@ public class ToursViewModel {
         tourLogObservableList.clear();
     }
 
-    public static ToursViewModel getInstance() {
-        if (viewModel == null)
-            viewModel = new ToursViewModel();
-        return viewModel;
-    }
-
     private void setCurrentTourDescription() {
-        if(currentTour != null)
+        if (currentTour != null) {
+
+
             currentTourDescription.setValue(
                     "Title: \t\t" + currentTour.getTitle() + "\n" +
                             "Description: \t" + currentTour.getDescription() + "\n" +
                             "Origin: \t\t" + currentTour.getOrigin() + "\n" +
                             "Destination: \t" + currentTour.getDestination() + "\n" +
-                            "Duration: \t\t" + currentTour.getDuration()
+                            "Duration: \t\t" + SecondsToTime.convertSecToTime(currentTour.getDuration()) + "\n" +
+                            "Distance: \t\t" + currentTour.getDistance()
             );
+        }
+
         else
-            currentTourDescription.setValue("");
+        currentTourDescription.setValue("");
 
     }
 }

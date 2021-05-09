@@ -18,10 +18,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 import org.garcia.App;
+import org.garcia.layerBusiness.appmanager.AppManagerDB;
+import org.garcia.layerBusiness.appmanager.AppManagerFactory;
+import org.garcia.layerBusiness.appmanager.IAppManager;
 import org.garcia.layerView.viewModel.ToursViewModel;
-import org.garcia.layerbusiness.appmanager.AppManagerDB;
-import org.garcia.layerbusiness.appmanager.AppManagerFactory;
-import org.garcia.layerbusiness.appmanager.IAppManager;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 import org.garcia.model.enums.ViewName;
@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -192,16 +193,17 @@ public class ToursController implements Initializable {
 
     public void importTour(ActionEvent actionEvent) throws SQLException, IOException {
         tourManager.importTourNLogs("testing-import", "dir");
+        searchTours();
     }
 
-    public void createReport(ActionEvent actionEvent) {
+    public void createReport(ActionEvent actionEvent) throws IOException, SQLException {
         String url;
-        String report = toursViewModel.getReportTypeName().getValue().toLowerCase(Locale.ROOT);
-        if(reportInputValid()) {
+        String reportType = toursViewModel.getReportTypeName().getValue().toLowerCase(Locale.ROOT);
+        if(toursViewModel.getReportUrl().getValue() != null && toursViewModel.getReportName().getValue() != null) {
             closeDialog(actionEvent);
             url = toursViewModel.getReportUrl().getValue() + "\\"
-                + toursViewModel.getReportName().getValue() + "-" + report;
-            createSelectedReport(url, report);
+                + toursViewModel.getReportName().getValue() + "-" + reportType + ".pdf";
+            createSelectedReport(url, reportType);
             filePath.setStyle("-fx-font-size: 11; -fx-text-fill: green;");
         } else {
             toursViewModel.getReportUrl().setValue("* Wrong input");
@@ -210,9 +212,9 @@ public class ToursController implements Initializable {
         chosenReportType.setText("");
     }
 
-    private void createSelectedReport(String url, String report) {
+    private void createSelectedReport(String url, String report) throws IOException, SQLException {
         if (toursViewModel.getSummaryReportName().equals(report))
-            tourManager.createSummaryReport(toursViewModel.getTourObservableList(), url); //TODO: url!
+            tourManager.createSummaryReport(url, new ArrayList<>(toursViewModel.getTourObservableList())); //TODO: url!
 
         else if (toursViewModel.getTourReportName().equals(report))
             if (toursViewModel.getCurrentTour() != null)
@@ -264,7 +266,7 @@ public class ToursController implements Initializable {
         // enable/disable add tour btn
         deleteTourBtn.disableProperty().bind(toursListView.getSelectionModel().selectedItemProperty().isNull());
 
-        // disable choicebox if no current tour
+        // disable choice-box if no current tour
         reportTypeChoice.disableProperty().bind(toursViewModel.getTourImageProperty().isNull());
 
         // will be disabled when toursList is empty
@@ -366,6 +368,6 @@ public class ToursController implements Initializable {
     }
 
     private boolean reportInputValid() {
-        return false;
+        return true;
     }
 }
