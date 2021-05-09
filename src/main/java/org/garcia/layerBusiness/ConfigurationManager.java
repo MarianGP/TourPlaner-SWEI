@@ -11,7 +11,7 @@ public class ConfigurationManager {
     public static String getConfigProperty(String propertyName) throws IOException {
         Path configDirectory = Paths.get("src", "main", "java", "org", "garcia", "config");
         String absolutePath = configDirectory.toFile().getAbsolutePath();
-        String filePath = absolutePath + "\\config.properties";
+        String filePath = absolutePath + "\\application.properties";
         Properties prop = new Properties();
 
         try {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- based on: https://logging.apache.org/log4j/2.x/manual/configuration.html -->
+<!--<Configuration status="debug" strict="true" name="XMLConfigTest"-->
+<!--               packages="org.apache.logging.log4j.test">-->
+<Configuration strict="true" >
+    <Properties>
+        <Property name="fileNameRollingFile">logs/application</Property>
+    </Properties>
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT">
+            <PatternLayout
+                    pattern="%d [%t] %-5level %logger{36} - %msg%n%throwable"/>
+            <Layout type="PatternLayout" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %m MDC%X %marker %n"/>
+            <Filters>
+                <Filter type="MarkerFilter" marker="FLOW" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+        </Appender>
+        <RollingFile
+                name="rollingFile"
+                fileName="${fileNameRollingFile}.log"
+                filePattern="${fileNameRollingFile}.%i.log.gz"
+                ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %C [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="App" level="debug" additivity="true">
+            <AppenderRef ref="rollingFile"/>
+        </Logger>
+
+        <Root level="trace">
+            <AppenderRef ref="rollingFile"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
