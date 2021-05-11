@@ -84,9 +84,9 @@
     <!-- selected tour (tabs) -->
     <TabPane prefHeight="400.0" prefWidth="369.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <Tab text=" Route Map ">
-            <AnchorPane minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0" style="-fx-border-color: grey;">
-                <HBox alignment="CENTER" layoutY="-3.0" style="-fx-alignment: center;">
-                    <ImageView fx:id="tourImageView" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+            <AnchorPane fx:id="imageAnchorPane" minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0" style="-fx-border-color: grey;">
+                <HBox alignment="CENTER" layoutY="-3.0">
+                    <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
                 </HBox>
             </AnchorPane>
         </Tab>

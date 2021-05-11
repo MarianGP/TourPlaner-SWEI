@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class FileAccess implements IFileAccess {
 
-    private final static String FILE_SUFIX_TOURLOG = "-log";
-    private final static String FILE_SUFIX_TOUR = "-tour";
-    private final static String FILE_SUFIX_EXPORT = "-export";
+    private static final String FILE_SUFIX_TOURLOG = "-log";
+    private static final String FILE_SUFIX_TOUR = "-tour";
+    private static final String FILE_SUFIX_EXPORT = "-export";
 
     @Override
     public void exportData(String name, String url, Map<Tour, List<TourLog>> tourListMap) throws IOException {

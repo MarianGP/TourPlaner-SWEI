@@ -14,14 +14,14 @@ public class TourService implements ITourService {
 
     private final Repository repository;
 
-    private final static String SQL_FIND_TOUR_IMAGE_URL = "SELECT * FROM public.tour WHERE tour_id=?;";
-    private final static String SQL_FIND_TOUR_BY_TERM = "SELECT * FROM public.tour WHERE title LIKE ? or description LIKE ? or destination LIKE ? or origin LIKE ?;";
-    private final static String SQL_FIND_ALL_TOURS = "SELECT * FROM public.tour;";
-    private final static String SQL_ADD_NEW_TOUR = "INSERT INTO public.tour (title, description, origin, destination, user_id, distance, duration, img)\n" +
+    private static final String SQL_FIND_TOUR_IMAGE_URL = "SELECT * FROM public.tour WHERE tour_id=?;";
+    private static final String SQL_FIND_TOUR_BY_TERM = "SELECT * FROM public.tour WHERE title LIKE ? or description LIKE ? or destination LIKE ? or origin LIKE ?;";
+    private static final String SQL_FIND_ALL_TOURS = "SELECT * FROM public.tour;";
+    private static final String SQL_ADD_NEW_TOUR = "INSERT INTO public.tour (title, description, origin, destination, user_id, distance, duration, img)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    private final static String SQL_ADD_NEW_TOUR_WITH_ID = "INSERT INTO public.tour (tour_id, title, description, origin, destination, user_id, distance, duration, img)\n" +
+    private static final String SQL_ADD_NEW_TOUR_WITH_ID = "INSERT INTO public.tour (tour_id, title, description, origin, destination, user_id, distance, duration, img)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private final static String SQL_DELETE_TOUR = "DELETE FROM public.tour WHERE tour_id = ?;";
+    private static final String SQL_DELETE_TOUR = "DELETE FROM public.tour WHERE tour_id = ?;";
 
     public TourService(Repository repo) {
         repository = repo;

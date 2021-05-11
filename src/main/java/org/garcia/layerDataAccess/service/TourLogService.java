@@ -27,7 +27,7 @@ public class TourLogService implements IService {
         logParameters.add(tourLog.getDuration());
         logParameters.add(tourLog.getRating());
         logParameters.add(tourLog.getSport().toString());
-        logParameters.add(tourLog.getAvg_speed());
+        logParameters.add(tourLog.getAvgSpeed());
         logParameters.add(tourLog.getStart());
         logParameters.add(tourLog.getEnd());
         logParameters.add(tourLog.getSpecial());

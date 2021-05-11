@@ -20,7 +20,7 @@ public class TourLog {
     private int distance;
     private int rating;
     private Sport sport;
-    private int avg_speed;
+    private int avgSpeed;
     private LocalTime start;
     private LocalTime end;
     private int special; //steps or cadence

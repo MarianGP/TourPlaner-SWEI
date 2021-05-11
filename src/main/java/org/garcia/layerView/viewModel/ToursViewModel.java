@@ -24,6 +24,7 @@ public class ToursViewModel {
     private ObservableList<Tour> tourObservableList = FXCollections.observableArrayList();
     private ObjectProperty<Image> tourImageProperty = new SimpleObjectProperty<>();
     private StringProperty currentTourDescription = new SimpleStringProperty("");
+    private ObjectProperty<Image> currentTourImage = new SimpleObjectProperty<>();
 
     //logs
     private TourLog currentLog;

@@ -1,9 +1,10 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ManeuversItem{
+import java.util.List;
+
+public class ManeuversItem {
 
 	@SerializedName("distance")
 	private double distance;
@@ -56,139 +57,139 @@ public class ManeuversItem{
 	@SerializedName("mapUrl")
 	private String mapUrl;
 
-	public void setDistance(double distance){
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 
-	public double getDistance(){
+	public double getDistance() {
 		return distance;
 	}
 
-	public void setStreets(List<String> streets){
+	public void setStreets(List<String> streets) {
 		this.streets = streets;
 	}
 
-	public List<String> getStreets(){
+	public List<String> getStreets() {
 		return streets;
 	}
 
-	public void setNarrative(String narrative){
+	public void setNarrative(String narrative) {
 		this.narrative = narrative;
 	}
 
-	public String getNarrative(){
+	public String getNarrative() {
 		return narrative;
 	}
 
-	public void setTurnType(int turnType){
+	public void setTurnType(int turnType) {
 		this.turnType = turnType;
 	}
 
-	public int getTurnType(){
+	public int getTurnType() {
 		return turnType;
 	}
 
-	public void setStartPoint(StartPoint startPoint){
+	public void setStartPoint(StartPoint startPoint) {
 		this.startPoint = startPoint;
 	}
 
-	public StartPoint getStartPoint(){
+	public StartPoint getStartPoint() {
 		return startPoint;
 	}
 
-	public void setIndex(int index){
+	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public int getIndex(){
+	public int getIndex() {
 		return index;
 	}
 
-	public void setFormattedTime(String formattedTime){
+	public void setFormattedTime(String formattedTime) {
 		this.formattedTime = formattedTime;
 	}
 
-	public String getFormattedTime(){
+	public String getFormattedTime() {
 		return formattedTime;
 	}
 
-	public void setDirectionName(String directionName){
+	public void setDirectionName(String directionName) {
 		this.directionName = directionName;
 	}
 
-	public String getDirectionName(){
+	public String getDirectionName() {
 		return directionName;
 	}
 
-	public void setManeuverNotes(List<Object> maneuverNotes){
+	public void setManeuverNotes(List<Object> maneuverNotes) {
 		this.maneuverNotes = maneuverNotes;
 	}
 
-	public List<Object> getManeuverNotes(){
+	public List<Object> getManeuverNotes() {
 		return maneuverNotes;
 	}
 
-	public void setLinkIds(List<Object> linkIds){
+	public void setLinkIds(List<Object> linkIds) {
 		this.linkIds = linkIds;
 	}
 
-	public List<Object> getLinkIds(){
+	public List<Object> getLinkIds() {
 		return linkIds;
 	}
 
-	public void setSigns(List<Object> signs){
+	public void setSigns(List<Object> signs) {
 		this.signs = signs;
 	}
 
-	public List<Object> getSigns(){
+	public List<Object> getSigns() {
 		return signs;
 	}
 
-	public void setTransportMode(String transportMode){
+	public void setTransportMode(String transportMode) {
 		this.transportMode = transportMode;
 	}
 
-	public String getTransportMode(){
+	public String getTransportMode() {
 		return transportMode;
 	}
 
-	public void setAttributes(int attributes){
+	public void setAttributes(int attributes) {
 		this.attributes = attributes;
 	}
 
-	public int getAttributes(){
+	public int getAttributes() {
 		return attributes;
 	}
 
-	public void setTime(int time){
+	public void setTime(int time) {
 		this.time = time;
 	}
 
-	public int getTime(){
+	public int getTime() {
 		return time;
 	}
 
-	public void setIconUrl(String iconUrl){
+	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
 	}
 
-	public String getIconUrl(){
+	public String getIconUrl() {
 		return iconUrl;
 	}
 
-	public void setDirection(int direction){
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
-	public int getDirection(){
+	public int getDirection() {
 		return direction;
 	}
 
-	public void setMapUrl(String mapUrl){
+	public void setMapUrl(String mapUrl) {
 		this.mapUrl = mapUrl;
 	}
 
-	public String getMapUrl(){
+	public String getMapUrl() {
 		return mapUrl;
 	}
 }

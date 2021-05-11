@@ -1,8 +1,8 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Copyright{
+public class Copyright {
 
 	@SerializedName("imageAltText")
 	private String imageAltText;
@@ -13,27 +13,27 @@ public class Copyright{
 	@SerializedName("text")
 	private String text;
 
-	public void setImageAltText(String imageAltText){
+	public void setImageAltText(String imageAltText) {
 		this.imageAltText = imageAltText;
 	}
 
-	public String getImageAltText(){
+	public String getImageAltText() {
 		return imageAltText;
 	}
 
-	public void setImageUrl(String imageUrl){
+	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getImageUrl(){
+	public String getImageUrl() {
 		return imageUrl;
 	}
 
-	public void setText(String text){
+	public void setText(String text) {
 		this.text = text;
 	}
 
-	public String getText(){
+	public String getText() {
 		return text;
 	}
 }

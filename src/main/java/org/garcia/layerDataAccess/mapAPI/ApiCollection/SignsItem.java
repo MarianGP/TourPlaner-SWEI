@@ -1,8 +1,8 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SignsItem{
+public class SignsItem {
 
 	@SerializedName("extraText")
 	private String extraText;
@@ -19,23 +19,23 @@ public class SignsItem{
 	@SerializedName("direction")
 	private int direction;
 
-	public void setExtraText(String extraText){
+	public void setExtraText(String extraText) {
 		this.extraText = extraText;
 	}
 
-	public String getExtraText(){
+	public String getExtraText() {
 		return extraText;
 	}
 
-	public void setText(String text){
+	public void setText(String text) {
 		this.text = text;
 	}
 
-	public String getText(){
+	public String getText() {
 		return text;
 	}
 
-	public void setType(int type){
+	public void setType(int type) {
 		this.type = type;
 	}
 
@@ -43,19 +43,19 @@ public class SignsItem{
 		return type;
 	}
 
-	public void setUrl(String url){
+	public void setUrl(String url) {
 		this.url = url;
 	}
 
-	public String getUrl(){
+	public String getUrl() {
 		return url;
 	}
 
-	public void setDirection(int direction){
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
-	public int getDirection(){
+	public int getDirection() {
 		return direction;
 	}
 }

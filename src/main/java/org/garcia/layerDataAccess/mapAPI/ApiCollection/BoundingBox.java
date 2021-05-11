@@ -1,4 +1,4 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -39,42 +39,34 @@ import java.util.ResourceBundle;
 
 public class ToursController implements Initializable {
 
-    ToursViewModel toursViewModel;
-    IAppManager tourManager;
-
     //new tour
     public TextField title;
     public TextField origin;
     public TextField destination;
     public TextField description;
-
     //tours
     public ListView<Tour> toursListView = new ListView<>();
     public TextField inputSearch = new TextField("");
     public Button deleteTourBtn = new Button();
-
     //selected tour
     public ImageView tourImageView = new ImageView();
+    public AnchorPane imageAnchorPane = new AnchorPane();
     public Text tourDescription = new Text();
-
     //new log
     public TilePane datePicker = new TilePane();
     public TextField logDuration;
     public TextField logDistance;
     public Button addLogBtn = new Button();
     public Button deleteLogBtn = new Button();
-
     //logs
     public TableView<TourLog> tourLogTableView = new TableView<>();
     public TableColumn<TourLog, LocalDate> dateColumn = new TableColumn<>();
     public TableColumn<TourLog, Integer> durationColumn = new TableColumn<>();
     public TableColumn<TourLog, Integer> distanceColumn = new TableColumn<>();
-
     // menu
     public MenuItem createSummaryMenuItem = new MenuItem();
     public MenuItem createTourReportMenuItem = new MenuItem();
     public MenuItem exportTourMenuItem = new MenuItem();
-
     // report
     public AnchorPane paneView = new AnchorPane();
     public TextField reportName = new TextField();
@@ -82,6 +74,8 @@ public class ToursController implements Initializable {
     public Label filePath = new Label();
     public Label chosenReportType = new Label();
     public String tourStringChoiceBox;
+    ToursViewModel toursViewModel;
+    IAppManager tourManager;
 
     //! tours - methods
     public void searchTours() throws SQLException {
@@ -104,7 +98,7 @@ public class ToursController implements Initializable {
         closeDialog(actionEvent);
     }
 
-    public void deleteTour(ActionEvent actionEvent) throws SQLException {
+    public void deleteTour() throws SQLException {
         if (tourManager.deleteTour(toursViewModel.getCurrentTour())) {
             toursViewModel.setCurrentTour(null);
 //            toursViewModel.getTourImageProperty(); // TODO: disable again when currentTour is deleted
@@ -112,7 +106,7 @@ public class ToursController implements Initializable {
         }
     }
 
-    public void clearTours(ActionEvent actionEvent) {
+    public void clearTours() {
         toursViewModel.clearObservableList();
         toursViewModel.clearLogsObservableList();
         inputSearch.textProperty().setValue("");
@@ -144,10 +138,10 @@ public class ToursController implements Initializable {
         }
     }
 
-    public void deleteLogTour(ActionEvent actionEvent) throws SQLException {
+    public void deleteLogTour() throws SQLException {
         int logId = toursViewModel.getCurrentLog().getId();
         if (!tourManager.deleteLogById(logId)) {
-            //show alert
+            System.out.println("Todo. Show alerts"); // TODO: alerts
         }
         searchTourLogs(toursViewModel.getCurrentLog().getTourId());
         System.out.println("delete: " + logId);
@@ -156,21 +150,21 @@ public class ToursController implements Initializable {
 
     //! buttons - methods
     @FXML
-    public void openAddTourDialog(ActionEvent actionEvent) throws IOException {
+    public void openAddTourDialog() throws IOException {
         DatePicker dp = new DatePicker();
         datePicker.getChildren().add(dp);
         App.openDialog(ViewName.ADD_TOUR.getViewName(), "Add Tour");
     }
 
     @FXML
-    public void openAddLogDialog(ActionEvent actionEvent) throws IOException {
+    public void openAddLogDialog() throws IOException {
         if (toursViewModel.getCurrentTour().getOrigin() != null) {
             App.openDialog(ViewName.ADD_LOG.getViewName(), "Add Tour");
         }
     }
 
     @FXML
-    public void openSaveReportDialog(ActionEvent actionEvent) throws IOException {
+    public void openSaveReportDialog() throws IOException {
         App.openDialog(ViewName.SAVE_TOUR_REPORT.getViewName(), "Save a report");
     }
 
@@ -187,11 +181,11 @@ public class ToursController implements Initializable {
 
 
     //! menu actions - methods
-    public void exportTour(ActionEvent actionEvent) throws SQLException, IOException {
+    public void exportTour() throws SQLException, IOException {
         tourManager.exportTourNLogs("data", "dir");
     }
 
-    public void importTour(ActionEvent actionEvent) throws SQLException, IOException {
+    public void importTour() throws SQLException, IOException {
         tourManager.importTourNLogs("testing-import", "dir");
         searchTours();
     }
@@ -199,10 +193,10 @@ public class ToursController implements Initializable {
     public void createReport(ActionEvent actionEvent) throws IOException, SQLException {
         String url;
         String reportType = toursViewModel.getReportTypeName().getValue().toLowerCase(Locale.ROOT);
-        if(toursViewModel.getReportUrl().getValue() != null && toursViewModel.getReportName().getValue() != null) {
+        if (toursViewModel.getReportUrl().getValue() != null && toursViewModel.getReportName().getValue() != null) {
             closeDialog(actionEvent);
             url = toursViewModel.getReportUrl().getValue() + "\\"
-                + toursViewModel.getReportName().getValue() + "-" + reportType + ".pdf";
+                    + toursViewModel.getReportName().getValue() + "-" + reportType + ".pdf";
             createSelectedReport(url, reportType);
             filePath.setStyle("-fx-font-size: 11; -fx-text-fill: green;");
         } else {
@@ -221,14 +215,14 @@ public class ToursController implements Initializable {
                 tourManager.createTourReport(toursViewModel.getCurrentTour(), url);
     }
 
-    public void openDirectoryChooser(ActionEvent actionEvent) {
+    public void openDirectoryChooser() {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File("src"));
 
         Stage stage = (Stage) paneView.getScene().getWindow();
         File file = directoryChooser.showDialog(stage);
 
-        if(file != null) {
+        if (file != null) {
             toursViewModel.getReportUrl().setValue(file.getAbsolutePath());
         }
     }
@@ -295,7 +289,10 @@ public class ToursController implements Initializable {
         toursViewModel.addAllToursObsList(tourManager.searchTours(""));
 
         Bindings.bindBidirectional(tourDescription.textProperty(), toursViewModel.getCurrentTourDescription());
-        Bindings.bindBidirectional(tourImageView.imageProperty(), toursViewModel.getTourImageProperty());
+
+        tourImageView.fitWidthProperty().bind(imageAnchorPane.widthProperty());
+        tourImageView.imageProperty().bindBidirectional(toursViewModel.getTourImageProperty());
+//        Bindings.bindBidirectional(tourImageView.imageProperty(), toursViewModel.getTourImageProperty());
     }
 
     public void addTourListener() {
@@ -314,7 +311,7 @@ public class ToursController implements Initializable {
                             e.printStackTrace();
                         }
                     } else {
-                        clearTours(null);
+                        clearTours();
                     }
                 })
         );
@@ -367,7 +364,4 @@ public class ToursController implements Initializable {
         datePicker.getChildren().add(l);
     }
 
-    private boolean reportInputValid() {
-        return true;
-    }
 }

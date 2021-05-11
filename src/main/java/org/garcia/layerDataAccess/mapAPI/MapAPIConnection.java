@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.garcia.layerBusiness.util.NameGenerator;
 import org.garcia.layerDataAccess.fileaccess.FileAccess;
-import org.garcia.model.ApiCollection.Response;
+import org.garcia.layerDataAccess.mapAPI.ApiCollection.Response;
 import org.garcia.model.Tour;
 
 import java.io.BufferedReader;

@@ -1,9 +1,10 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Info{
+import java.util.List;
+
+public class Info {
 
 	@SerializedName("statuscode")
 	private int statuscode;
@@ -14,27 +15,27 @@ public class Info{
 	@SerializedName("messages")
 	private List<Object> messages;
 
-	public void setStatuscode(int statuscode){
+	public void setStatuscode(int statuscode) {
 		this.statuscode = statuscode;
 	}
 
-	public int getStatuscode(){
+	public int getStatuscode() {
 		return statuscode;
 	}
 
-	public void setCopyright(Copyright copyright){
+	public void setCopyright(Copyright copyright) {
 		this.copyright = copyright;
 	}
 
-	public Copyright getCopyright(){
+	public Copyright getCopyright() {
 		return copyright;
 	}
 
-	public void setMessages(List<Object> messages){
+	public void setMessages(List<Object> messages) {
 		this.messages = messages;
 	}
 
-	public List<Object> getMessages(){
+	public List<Object> getMessages() {
 		return messages;
 	}
 }

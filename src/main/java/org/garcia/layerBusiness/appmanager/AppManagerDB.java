@@ -9,7 +9,7 @@ import org.garcia.layerDataAccess.fileaccess.PDFBuilder;
 import org.garcia.layerDataAccess.mapAPI.MapAPIConnection;
 import org.garcia.layerDataAccess.service.TourLogService;
 import org.garcia.layerDataAccess.service.TourService;
-import org.garcia.model.ApiCollection.Response;
+import org.garcia.layerDataAccess.mapAPI.ApiCollection.Response;
 import org.garcia.model.Tour;
 import org.garcia.model.TourData;
 import org.garcia.model.TourLog;
@@ -20,16 +20,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Responsable for the interaction between GUI and data access layer.
+ */
 public class AppManagerDB implements IAppManager {
 
-    private final static String CONTAINER_NAME = "postgresDB1";
-    private final static String API_NAME = "mapQuestApi";
+    private static final String CONTAINER_NAME = "postgresDB1";
+    private static final String API_NAME = "mapQuestApi";
     private final TourService tourService;
     private final TourLogService tourLogService;
     private final MapAPIConnection mapAPI;
     private final FileAccess fileAccess;
 
-
+    /**
+     * DAL properties instantiated with DALFactory
+     * All returned objects are singleton.
+     * @throws IOException when a wrong path to config.properties or input name for the configuration is given.
+     */
     public AppManagerDB() throws IOException {
         DALFactory.init(CONTAINER_NAME);
         tourService = DALFactory.createTourService();
@@ -38,6 +45,11 @@ public class AppManagerDB implements IAppManager {
         fileAccess = DALFactory.createFileAccess();
     }
 
+    /**
+     * @param inputSearch String is the term used for filtering tours. if empty the whole db tour list in returned
+     * @return a tour list of term filtered tours
+     * @throws SQLException when query execution fails (select statement)
+     */
     @Override
     public List<Tour> searchTours(String inputSearch) throws SQLException {
         if (inputSearch.equals(""))
@@ -48,11 +60,27 @@ public class AppManagerDB implements IAppManager {
         return null;
     }
 
+
+    /**
+     * Search in the db for tourLogs
+     * @param id from current/selected tour is used for filtering tourLogs
+     * @return tourLogs list of tourLogs with tourId = id. if non found list is null
+     * @throws SQLException when there are non tourLogs with this tourId, or when sql statement or connection fails
+     */
     @Override
     public List<TourLog> searchLogsByTourId(int id) throws SQLException {
         return tourLogService.findByTourId(id);
     }
 
+
+    /**
+     * Create a new tour in db.
+     * The input parameters are validated and then a new tour is added to the db.
+     * @param parameters is an array from the input fields of addTourDialog view
+     * @return id number of the new added tour
+     * @throws SQLException when sql statement or connection fails
+     * @throws IOException wrong parameters type
+     */
     @Override
     public int addTour(String[] parameters) throws SQLException, IOException {
         Tour newTour = TourMapper.ParametersToTour(parameters);
@@ -67,14 +95,24 @@ public class AppManagerDB implements IAppManager {
         return 0;
     }
 
+    /**
+     * Add new tourLog to existing tour
+     * Input terms are fist validated and mapped to a new tourLog if valid
+     * @param parameters from
+     * @param tourId TourLogEntity foreign key
+     * @return tourLog id when tourLog successfully added to db
+     * @throws SQLException when sql statement or connection fails
+     */
     @Override
     public int addLog(Object[] parameters, int tourId) throws SQLException {
         int logId = 0;
+        //TODO: validate parameters
         TourLog tourLog = TourLogMapper.GUIInputToLog(parameters, tourId);
         if (tourLog != null)
             logId = tourLogService.addTourLog(tourLog);
         return logId;
     }
+
 
     @Override
     public boolean deleteTour(Tour tour) throws SQLException {

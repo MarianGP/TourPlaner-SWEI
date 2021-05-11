@@ -1,9 +1,10 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class LegsItem{
+import java.util.List;
+
+public class LegsItem {
 
 	@SerializedName("hasTollRoad")
 	private boolean hasTollRoad;
@@ -65,163 +66,163 @@ public class LegsItem{
 	@SerializedName("hasFerry")
 	private boolean hasFerry;
 
-	public void setHasTollRoad(boolean hasTollRoad){
+	public void setHasTollRoad(boolean hasTollRoad) {
 		this.hasTollRoad = hasTollRoad;
 	}
 
-	public boolean isHasTollRoad(){
+	public boolean isHasTollRoad() {
 		return hasTollRoad;
 	}
 
-	public void setHasBridge(boolean hasBridge){
+	public void setHasBridge(boolean hasBridge) {
 		this.hasBridge = hasBridge;
 	}
 
-	public boolean isHasBridge(){
+	public boolean isHasBridge() {
 		return hasBridge;
 	}
 
-	public void setDestNarrative(String destNarrative){
+	public void setDestNarrative(String destNarrative) {
 		this.destNarrative = destNarrative;
 	}
 
-	public String getDestNarrative(){
+	public String getDestNarrative() {
 		return destNarrative;
 	}
 
-	public void setDistance(double distance){
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 
-	public double getDistance(){
+	public double getDistance() {
 		return distance;
 	}
 
-	public void setHasTimedRestriction(boolean hasTimedRestriction){
+	public void setHasTimedRestriction(boolean hasTimedRestriction) {
 		this.hasTimedRestriction = hasTimedRestriction;
 	}
 
-	public boolean isHasTimedRestriction(){
+	public boolean isHasTimedRestriction() {
 		return hasTimedRestriction;
 	}
 
-	public void setHasTunnel(boolean hasTunnel){
+	public void setHasTunnel(boolean hasTunnel) {
 		this.hasTunnel = hasTunnel;
 	}
 
-	public boolean isHasTunnel(){
+	public boolean isHasTunnel() {
 		return hasTunnel;
 	}
 
-	public void setHasHighway(boolean hasHighway){
+	public void setHasHighway(boolean hasHighway) {
 		this.hasHighway = hasHighway;
 	}
 
-	public boolean isHasHighway(){
+	public boolean isHasHighway() {
 		return hasHighway;
 	}
 
-	public void setIndex(int index){
+	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public int getIndex(){
+	public int getIndex() {
 		return index;
 	}
 
-	public void setFormattedTime(String formattedTime){
+	public void setFormattedTime(String formattedTime) {
 		this.formattedTime = formattedTime;
 	}
 
-	public String getFormattedTime(){
+	public String getFormattedTime() {
 		return formattedTime;
 	}
 
-	public void setOrigIndex(int origIndex){
+	public void setOrigIndex(int origIndex) {
 		this.origIndex = origIndex;
 	}
 
-	public int getOrigIndex(){
+	public int getOrigIndex() {
 		return origIndex;
 	}
 
-	public void setHasAccessRestriction(boolean hasAccessRestriction){
+	public void setHasAccessRestriction(boolean hasAccessRestriction) {
 		this.hasAccessRestriction = hasAccessRestriction;
 	}
 
-	public boolean isHasAccessRestriction(){
+	public boolean isHasAccessRestriction() {
 		return hasAccessRestriction;
 	}
 
-	public void setHasSeasonalClosure(boolean hasSeasonalClosure){
+	public void setHasSeasonalClosure(boolean hasSeasonalClosure) {
 		this.hasSeasonalClosure = hasSeasonalClosure;
 	}
 
-	public boolean isHasSeasonalClosure(){
+	public boolean isHasSeasonalClosure() {
 		return hasSeasonalClosure;
 	}
 
-	public void setHasCountryCross(boolean hasCountryCross){
+	public void setHasCountryCross(boolean hasCountryCross) {
 		this.hasCountryCross = hasCountryCross;
 	}
 
-	public boolean isHasCountryCross(){
+	public boolean isHasCountryCross() {
 		return hasCountryCross;
 	}
 
-	public void setRoadGradeStrategy(List<Object> roadGradeStrategy){
+	public void setRoadGradeStrategy(List<Object> roadGradeStrategy) {
 		this.roadGradeStrategy = roadGradeStrategy;
 	}
 
-	public List<Object> getRoadGradeStrategy(){
+	public List<Object> getRoadGradeStrategy() {
 		return roadGradeStrategy;
 	}
 
-	public void setDestIndex(int destIndex){
+	public void setDestIndex(int destIndex) {
 		this.destIndex = destIndex;
 	}
 
-	public int getDestIndex(){
+	public int getDestIndex() {
 		return destIndex;
 	}
 
-	public void setTime(int time){
+	public void setTime(int time) {
 		this.time = time;
 	}
 
-	public int getTime(){
+	public int getTime() {
 		return time;
 	}
 
-	public void setHasUnpaved(boolean hasUnpaved){
+	public void setHasUnpaved(boolean hasUnpaved) {
 		this.hasUnpaved = hasUnpaved;
 	}
 
-	public boolean isHasUnpaved(){
+	public boolean isHasUnpaved() {
 		return hasUnpaved;
 	}
 
-	public void setOrigNarrative(String origNarrative){
+	public void setOrigNarrative(String origNarrative) {
 		this.origNarrative = origNarrative;
 	}
 
-	public String getOrigNarrative(){
+	public String getOrigNarrative() {
 		return origNarrative;
 	}
 
-	public void setManeuvers(List<ManeuversItem> maneuvers){
+	public void setManeuvers(List<ManeuversItem> maneuvers) {
 		this.maneuvers = maneuvers;
 	}
 
-	public List<ManeuversItem> getManeuvers(){
+	public List<ManeuversItem> getManeuvers() {
 		return maneuvers;
 	}
 
-	public void setHasFerry(boolean hasFerry){
+	public void setHasFerry(boolean hasFerry) {
 		this.hasFerry = hasFerry;
 	}
 
-	public boolean isHasFerry(){
+	public boolean isHasFerry() {
 		return hasFerry;
 	}
 }

@@ -184,7 +184,7 @@ public class PDFBuilder {
                                 "            <th>" + log.getDate() + "</th>" +
                                 "            <th>" + log.getRating() + "</th>" +
                                 "            <th>" + log.getSport() + "</th>" +
-                                "            <th>" + log.getAvg_speed() + "</th>" +
+                                "            <th>" + log.getAvgSpeed() + "</th>" +
                                 "            <th>" + log.getStart().getHour() + ":" + log.getStart().getMinute() + "</th>" +
                                 "            <th>" + log.getEnd().getHour() + ":" + log.getEnd().getMinute() + "</th>" +
                                 "            <th>" + log.getSpecial() + "</th>" +

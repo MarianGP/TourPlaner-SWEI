@@ -1,9 +1,10 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Options{
+import java.util.List;
+
+public class Options {
 
 	@SerializedName("arteryWeights")
 	private List<Object> arteryWeights;
@@ -101,259 +102,259 @@ public class Options{
 	@SerializedName("manmaps")
 	private String manmaps;
 
-	public void setArteryWeights(List<Object> arteryWeights){
+	public void setArteryWeights(List<Object> arteryWeights) {
 		this.arteryWeights = arteryWeights;
 	}
 
-	public List<Object> getArteryWeights(){
+	public List<Object> getArteryWeights() {
 		return arteryWeights;
 	}
 
-	public void setCyclingRoadFactor(int cyclingRoadFactor){
+	public void setCyclingRoadFactor(int cyclingRoadFactor) {
 		this.cyclingRoadFactor = cyclingRoadFactor;
 	}
 
-	public int getCyclingRoadFactor(){
+	public int getCyclingRoadFactor() {
 		return cyclingRoadFactor;
 	}
 
-	public void setTimeType(int timeType){
+	public void setTimeType(int timeType) {
 		this.timeType = timeType;
 	}
 
-	public int getTimeType(){
+	public int getTimeType() {
 		return timeType;
 	}
 
-	public void setUseTraffic(boolean useTraffic){
+	public void setUseTraffic(boolean useTraffic) {
 		this.useTraffic = useTraffic;
 	}
 
-	public boolean isUseTraffic(){
+	public boolean isUseTraffic() {
 		return useTraffic;
 	}
 
-	public void setReturnLinkDirections(boolean returnLinkDirections){
+	public void setReturnLinkDirections(boolean returnLinkDirections) {
 		this.returnLinkDirections = returnLinkDirections;
 	}
 
-	public boolean isReturnLinkDirections(){
+	public boolean isReturnLinkDirections() {
 		return returnLinkDirections;
 	}
 
-	public void setCountryBoundaryDisplay(boolean countryBoundaryDisplay){
+	public void setCountryBoundaryDisplay(boolean countryBoundaryDisplay) {
 		this.countryBoundaryDisplay = countryBoundaryDisplay;
 	}
 
-	public boolean isCountryBoundaryDisplay(){
+	public boolean isCountryBoundaryDisplay() {
 		return countryBoundaryDisplay;
 	}
 
-	public void setEnhancedNarrative(boolean enhancedNarrative){
+	public void setEnhancedNarrative(boolean enhancedNarrative) {
 		this.enhancedNarrative = enhancedNarrative;
 	}
 
-	public boolean isEnhancedNarrative(){
+	public boolean isEnhancedNarrative() {
 		return enhancedNarrative;
 	}
 
-	public void setLocale(String locale){
+	public void setLocale(String locale) {
 		this.locale = locale;
 	}
 
-	public String getLocale(){
+	public String getLocale() {
 		return locale;
 	}
 
-	public void setTryAvoidLinkIds(List<Object> tryAvoidLinkIds){
+	public void setTryAvoidLinkIds(List<Object> tryAvoidLinkIds) {
 		this.tryAvoidLinkIds = tryAvoidLinkIds;
 	}
 
-	public List<Object> getTryAvoidLinkIds(){
+	public List<Object> getTryAvoidLinkIds() {
 		return tryAvoidLinkIds;
 	}
 
-	public void setDrivingStyle(int drivingStyle){
+	public void setDrivingStyle(int drivingStyle) {
 		this.drivingStyle = drivingStyle;
 	}
 
-	public int getDrivingStyle(){
+	public int getDrivingStyle() {
 		return drivingStyle;
 	}
 
-	public void setDoReverseGeocode(boolean doReverseGeocode){
+	public void setDoReverseGeocode(boolean doReverseGeocode) {
 		this.doReverseGeocode = doReverseGeocode;
 	}
 
-	public boolean isDoReverseGeocode(){
+	public boolean isDoReverseGeocode() {
 		return doReverseGeocode;
 	}
 
-	public void setGeneralize(int generalize){
+	public void setGeneralize(int generalize) {
 		this.generalize = generalize;
 	}
 
-	public int getGeneralize(){
+	public int getGeneralize() {
 		return generalize;
 	}
 
-	public void setMustAvoidLinkIds(List<Object> mustAvoidLinkIds){
+	public void setMustAvoidLinkIds(List<Object> mustAvoidLinkIds) {
 		this.mustAvoidLinkIds = mustAvoidLinkIds;
 	}
 
-	public List<Object> getMustAvoidLinkIds(){
+	public List<Object> getMustAvoidLinkIds() {
 		return mustAvoidLinkIds;
 	}
 
-	public void setSideOfStreetDisplay(boolean sideOfStreetDisplay){
+	public void setSideOfStreetDisplay(boolean sideOfStreetDisplay) {
 		this.sideOfStreetDisplay = sideOfStreetDisplay;
 	}
 
-	public boolean isSideOfStreetDisplay(){
+	public boolean isSideOfStreetDisplay() {
 		return sideOfStreetDisplay;
 	}
 
-	public void setRouteType(String routeType){
+	public void setRouteType(String routeType) {
 		this.routeType = routeType;
 	}
 
-	public String getRouteType(){
+	public String getRouteType() {
 		return routeType;
 	}
 
-	public void setAvoidTimedConditions(boolean avoidTimedConditions){
+	public void setAvoidTimedConditions(boolean avoidTimedConditions) {
 		this.avoidTimedConditions = avoidTimedConditions;
 	}
 
-	public boolean isAvoidTimedConditions(){
+	public boolean isAvoidTimedConditions() {
 		return avoidTimedConditions;
 	}
 
-	public void setRouteNumber(int routeNumber){
+	public void setRouteNumber(int routeNumber) {
 		this.routeNumber = routeNumber;
 	}
 
-	public int getRouteNumber(){
+	public int getRouteNumber() {
 		return routeNumber;
 	}
 
-	public void setShapeFormat(String shapeFormat){
+	public void setShapeFormat(String shapeFormat) {
 		this.shapeFormat = shapeFormat;
 	}
 
-	public String getShapeFormat(){
+	public String getShapeFormat() {
 		return shapeFormat;
 	}
 
-	public void setMaxWalkingDistance(int maxWalkingDistance){
+	public void setMaxWalkingDistance(int maxWalkingDistance) {
 		this.maxWalkingDistance = maxWalkingDistance;
 	}
 
-	public int getMaxWalkingDistance(){
+	public int getMaxWalkingDistance() {
 		return maxWalkingDistance;
 	}
 
-	public void setDestinationManeuverDisplay(boolean destinationManeuverDisplay){
+	public void setDestinationManeuverDisplay(boolean destinationManeuverDisplay) {
 		this.destinationManeuverDisplay = destinationManeuverDisplay;
 	}
 
-	public boolean isDestinationManeuverDisplay(){
+	public boolean isDestinationManeuverDisplay() {
 		return destinationManeuverDisplay;
 	}
 
-	public void setTransferPenalty(int transferPenalty){
+	public void setTransferPenalty(int transferPenalty) {
 		this.transferPenalty = transferPenalty;
 	}
 
-	public int getTransferPenalty(){
+	public int getTransferPenalty() {
 		return transferPenalty;
 	}
 
-	public void setNarrativeType(String narrativeType){
+	public void setNarrativeType(String narrativeType) {
 		this.narrativeType = narrativeType;
 	}
 
-	public String getNarrativeType(){
+	public String getNarrativeType() {
 		return narrativeType;
 	}
 
-	public void setWalkingSpeed(int walkingSpeed){
+	public void setWalkingSpeed(int walkingSpeed) {
 		this.walkingSpeed = walkingSpeed;
 	}
 
-	public int getWalkingSpeed(){
+	public int getWalkingSpeed() {
 		return walkingSpeed;
 	}
 
-	public void setUrbanAvoidFactor(int urbanAvoidFactor){
+	public void setUrbanAvoidFactor(int urbanAvoidFactor) {
 		this.urbanAvoidFactor = urbanAvoidFactor;
 	}
 
-	public int getUrbanAvoidFactor(){
+	public int getUrbanAvoidFactor() {
 		return urbanAvoidFactor;
 	}
 
-	public void setStateBoundaryDisplay(boolean stateBoundaryDisplay){
+	public void setStateBoundaryDisplay(boolean stateBoundaryDisplay) {
 		this.stateBoundaryDisplay = stateBoundaryDisplay;
 	}
 
-	public boolean isStateBoundaryDisplay(){
+	public boolean isStateBoundaryDisplay() {
 		return stateBoundaryDisplay;
 	}
 
-	public void setUnit(String unit){
+	public void setUnit(String unit) {
 		this.unit = unit;
 	}
 
-	public String getUnit(){
+	public String getUnit() {
 		return unit;
 	}
 
-	public void setHighwayEfficiency(int highwayEfficiency){
+	public void setHighwayEfficiency(int highwayEfficiency) {
 		this.highwayEfficiency = highwayEfficiency;
 	}
 
-	public int getHighwayEfficiency(){
+	public int getHighwayEfficiency() {
 		return highwayEfficiency;
 	}
 
-	public void setMaxLinkId(int maxLinkId){
+	public void setMaxLinkId(int maxLinkId) {
 		this.maxLinkId = maxLinkId;
 	}
 
-	public int getMaxLinkId(){
+	public int getMaxLinkId() {
 		return maxLinkId;
 	}
 
-	public void setManeuverPenalty(int maneuverPenalty){
+	public void setManeuverPenalty(int maneuverPenalty) {
 		this.maneuverPenalty = maneuverPenalty;
 	}
 
-	public int getManeuverPenalty(){
+	public int getManeuverPenalty() {
 		return maneuverPenalty;
 	}
 
-	public void setAvoidTripIds(List<Object> avoidTripIds){
+	public void setAvoidTripIds(List<Object> avoidTripIds) {
 		this.avoidTripIds = avoidTripIds;
 	}
 
-	public List<Object> getAvoidTripIds(){
+	public List<Object> getAvoidTripIds() {
 		return avoidTripIds;
 	}
 
-	public void setFilterZoneFactor(int filterZoneFactor){
+	public void setFilterZoneFactor(int filterZoneFactor) {
 		this.filterZoneFactor = filterZoneFactor;
 	}
 
-	public int getFilterZoneFactor(){
+	public int getFilterZoneFactor() {
 		return filterZoneFactor;
 	}
 
-	public void setManmaps(String manmaps){
+	public void setManmaps(String manmaps) {
 		this.manmaps = manmaps;
 	}
 
-	public String getManmaps(){
+	public String getManmaps() {
 		return manmaps;
 	}
 }

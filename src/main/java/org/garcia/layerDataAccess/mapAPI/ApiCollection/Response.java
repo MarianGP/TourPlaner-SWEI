@@ -1,8 +1,8 @@
-package org.garcia.model.ApiCollection;
+package org.garcia.layerDataAccess.mapAPI.ApiCollection;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Response{
+public class Response {
 
 	@SerializedName("route")
 	private Route route;
@@ -10,19 +10,19 @@ public class Response{
 	@SerializedName("info")
 	private Info info;
 
-	public void setRoute(Route route){
+	public void setRoute(Route route) {
 		this.route = route;
 	}
 
-	public Route getRoute(){
+	public Route getRoute() {
 		return route;
 	}
 
-	public void setInfo(Info info){
+	public void setInfo(Info info) {
 		this.info = info;
 	}
 
-	public Info getInfo(){
+	public Info getInfo() {
 		return info;
 	}
 }

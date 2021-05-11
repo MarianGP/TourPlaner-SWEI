@@ -54,7 +54,7 @@ class FileAccessTest {
 
     @Test
     void testImportToursFromJson() {
-        List<Tour> tours = fileAccess.getToursFromFile("test", "dir");
+        List<Tour> tours = fileAccess.getToursFromFile("testing-import", "dir");
         System.out.println(tours + "\n");
         Assertions.assertNotEquals(0, tours.size());
     }
