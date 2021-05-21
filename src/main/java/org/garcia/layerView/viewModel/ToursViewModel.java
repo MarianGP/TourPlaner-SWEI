@@ -5,26 +5,33 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import lombok.Data;
+import org.garcia.config.ConfigurationManager;
+import org.garcia.layerBusiness.appmanager.AppManagerDB;
+import org.garcia.layerBusiness.appmanager.AppManagerFactory;
+import org.garcia.layerBusiness.appmanager.AppManagerMock;
+import org.garcia.layerBusiness.appmanager.IAppManager;
 import org.garcia.layerBusiness.util.SecondsToTime;
+import org.garcia.layerDataAccess.common.DALOracleFactory;
+import org.garcia.layerDataAccess.common.DALPostgresFactory;
+import org.garcia.layerDataAccess.common.IDALFactory;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class ToursViewModel {
+public class ToursViewModel implements IViewModel {
 
+    private IAppManager appManager;
     private static ToursViewModel viewModel;
-    private final String tourReportName = "tour";
-    private final String summaryReportName = "summary";
 
     //tours
     private Tour currentTour;
     private ObservableList<Tour> tourObservableList = FXCollections.observableArrayList();
     private ObjectProperty<Image> tourImageProperty = new SimpleObjectProperty<>();
     private StringProperty currentTourDescription = new SimpleStringProperty("");
-    private ObjectProperty<Image> currentTourImage = new SimpleObjectProperty<>();
 
     //logs
     private TourLog currentLog;
@@ -38,17 +45,13 @@ public class ToursViewModel {
     //time
     private LocalDate localDate;
 
-    //report
-    private StringProperty reportTypeName = new SimpleStringProperty();
-    private StringProperty reportUrl = new SimpleStringProperty();
-    private StringProperty reportName = new SimpleStringProperty();
-
     //menu buttons
     private BooleanProperty menuItemDisabled = new SimpleBooleanProperty();
 
     public static ToursViewModel getInstance() {
-        if (viewModel == null)
+        if (viewModel == null) {
             viewModel = new ToursViewModel();
+        }
         return viewModel;
     }
 
@@ -57,7 +60,11 @@ public class ToursViewModel {
         setCurrentTourDescription();
     }
 
-    public void addAllToursObsList(List<Tour> foundTours) {
+    public void searchTours(String inputSearch) {
+        tourObservableList.clear();
+        tourLogObservableList.clear();
+
+        List<Tour> foundTours = appManager.searchTours(inputSearch);
         if (foundTours == null) {
             tourObservableList.addAll();
         } else {
@@ -66,25 +73,16 @@ public class ToursViewModel {
         menuItemDisabled.setValue(tourObservableList.size() == 0);
     }
 
-    public void clearObservableList() {
+    public void clearObservableLists() {
         tourObservableList.clear();
-    }
-
-    public void addTourLogs(List<TourLog> allLogs) {
-        if (allLogs == null) {
-            tourLogObservableList.addAll();
-        } else {
-            tourLogObservableList.addAll(allLogs);
-        }
-    }
-
-    public void clearLogsObservableList() {
         tourLogObservableList.clear();
+        currentTourDescription.set("");
+        String defaultImg = ConfigurationManager.getConfigProperty("defaultImg");
+        tourImageProperty.set(new Image(defaultImg)); //TODO
     }
 
     private void setCurrentTourDescription() {
         if (currentTour != null) {
-
 
             currentTourDescription.setValue(
                     "Title: \t\t" + currentTour.getTitle() + "\n" +
@@ -97,7 +95,95 @@ public class ToursViewModel {
         }
 
         else
-        currentTourDescription.setValue("");
+            currentTourDescription.setValue("");
 
     }
+
+    public void defineAppManager() {
+        boolean mockedDB = Boolean.parseBoolean(ConfigurationManager.getConfigProperty("mockedDB"));
+        String dbType = ConfigurationManager.getConfigProperty("dbType");
+        IDALFactory factory;
+
+        switch (dbType) {
+            case "postgres":
+                factory = new DALPostgresFactory();
+                break;
+            case "oracle":
+                factory = new DALOracleFactory(); // not implemented only as example
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + dbType);
+        }
+        if (!mockedDB) {
+            this.appManager = AppManagerFactory.getInstance(new AppManagerDB(factory));
+        } else {
+            this.appManager =  AppManagerFactory.getInstance(new AppManagerMock(factory));
+        }
+    }
+
+    public void deleteTour() {
+        appManager.deleteTour(currentTour);
+        currentTour = null;
+    }
+
+    public void exportTour() throws IOException {
+        appManager.exportTourNLogs("data", "dir");
+    }
+
+    public void importTour() throws IOException {
+        appManager.importTourNLogs("testing-import", "dir");
+    }
+
+    public void searchLogsByTourId() {
+        List<TourLog> foundTourLogs = appManager.searchLogsByTourId(currentTour.getId());
+        tourLogObservableList.clear();
+        if (foundTourLogs.size() != 0) {
+            tourLogObservableList.addAll(foundTourLogs);
+        }
+    }
+
+    public int addNewTour(String[] inputFields) throws IOException {
+        int tourId = appManager.addTour(inputFields);
+        if (tourId > 0) {
+            searchTours("");
+        } else {
+            System.out.println("Wrong input");
+        }
+        return tourId;
+    }
+
+    public int addTourLog(Object[] inputFields) {
+        int tourLogId = appManager.addLog(inputFields, currentTour.getId());
+        if (tourLogId != 0) {
+           searchLogsByTourId();
+        } else {
+            System.out.println("Wrong input");
+        }
+        return tourLogId;
+    }
+
+    public void deleteTourLog() {
+        int logId = currentLog.getId();
+        if (!appManager.deleteLogById(logId)) {
+            System.out.println("Todo. Show alerts"); // TODO: alerts
+        } else {
+            searchLogsByTourId();
+            System.out.println("delete: " + logId);
+        }
+    }
+
+    public void tourSelected(Tour newTour) {
+        setCurrentTour(newTour);
+        searchLogsByTourId();
+        String tourUrl = newTour.getImg();
+        System.out.println("Current tour: " + tourUrl);
+        try {
+            tourImageProperty.set(new Image(tourUrl));
+        } catch (Exception e) {
+//            logger.log(Level.ERROR, e);
+            System.out.println("Couldn't load img"); //TODO
+        }
+        // tourImageView.setImage(new Image(toursViewModel.getCurrentTour().getImg()));
+    }
+
 }

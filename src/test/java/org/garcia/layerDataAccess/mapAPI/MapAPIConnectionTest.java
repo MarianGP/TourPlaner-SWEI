@@ -1,6 +1,6 @@
 package org.garcia.layerDataAccess.mapAPI;
 
-import org.garcia.layerBusiness.ConfigurationManager;
+import org.garcia.config.ConfigurationManager;
 import org.garcia.layerDataAccess.mapAPI.ApiCollection.Response;
 import org.garcia.model.Tour;
 import org.junit.jupiter.api.*;

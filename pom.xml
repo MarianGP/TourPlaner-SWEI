@@ -18,8 +18,8 @@
         </site>
         <repository>
             <id>jar-files</id>
-            <url>file://repos/TourPlaner_SWE/dist</url>
-            <!--            <url>file:///repos/TourPlaner_SWE/dist</url>-->
+<!--            <url>file://repos/TourPlaner_SWE/dist</url>-->
+            <url>file:///repos/TourPlaner_SWE/dist</url>
         </repository>
     </distributionManagement>
 

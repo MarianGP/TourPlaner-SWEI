@@ -4,26 +4,25 @@ import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IAppManager {
 
-    List<Tour> searchTours(String inputSearch) throws SQLException;
-    List<TourLog> searchLogsByTourId(int id) throws SQLException;
+    List<Tour> searchTours(String inputSearch);
+    List<TourLog> searchLogsByTourId(int id) ;
 
-    boolean deleteTour(Tour tour) throws SQLException;
-    boolean deleteLogById(int id) throws SQLException;
+    boolean deleteTour(Tour tour);
+    boolean deleteLogById(int id);
 
-    int addTour(String[] parameters) throws SQLException, IOException;
-    int addLog(Object[] parameters, int tourId) throws SQLException;
+    int addTour(String[] parameters) throws IOException;
+    int addLog(Object[] parameters, int tourId);
 
     boolean editTour(Tour tour);
     boolean validTour(Tour tour);
 
-    boolean importTourNLogs(String fileName, String location) throws IOException, SQLException;
-    boolean exportTourNLogs(String fileName, String location) throws SQLException, IOException;
+    boolean importTourNLogs(String fileName, String location) throws IOException;
+    boolean exportTourNLogs(String fileName, String location) throws IOException;
 
-    void createSummaryReport(String url, List<Tour> allTours) throws IOException, SQLException;
-    void createTourReport(Tour currentTour, String url) throws SQLException, IOException;
+    void createSummaryReport(String url, List<Tour> allTours) throws IOException;
+    void createTourReport(Tour currentTour, String url) throws IOException;
 }

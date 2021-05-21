@@ -10,9 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TourService implements ITourService {
-
-    private final Repository repository;
+public class PostgresTourService implements ITourService {
 
     private static final String SQL_FIND_TOUR_IMAGE_URL = "SELECT * FROM public.tour WHERE tour_id=?;";
     private static final String SQL_FIND_TOUR_BY_TERM = "SELECT * FROM public.tour WHERE title LIKE ? or description LIKE ? or destination LIKE ? or origin LIKE ?;";
@@ -22,29 +20,10 @@ public class TourService implements ITourService {
     private static final String SQL_ADD_NEW_TOUR_WITH_ID = "INSERT INTO public.tour (tour_id, title, description, origin, destination, user_id, distance, duration, img)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String SQL_DELETE_TOUR = "DELETE FROM public.tour WHERE tour_id = ?;";
+    private final Repository repository;
 
-    public TourService(Repository repo) {
+    public PostgresTourService(Repository repo) {
         repository = repo;
-    }
-
-    @Override
-    public TourEntity findById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public List<TourEntity> findByOrigin(String origin) {
-        return null;
-    }
-
-    @Override
-    public List<TourEntity> findByDestination(String destination) {
-        return null;
-    }
-
-    @Override
-    public int duplicateTour(Tour tour) {
-        return 0;
     }
 
     @Override
@@ -53,7 +32,7 @@ public class TourService implements ITourService {
     }
 
     @Override
-    public List<Tour> findBySearchInput(String searchInput) throws SQLException {
+    public List<Tour> findBySearchInput(String searchInput) {
         List<Object> tourParameters = new ArrayList<>();
         tourParameters.add(searchInput);
         tourParameters.add(searchInput);
@@ -62,43 +41,57 @@ public class TourService implements ITourService {
 
         List<ResourceEntity> list;
         List<Tour> mappedTours = new ArrayList<>();
-        list = repository.findByTerm(SQL_FIND_TOUR_BY_TERM, tourParameters, "tour");
 
-        if(list != null) {
-            for(ResourceEntity tour: list) {
-                mappedTours.add(TourMapper.tourEntityToTour(tour));
+        try {
+            list = repository.findByTerm(SQL_FIND_TOUR_BY_TERM, tourParameters, "tour");
+            if (list != null) {
+                for (ResourceEntity tour : list) {
+                    mappedTours.add(TourMapper.tourEntityToTour(tour));
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return mappedTours;
     }
 
-    public List<Tour> findAll() throws SQLException {
+    public List<Tour> findAll() {
         List<Tour> mappedTours = new ArrayList<>();
         List<Object> tourParameters = new ArrayList<>();
-        List<ResourceEntity> list = repository.findByTerm(SQL_FIND_ALL_TOURS, tourParameters, "tour");
-
-        if(list != null) {
-            for(ResourceEntity tour: list) {
-                mappedTours.add(TourMapper.tourEntityToTour(tour));
+        try {
+            List<ResourceEntity> list = repository.findByTerm(SQL_FIND_ALL_TOURS, tourParameters, "tour");
+            if (list != null) {
+                for (ResourceEntity tour : list) {
+                    mappedTours.add(TourMapper.tourEntityToTour(tour));
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return mappedTours;
     }
 
-    public String getImageUrl(int id) throws SQLException {
+    public String getImageUrl(int id) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(id);
-        List<ResourceEntity> tours = repository.findByTerm(SQL_FIND_TOUR_IMAGE_URL, parameters, "tour");
-        return ((TourEntity) tours.get(0)).getImg();
+        try {
+            List<ResourceEntity> tours = repository.findByTerm(SQL_FIND_TOUR_IMAGE_URL, parameters, "tour");
+            return ((TourEntity) tours.get(0)).getImg();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+
     }
 
     @Override
-    public int addTour(Tour tour) throws SQLException {
+    public int addTour(Tour tour) {
         List<Object> tourParameters = new ArrayList<>();
         String query;
 
-        if(tour.getId() == 0) {
-            query = SQL_ADD_NEW_TOUR ;
+        if (tour.getId() == 0) {
+            query = SQL_ADD_NEW_TOUR;
         } else {
             tourParameters.add(tour.getId());
             query = SQL_ADD_NEW_TOUR_WITH_ID;
@@ -113,15 +106,24 @@ public class TourService implements ITourService {
         tourParameters.add(tour.getDuration());
         tourParameters.add(tour.getImg());
 
-        return repository.modifyResources(query, tourParameters);
+        try {
+            return repository.modifyResources(query, tourParameters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
-    public int deleteTour(int id) throws SQLException {
+    public int deleteTour(int id) {
         List<Object> parameters = new ArrayList<>();
         parameters.add(id);
-        return repository.modifyResources(SQL_DELETE_TOUR, parameters);
+        try {
+            return repository.modifyResources(SQL_DELETE_TOUR, parameters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
-
 
 }

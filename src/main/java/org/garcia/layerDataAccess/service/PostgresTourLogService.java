@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class TourLogService implements IService {
+public class PostgresTourLogService implements ITourLogService {
 
     private final Repository repository;
 
-    public int addTourLog(TourLog tourLog) throws SQLException {
+    public int addTourLog(TourLog tourLog) {
         String query =
                 "INSERT INTO public.tour_log (date, distance, duration, rating, sport, avg_speed, start, \n" +
-                "arrival, special, tour_id, user_id) \n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                        "arrival, special, tour_id, user_id) \n" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         List<Object> logParameters = new ArrayList<>();
 
         logParameters.add(tourLog.getDate());
@@ -34,18 +34,28 @@ public class TourLogService implements IService {
         logParameters.add(tourLog.getTourId());
         logParameters.add(tourLog.getUserId());
 
-        return repository.modifyResources(query, logParameters);
+        try {
+            return repository.modifyResources(query, logParameters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
-    public int deleteById(int id) throws SQLException {
+    public int deleteById(int id) {
         String query = "DELETE FROM public.tour_log WHERE log_id = ?;";
         List<Object> parameters = new ArrayList<>();
         parameters.add(id);
-        return repository.modifyResources(query, parameters);
+        try {
+            return repository.modifyResources(query, parameters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
-    public List<TourLog> findByTourId(int tourId) throws SQLException {
-        List<ResourceEntity> tourLogs = new ArrayList<>();
+    public List<TourLog> findByTourId(int tourId) {
+        List<ResourceEntity> tourLogs;
         String query = "SELECT * FROM public.tour_log WHERE tour_id = ?;";
         List<Object> logParameters = new ArrayList<>();
         logParameters.add(tourId);
@@ -53,8 +63,8 @@ public class TourLogService implements IService {
         try {
             tourLogs = repository.findByTerm(query, logParameters, "tour_log");
             return TourLogMapper.getMappedTourLogs(tourLogs);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return null;

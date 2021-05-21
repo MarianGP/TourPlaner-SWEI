@@ -1,4 +1,4 @@
-package org.garcia.layerBusiness;
+package org.garcia.config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class ConfigurationManager {
 
-    public static String getConfigProperty(String propertyName) throws IOException {
+    public static String getConfigProperty(String propertyName) {
         Path configDirectory = Paths.get("src", "main", "java", "org", "garcia", "config");
         String absolutePath = configDirectory.toFile().getAbsolutePath();
         String filePath = absolutePath + "\\application.properties";

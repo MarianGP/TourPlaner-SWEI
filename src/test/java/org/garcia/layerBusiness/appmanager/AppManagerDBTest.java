@@ -1,5 +1,6 @@
 package org.garcia.layerBusiness.appmanager;
 
+import org.garcia.layerDataAccess.common.DALPostgresFactory;
 import org.garcia.layerDataAccess.dbconnection.PostgresDBConnection;
 import org.garcia.layerDataAccess.repository.Repository;
 import org.garcia.layerDataAccess.service.TestingService;
@@ -20,7 +21,7 @@ class AppManagerDBTest {
     private static int newLogId;
 
     TestingService testingService = new TestingService(new Repository(new PostgresDBConnection("postgresDB1")));
-    AppManagerDB appManager = new AppManagerDB();
+    AppManagerDB appManager = new AppManagerDB(new DALPostgresFactory());
     String NEW_TOUR_TITLE = "Nice Day";
     String NEW_TOUR_ORIGIN = "Santiago";
     String NEW_TOUR_DESTINATION = "Punta Arenas";

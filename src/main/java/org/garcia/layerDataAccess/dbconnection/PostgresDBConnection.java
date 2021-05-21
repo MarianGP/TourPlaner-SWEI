@@ -1,9 +1,8 @@
 package org.garcia.layerDataAccess.dbconnection;
 
 import lombok.Data;
-import org.garcia.layerBusiness.ConfigurationManager;
+import org.garcia.config.ConfigurationManager;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ public class PostgresDBConnection implements DBConnection {
     }
 
     @Override
-    public Connection connect() throws SQLException {
+    public Connection connect() {
         try {
             Connection conn = DriverManager.getConnection(
                     ConfigurationManager.getConfigProperty(this.containerName + ".url"),
@@ -27,10 +26,10 @@ public class PostgresDBConnection implements DBConnection {
                     ConfigurationManager.getConfigProperty(this.containerName + ".password"));
             conn.setAutoCommit(false);
             return conn;
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        throw new SQLException("Connection Failed");
+        return null;
     }
 
     @Override

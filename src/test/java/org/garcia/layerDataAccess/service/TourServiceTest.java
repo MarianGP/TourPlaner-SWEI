@@ -13,7 +13,7 @@ import java.util.List;
 class TourServiceTest {
 
     @Mock
-    TourService tourService = new TourService(new Repository(new PostgresDBConnection("postgresDB1")));
+    PostgresTourService tourService = new PostgresTourService(new Repository(new PostgresDBConnection("postgresDB1")));
 
     TourServiceTest() throws IOException {
     }

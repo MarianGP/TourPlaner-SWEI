@@ -1,4 +1,11 @@
 package org.garcia.layerDataAccess.service;
 
+import org.garcia.model.TourLog;
+
+import java.util.List;
+
 public interface ITourLogService extends IService {
+    int addTourLog(TourLog tourLog);
+    int deleteById(int id);
+    List<TourLog> findByTourId(int tourId);
 }
