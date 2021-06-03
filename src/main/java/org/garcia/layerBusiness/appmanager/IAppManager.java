@@ -17,7 +17,7 @@ public interface IAppManager {
     int addTour(String[] parameters) throws IOException;
     int addLog(Object[] parameters, int tourId);
 
-    boolean editTour(Tour tour);
+    int editTour(Tour tour);
     boolean validTour(Tour tour);
 
     boolean importTourNLogs(String fileName, String location) throws IOException;

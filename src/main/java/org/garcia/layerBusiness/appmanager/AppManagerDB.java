@@ -1,7 +1,7 @@
 package org.garcia.layerBusiness.appmanager;
 
-import org.garcia.layerBusiness.mapper.TourLogMapper;
-import org.garcia.layerBusiness.mapper.TourMapper;
+import org.garcia.layerDataAccess.mapper.TourLogMapper;
+import org.garcia.layerDataAccess.mapper.TourMapper;
 import org.garcia.layerBusiness.util.InputValidator;
 import org.garcia.layerDataAccess.common.IDALFactory;
 import org.garcia.layerDataAccess.fileaccess.FileAccess;
@@ -232,9 +232,10 @@ public class AppManagerDB implements IAppManager {
     }
 
     @Override
-    public boolean editTour(Tour tour) {
-        //edit by id
-        return validTour(tour);
+    public int editTour(Tour tour) {
+        if (validTour(tour))
+            return tourService.editTour(tour);
+        return 0;
     }
 
 }

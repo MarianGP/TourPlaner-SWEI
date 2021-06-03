@@ -10,8 +10,8 @@
 
 <GridPane alignment="center" hgap="10" minHeight="400.0" minWidth="400.0" prefHeight="700.0" prefWidth="550.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.ToursController">
     <columnConstraints>
-        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="100.0" minWidth="150.0" prefWidth="150.0" />
-        <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="210.0" minWidth="200.0" prefWidth="210.0" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="250.0" />
         <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
     </columnConstraints>
     <rowConstraints>
@@ -187,12 +187,18 @@
             <HBox.margin>
                 <Insets bottom="5.0" />
             </HBox.margin>
-            <Button defaultButton="true" onAction="#searchTours" prefWidth="55.0" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="1">Search
+            <Button defaultButton="true"
+                    onAction="#searchTours" prefWidth="55.0" text="Search"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1">
+                Search
             </Button>
-            <Button alignment="CENTER" onAction="#clearTours" prefWidth="25.0" text="[]" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">X
+            <Button fx:id="editTourBtn" alignment="CENTER" onAction="#openEditTour"
+                    prefWidth="40.0" text="Edit" textAlignment="CENTER"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1">X
             </Button>
             <Button alignment="CENTER" layoutX="10.0" layoutY="90.0" onAction="#openAddTourDialog" prefWidth="25.0" text="+" textAlignment="CENTER" />
             <Button fx:id="deleteTourBtn" alignment="CENTER" layoutX="10.0" layoutY="115.0" onAction="#deleteTour" prefWidth="25.0" text="-" textAlignment="CENTER" />
+         <Button alignment="CENTER" layoutX="65.0" layoutY="10.0" onAction="#clearTours" prefWidth="25.0" text="[]" textAlignment="CENTER" />
         </HBox>
     </VBox>
 

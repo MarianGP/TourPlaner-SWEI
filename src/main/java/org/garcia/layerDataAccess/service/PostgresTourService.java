@@ -1,6 +1,6 @@
 package org.garcia.layerDataAccess.service;
 
-import org.garcia.layerBusiness.mapper.TourMapper;
+import org.garcia.layerDataAccess.mapper.TourMapper;
 import org.garcia.layerDataAccess.entity.ResourceEntity;
 import org.garcia.layerDataAccess.entity.TourEntity;
 import org.garcia.layerDataAccess.repository.Repository;
@@ -20,6 +20,7 @@ public class PostgresTourService implements ITourService {
     private static final String SQL_ADD_NEW_TOUR_WITH_ID = "INSERT INTO public.tour (tour_id, title, description, origin, destination, user_id, distance, duration, img)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String SQL_DELETE_TOUR = "DELETE FROM public.tour WHERE tour_id = ?;";
+    private static final String SQL_EDIT_TOUR = "UPDATE public.tour SET title = ?, description = ? WHERE tour_id = ?;";
     private final Repository repository;
 
     public PostgresTourService(Repository repo) {
@@ -28,6 +29,16 @@ public class PostgresTourService implements ITourService {
 
     @Override
     public int editTour(Tour tour) {
+        List<Object> tourParameters = new ArrayList<>();
+        tourParameters.add(tour.getTitle());
+        tourParameters.add(tour.getDescription());
+        tourParameters.add(tour.getId());
+
+        try {
+            return repository.modifyResources(SQL_EDIT_TOUR, tourParameters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 

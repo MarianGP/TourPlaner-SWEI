@@ -11,7 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.garcia.layerView.controller.IController;
 import org.garcia.layerView.viewModel.IViewModel;
-import org.garcia.model.enums.ViewName;
+import org.garcia.layerView.viewModel.ViewName;
+import org.garcia.visitor.InitControllerVisitor;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,6 +27,7 @@ public class App extends Application {
 
     private static final int MAX_WIDTH = 640;
     private static final int MAX_HEIGHT = 800;
+    private static final InitControllerVisitor visitor = new InitControllerVisitor();
     private static Scene scene;
     private final Logger log;
     private final String initialView = ViewName.TOURS.getViewName();
@@ -79,13 +81,12 @@ public class App extends Application {
      * @throws IOException wrong view name or location
      */
     public static void openDialog(final String fxml, final String title, IViewModel viewModel) throws IOException {
-//        var loader = loadFXML(fxml);
         var fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         Parent loader =  fxmlLoader.load();
         scene = new Scene(loader);
         Stage stage = new Stage();
-        var controller =  fxmlLoader.getController();
-        controller.initViewModel(viewModel.getAppManager(), viewModel.getCurrentTour());
+        IController controller =  fxmlLoader.getController();
+        controller.accept(visitor, viewModel);
         stage.setTitle(title);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);

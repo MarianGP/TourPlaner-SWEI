@@ -56,7 +56,7 @@ public class MapAPIConnection {
 
     public String getMap(Response response) throws IOException {
         String coordinates =
-                response.getRoute().getBoundingBox().getUl().getLat() + "," +
+                        response.getRoute().getBoundingBox().getUl().getLat() + "," +
                         response.getRoute().getBoundingBox().getUl().getLng() + "," +
                         response.getRoute().getBoundingBox().getLr().getLat() + "," +
                         response.getRoute().getBoundingBox().getLr().getLng();

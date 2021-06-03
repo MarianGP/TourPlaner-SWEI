@@ -7,7 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.lang.String?>
-<AnchorPane fx:id="paneView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.ToursController">
+<AnchorPane fx:id="paneView"
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="300.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.garcia.layerView.controller.SaveReportController">
 
     <VBox fillWidth="false" minHeight="-Infinity" minWidth="-Infinity">
         <Text strokeType="OUTSIDE" text="Save Reports">

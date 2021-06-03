@@ -1,4 +1,4 @@
-package org.garcia.layerBusiness.mapper;
+package org.garcia.layerDataAccess.mapper;
 
 import org.garcia.layerBusiness.util.InputValidator;
 import org.garcia.layerDataAccess.entity.ResourceEntity;

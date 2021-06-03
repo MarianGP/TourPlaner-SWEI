@@ -143,13 +143,7 @@ public class ToursViewModel implements IViewModel {
     }
 
     public int addNewTour(String[] inputFields) throws IOException {
-        int tourId = appManager.addTour(inputFields);
-        if (tourId > 0) {
-            searchTours("");
-        } else {
-            System.out.println("Wrong input");
-        }
-        return tourId;
+        return appManager.addTour(inputFields);
     }
 
     public int addTourLog(Object[] inputFields) {
@@ -186,4 +180,9 @@ public class ToursViewModel implements IViewModel {
         // tourImageView.setImage(new Image(toursViewModel.getCurrentTour().getImg()));
     }
 
+    public int editNewTour(String title, String description) {
+        currentTour.setTitle(title);
+        currentTour.setDescription(description);
+        return appManager.editTour(currentTour);
+    }
 }

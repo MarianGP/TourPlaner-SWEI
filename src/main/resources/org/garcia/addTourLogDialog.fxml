@@ -1,77 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
-            prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.garcia.layerView.controller.ToursController">
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="300.0"
+            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.garcia.layerView.controller.AddTourLogController">
 
     <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
         <Text strokeType="OUTSIDE" text="Add new log">
             <VBox.margin>
-                <Insets bottom="10.0" left="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" top="10.0" />
             </VBox.margin>
         </Text>
         <HBox alignment="CENTER" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Date">
+            <Label alignment="CENTER_RIGHT"
+                   minWidth="100" text="Date">
                 <HBox.margin>
-                    <Insets/>
+                    <Insets />
                 </HBox.margin>
             </Label>
-            <TilePane fx:id="datePicker" prefWidth="150.0"/>
-            <Label text="Rating:" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+         <DatePicker fx:id="datePicker" />
         </HBox>
         <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Rating"/>
-            <Slider fx:id="ratingSlider" blockIncrement="1.0" majorTickUnit="10.0" max="10.0" min="1.0"
-                    minorTickCount="9" snapToTicks="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
-                    GridPane.rowIndex="9"/>
+            <Label alignment="CENTER_RIGHT"
+                   minWidth="100" text="Rating" />
+            <Slider fx:id="ratingSlider" blockIncrement="1.0"
+                    majorTickUnit="10.0"
+                    max="10.0" min="1.0"
+                    minorTickCount="9" snapToTicks="true"
+                    GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                    GridPane.rowIndex="9" />
         </HBox>
         <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Sport"/>
-            <ChoiceBox fx:id="sportChoiceBox" layoutX="24.0" layoutY="14.0" prefWidth="80.0" value="Bike">
+            <Label alignment="CENTER_RIGHT"
+                   minWidth="100" text="Sport" />
+            <ChoiceBox fx:id="sportChoiceBox"
+                       layoutX="24.0" layoutY="14.0" prefWidth="80.0" value="Bike">
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Bike"/>
-                    <String fx:value="Hike"/>
-                    <String fx:value="Walk" fx:id="tourStringChoiceBox"/>
+                    <String fx:value="Bike" />
+                    <String fx:value="Hike" />
+                    <String fx:id="tourStringChoiceBox" fx:value="Walk" />
                 </FXCollections>
             </ChoiceBox>
         </HBox>
         <HBox alignment="CENTER" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Duration"/>
-            <TextField fx:id="logDuration" minWidth="100" prefWidth="150"/>
+            <Label alignment="CENTER_RIGHT"
+                   minWidth="100" text="Duration" />
+            <TextField fx:id="logDuration"
+                       minWidth="100" prefWidth="150" />
         </HBox>
         <HBox alignment="CENTER" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Distance"/>
-            <TextField fx:id="logDistance" minWidth="100" prefWidth="150"/>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Distance" />
+            <TextField fx:id="logDistance" minWidth="100" prefWidth="150" />
         </HBox>
         <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
-            <Button alignment="CENTER" defaultButton="true" onAction="#addTourLog" prefWidth="55.0" text="Save"
-                    textAlignment="CENTER"/>
-            <Button alignment="CENTER" onAction="#closeDialog" prefWidth="55.0" text="Cancel"
-                    textAlignment="CENTER"/>
+            <Button alignment="CENTER" defaultButton="true"
+                    onAction="#addTourLog" prefWidth="55.0"
+                    text="Save" textAlignment="CENTER" />
+            <Button alignment="CENTER" onAction="#closeDialog"
+                    prefWidth="55.0" text="Cancel" textAlignment="CENTER" />
         </HBox>
 
     </VBox>

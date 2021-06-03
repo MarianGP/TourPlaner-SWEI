@@ -65,7 +65,7 @@ public class SaveReportViewModel implements IViewModel {
 
     public void init(IAppManager anAppManager, Tour tour) {
         appManager = anAppManager;
-        if (currentTour != null) {
+        if (currentTour == null) {
             currentTour = tour;
             isTourSelected.set(true);
         } else {

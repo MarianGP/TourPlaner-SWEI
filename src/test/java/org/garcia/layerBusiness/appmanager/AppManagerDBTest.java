@@ -27,7 +27,7 @@ class AppManagerDBTest {
     String NEW_TOUR_DESTINATION = "Punta Arenas";
     String NEW_TOUR_DESCRIPTION = "ALhhhhFNIUre-deleteInTest";
 
-    AppManagerDBTest() throws IOException {
+    AppManagerDBTest() {
 
     }
 
@@ -50,7 +50,7 @@ class AppManagerDBTest {
 
     @Test
     @Order(2)
-    void searchToursTest() throws SQLException {
+    void searchToursTest() {
         Tour createdTour = appManager.searchTours(NEW_TOUR_DESCRIPTION).get(0);
         Assertions.assertNotNull(createdTour);
     }
@@ -58,7 +58,7 @@ class AppManagerDBTest {
     @Test
     @Order(3)
     @DisplayName("add log to new tour")
-    void addLogTest() throws SQLException {
+    void addLogTest() {
         Object[] parameters = {LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1};
         newLogId = appManager.addLog(parameters, newTourId);
         Assertions.assertNotEquals(0, newLogId);
@@ -66,21 +66,21 @@ class AppManagerDBTest {
 
     @Test
     @Order(4)
-    void importTourNLogsTest() throws SQLException {
+    void importTourNLogsTest() {
         Assertions.assertTrue(appManager.importTourNLogs("testing-import", "dir"));
         Assertions.assertTrue(appManager.searchTours("").size() >= 3);
     }
 
     @Test
     @Order(5)
-    void exportTourNLogsTest() throws SQLException {
+    void exportTourNLogsTest() {
         Assertions.assertTrue(appManager.exportTourNLogs("data-export", "dir"));
     }
 
     @Test
     @Order(6)
     @DisplayName("Search logs (imported and added)")
-    void searchLogsTest() throws SQLException {
+    void searchLogsTest() {
         Assertions.assertEquals(1, appManager.searchLogsByTourId(newTourId).size());
         Assertions.assertEquals(2, appManager.searchLogsByTourId(1).size());
     }
@@ -88,14 +88,14 @@ class AppManagerDBTest {
     @Test
     @Order(7)
     @DisplayName("Create Summary Report from created tours")
-    void createSummaryReportTest() throws SQLException, IOException {
+    void createSummaryReportTest() throws IOException {
         List<Tour> tourList = appManager.searchTours("");
         appManager.createSummaryReport("C:\\\\Users\\\\mgarc\\\\IdeaProjects\\\\Projects\\\\TourPlaner_SWE\\\\src\\\\testing-summary-report.pdf", tourList);
     }
 
     @Test
     @Order(8)
-    void deleteLogTest() throws SQLException {
+    void deleteLogTest() {
         Object[] parameters = {LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1};
         newLogId = appManager.addLog(parameters, newTourId);
         Assertions.assertTrue(appManager.deleteLogById(newLogId));
@@ -103,7 +103,7 @@ class AppManagerDBTest {
 
     @Test
     @Order(9)
-    void deleteNewlyCreatedTourTest() throws SQLException, InterruptedException {
+    void deleteNewlyCreatedTourTest() throws InterruptedException {
         Thread.sleep(2000);
         List<Tour> cleanUpTours = appManager.searchTours("-deleteInTest");
         for (Tour tour : cleanUpTours) {

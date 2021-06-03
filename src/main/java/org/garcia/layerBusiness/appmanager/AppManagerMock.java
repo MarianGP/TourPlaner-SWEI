@@ -42,8 +42,8 @@ public class AppManagerMock implements  IAppManager {
     }
 
     @Override
-    public boolean editTour(Tour tour) {
-        return false;
+    public int editTour(Tour tour) {
+        return 0;
     }
 
     @Override

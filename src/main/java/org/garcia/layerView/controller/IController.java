@@ -1,8 +1,8 @@
 package org.garcia.layerView.controller;
 
-import org.garcia.layerBusiness.appmanager.IAppManager;
-import org.garcia.model.Tour;
+import org.garcia.layerView.viewModel.IViewModel;
+import org.garcia.visitor.IVisitor;
 
 public interface IController {
-    void initViewModel(IAppManager appManager, Tour currentTour);
+    void accept(IVisitor visitor, IViewModel viewModel);
 }

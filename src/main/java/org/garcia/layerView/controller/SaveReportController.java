@@ -1,6 +1,5 @@
 package org.garcia.layerView.controller;
 
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,8 +14,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.garcia.layerBusiness.appmanager.IAppManager;
+import org.garcia.layerView.viewModel.IViewModel;
 import org.garcia.layerView.viewModel.SaveReportViewModel;
 import org.garcia.model.Tour;
+import org.garcia.visitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -46,6 +47,7 @@ public class SaveReportController implements Initializable, IController {
         chosenReportType.setText("");
     }
 
+    @FXML
     public void openDirectoryChooser() {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File("src"));
@@ -68,14 +70,18 @@ public class SaveReportController implements Initializable, IController {
         reportTypeChoice.disableProperty().bind(viewModel.getIsTourSelected());
     }
 
-    public void initViewModel(IAppManager appManager, Tour tour) {
-        viewModel.init(appManager,tour);
-    }
-
     public void closeDialog(@NotNull ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    public void initViewModel(IAppManager appManager, Tour tour) {
+        viewModel.init(appManager,tour);
+    }
+
+    @Override
+    public void accept(IVisitor visitor, IViewModel viewModel) {
+        visitor.visit(this, viewModel);
+    }
 }

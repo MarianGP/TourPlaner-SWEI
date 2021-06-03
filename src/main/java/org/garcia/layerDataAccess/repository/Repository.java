@@ -1,8 +1,8 @@
 package org.garcia.layerDataAccess.repository;
 
 import lombok.Getter;
-import org.garcia.layerBusiness.mapper.TourLogMapper;
-import org.garcia.layerBusiness.mapper.TourMapper;
+import org.garcia.layerDataAccess.mapper.TourLogMapper;
+import org.garcia.layerDataAccess.mapper.TourMapper;
 import org.garcia.layerDataAccess.dbconnection.DBConnection;
 import org.garcia.layerDataAccess.dbconnection.visitor.DBVisitor;
 import org.garcia.layerDataAccess.entity.ResourceEntity;

@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.AddTourController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.EditTourController">
 
     <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
         <Text strokeType="OUTSIDE" text="Add new Tour">
@@ -30,20 +30,6 @@
             <VBox.margin>
                 <Insets bottom="10.0"/>
             </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Origin"/>
-            <TextField fx:id="origin" minWidth="100" prefWidth="150"/>
-        </HBox>
-        <HBox alignment="CENTER" prefWidth="150" spacing="20">
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
-            <Label alignment="CENTER_RIGHT" minWidth="100" text="Destination"/>
-            <TextField fx:id="destination" minWidth="100" prefWidth="150"/>
-        </HBox>
-        <HBox alignment="CENTER" prefWidth="150" spacing="20">
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
             <Label alignment="CENTER_RIGHT" minWidth="100" text="Description"/>
             <TextField fx:id="description" maxHeight="100" minWidth="100" prefHeight="Infinity"
                        prefWidth="150"/>
@@ -52,7 +38,7 @@
             <VBox.margin>
                 <Insets bottom="10.0"/>
             </VBox.margin>
-            <Button alignment="CENTER" defaultButton="true" onAction="#addTour" prefWidth="55.0" text="Save"
+            <Button alignment="CENTER" defaultButton="true" onAction="#editTour" prefWidth="55.0" text="Save"
                     textAlignment="CENTER"/>
             <Button alignment="CENTER" onAction="#closeDialog" prefWidth="55.0" text="Cancel"
                     textAlignment="CENTER"/>
