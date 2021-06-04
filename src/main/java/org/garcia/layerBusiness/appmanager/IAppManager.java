@@ -14,8 +14,8 @@ public interface IAppManager {
     boolean deleteTour(Tour tour);
     boolean deleteLogById(int id);
 
-    int addTour(String[] parameters) throws IOException;
-    int addLog(Object[] parameters, int tourId);
+    int addTour(Tour newTour) throws IOException;
+    int addLog(TourLog tourLog);
 
     int editTour(Tour tour);
     boolean validTour(Tour tour);

@@ -1,14 +1,15 @@
 package org.garcia.layerView.controller;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.garcia.layerBusiness.appmanager.IAppManager;
+import org.garcia.layerView.viewModel.AddTourViewModel;
 import org.garcia.layerView.viewModel.IViewModel;
-import org.garcia.layerView.viewModel.ToursViewModel;
 import org.garcia.visitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,8 +19,10 @@ import java.util.ResourceBundle;
 
 public class AddTourController implements Initializable, IController {
 
-    private ToursViewModel viewModel;
+    private AddTourViewModel viewModel;
 
+    @FXML
+    public Button addBtn;
     @FXML
     public TextField title;
     @FXML
@@ -31,10 +34,10 @@ public class AddTourController implements Initializable, IController {
 
     @FXML
     public void addTour(ActionEvent actionEvent) throws IOException {
-        String[] inputFields = {title.getText(), origin.getText(), destination.getText(), description.getText()};
-        if (viewModel.addNewTour(inputFields) > 0) {
+        if (viewModel.addNewTour() > 0) {
             closeDialog(actionEvent);
         } else {
+            //TODO: display error
             System.out.println("Couldn't add new tour");
         }
     }
@@ -44,12 +47,22 @@ public class AddTourController implements Initializable, IController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
-        viewModel.searchTours("");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        viewModel = ToursViewModel.getInstance();
+        viewModel = AddTourViewModel.getInstance();
+        title.textProperty().bind(viewModel.getTitle());
+        origin.textProperty().bind(viewModel.getOrigin());
+        destination.textProperty().bind(viewModel.getDestination());
+        description.textProperty().bind(viewModel.getDescription());
+
+        BooleanBinding booleanBind = title.textProperty().isEmpty()
+                .or(origin.textProperty().isEmpty())
+                .or(description.textProperty().isEmpty())
+                .or(destination.textProperty().isEmpty());
+
+        addBtn.disableProperty().bind(booleanBind);
     }
 
     @Override
@@ -57,7 +70,7 @@ public class AddTourController implements Initializable, IController {
         visitor.visit(this, viewModel);
     }
 
-    public void initViewModel(IAppManager aAppManager) {
-        System.out.println("Add tour view model initialized");
+    public void initViewModel(IViewModel previousViewModel) {
+        viewModel.init(previousViewModel);
     }
 }

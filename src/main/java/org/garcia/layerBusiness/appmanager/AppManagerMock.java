@@ -32,12 +32,12 @@ public class AppManagerMock implements  IAppManager {
     }
 
     @Override
-    public int addTour(String[] parameters) throws IOException {
+    public int addTour(Tour newTour) throws IOException {
         return 0;
     }
 
     @Override
-    public int addLog(Object[] parameters, int tourId) {
+    public int addLog(TourLog tourLog) {
         return 0;
     }
 

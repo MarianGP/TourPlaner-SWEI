@@ -7,17 +7,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.garcia.layerView.viewModel.ToursViewModel;
+import org.garcia.layerView.viewModel.AddLogViewModel;
+import org.garcia.layerView.viewModel.IViewModel;
+import org.garcia.visitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddTourLogController implements Initializable {
+public class AddTourLogController implements Initializable, IController {
     //new log
-    private ToursViewModel viewModel;
+    private AddLogViewModel viewModel;
 
+    @FXML
+    public TextField end;
+    @FXML
+    public TextField start;
     @FXML
     public Slider ratingSlider = new Slider();
     @FXML
@@ -28,25 +34,21 @@ public class AddTourLogController implements Initializable {
     public TextField logDistance;
     @FXML
     public ChoiceBox<String> sportChoiceBox;
+
     @FXML
-    public String tourStringChoiceBox;
-
     public void addTourLog(ActionEvent actionEvent) {
-        Object[] inputFields = {
-                viewModel.getLocalDate(),
-                Integer.parseInt(logDuration.getText()),
-                Integer.parseInt(logDistance.getText())};
-
-        if (viewModel.addTourLog(inputFields) > 0)
+        if (viewModel.addTourLog() > 0)
             closeDialog(actionEvent);
     }
 
+    @FXML
     public void closeDialog(@NotNull ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    @FXML
     private void setDatePicker() {
         Label l = new Label("no date selected");
         EventHandler<ActionEvent> event = e -> {
@@ -54,16 +56,30 @@ public class AddTourLogController implements Initializable {
             viewModel.setLocalDate(ld);
             l.setText(ld.toString());
         };
-
-        // show week numbers
+        datePicker.setValue(LocalDate.now());
         datePicker.setShowWeekNumbers(true);
-        // when datePicker is pressed
         datePicker.setOnAction(event);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        viewModel = ToursViewModel.getInstance();
+        viewModel = AddLogViewModel.getInstance();
         setDatePicker();
+        // bindings
+        ratingSlider.valueProperty().bindBidirectional(viewModel.getRating());
+        logDuration.textProperty().bindBidirectional(viewModel.getDuration());
+        logDistance.textProperty().bindBidirectional(viewModel.getDistance());
+        sportChoiceBox.setItems(viewModel.getAllSports());
+        sportChoiceBox.valueProperty().bindBidirectional(viewModel.getSport());
+//        sportChoiceBox.effectProperty().bindBidirectional(viewModel.getSportEffectProp());
+    }
+
+    @Override
+    public void accept(IVisitor visitor, IViewModel viewModel) {
+        visitor.visit(this, viewModel);
+    }
+
+    public void initViewModel(IViewModel previousViewModel) {
+        viewModel.init(previousViewModel);
     }
 }

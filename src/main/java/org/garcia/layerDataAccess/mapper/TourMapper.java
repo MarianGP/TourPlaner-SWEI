@@ -1,6 +1,5 @@
 package org.garcia.layerDataAccess.mapper;
 
-import org.garcia.layerBusiness.util.InputValidator;
 import org.garcia.layerDataAccess.entity.ResourceEntity;
 import org.garcia.layerDataAccess.entity.TourEntity;
 import org.garcia.model.Tour;
@@ -10,26 +9,6 @@ import java.sql.SQLException;
 
 
 public class TourMapper {
-
-    public static Tour ParametersToTour(String[] parameters) {
-        if (InputValidator.validateStringList(parameters)) {
-            Tour tour = Tour.builder()
-                    .author("Me")
-                    .title(parameters[0])
-                    .origin(parameters[1])
-                    .destination(parameters[2])
-                    .description(parameters[3])
-                    .distance(0) // set from mapApi
-                    .duration(0)
-                    .build();
-            if(parameters.length > 4) {
-                tour.setId(Integer.parseInt(parameters[4]));
-            }
-            return tour;
-        } else {
-            return null;
-        }
-    }
 
     public static Tour tourEntityToTour(ResourceEntity tourEntity) {
         Tour tour = null;

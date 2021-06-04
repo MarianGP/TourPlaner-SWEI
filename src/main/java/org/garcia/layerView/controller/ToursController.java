@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import org.garcia.App;
 import org.garcia.layerView.viewModel.IViewModel;
 import org.garcia.layerView.viewModel.ToursViewModel;
-import org.garcia.layerView.viewModel.ViewName;
+import org.garcia.layerView.enums.ViewName;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 import org.garcia.visitor.IVisitor;
@@ -82,14 +82,14 @@ public class ToursController implements Initializable, IController {
 
     @FXML
     public void openAddLogDialog() throws IOException {
-        if (viewModel.getCurrentTour().getOrigin() != null) {
+        if (viewModel.getCurrentTour().getOrigin() != null)
             App.openDialog(ViewName.ADD_LOG.getViewName(), ViewName.ADD_LOG.getViewTitle(), viewModel);
-        }
     }
 
     @FXML
     public void openEditTour() throws IOException {
-        App.openDialog(ViewName.EDIT_TOUR.getViewName(), ViewName.EDIT_TOUR.getViewTitle(), viewModel);
+        if (viewModel.getCurrentTour().getOrigin() != null)
+            App.openDialog(ViewName.EDIT_TOUR.getViewName(), ViewName.EDIT_TOUR.getViewTitle(), viewModel);
     }
 
     @FXML

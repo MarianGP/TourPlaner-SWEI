@@ -6,4 +6,5 @@ import org.garcia.model.Tour;
 public interface IViewModel {
     IAppManager getAppManager();
     Tour getCurrentTour();
+    void init(IViewModel viewModel);
 }

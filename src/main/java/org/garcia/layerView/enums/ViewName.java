@@ -1,7 +1,9 @@
-package org.garcia.layerView.viewModel;
+package org.garcia.layerView.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public enum ViewName {
     HOME("homeView", "Home"),
@@ -13,12 +15,4 @@ public enum ViewName {
 
     private final String viewName;
     private final String viewTitle;
-
-    public String getViewName() {
-        return viewName;
-    }
-
-    public String getViewTitle() {
-        return  viewTitle;
-    }
 }

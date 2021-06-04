@@ -142,20 +142,6 @@ public class ToursViewModel implements IViewModel {
         }
     }
 
-    public int addNewTour(String[] inputFields) throws IOException {
-        return appManager.addTour(inputFields);
-    }
-
-    public int addTourLog(Object[] inputFields) {
-        int tourLogId = appManager.addLog(inputFields, currentTour.getId());
-        if (tourLogId != 0) {
-           searchLogsByTourId();
-        } else {
-            System.out.println("Wrong input");
-        }
-        return tourLogId;
-    }
-
     public void deleteTourLog() {
         int logId = currentLog.getId();
         if (!appManager.deleteLogById(logId)) {
@@ -184,5 +170,11 @@ public class ToursViewModel implements IViewModel {
         currentTour.setTitle(title);
         currentTour.setDescription(description);
         return appManager.editTour(currentTour);
+    }
+
+    @Override
+    public void init(IViewModel viewModel) {
+        appManager.searchTours("");
+        System.out.println("TourViewModel init");
     }
 }

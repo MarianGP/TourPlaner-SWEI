@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.garcia.layerView.controller.IController;
+import org.garcia.layerView.enums.ViewName;
 import org.garcia.layerView.viewModel.IViewModel;
-import org.garcia.layerView.viewModel.ViewName;
 import org.garcia.visitor.InitControllerVisitor;
 
 import java.io.IOException;

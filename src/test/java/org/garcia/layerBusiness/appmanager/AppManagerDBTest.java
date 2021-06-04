@@ -5,9 +5,11 @@ import org.garcia.layerDataAccess.dbconnection.PostgresDBConnection;
 import org.garcia.layerDataAccess.repository.Repository;
 import org.garcia.layerDataAccess.service.TestingService;
 import org.garcia.model.Tour;
+import org.garcia.model.TourLog;
 import org.garcia.model.enums.Sport;
 import org.junit.Before;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,12 +22,14 @@ class AppManagerDBTest {
     private static int newTourId;
     private static int newLogId;
 
+    @Mock
     TestingService testingService = new TestingService(new Repository(new PostgresDBConnection("postgresDB1")));
     AppManagerDB appManager = new AppManagerDB(new DALPostgresFactory());
     String NEW_TOUR_TITLE = "Nice Day";
     String NEW_TOUR_ORIGIN = "Santiago";
     String NEW_TOUR_DESTINATION = "Punta Arenas";
     String NEW_TOUR_DESCRIPTION = "ALhhhhFNIUre-deleteInTest";
+    TourLog log = new TourLog(0,1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1);
 
     AppManagerDBTest() {
 
@@ -41,10 +45,21 @@ class AppManagerDBTest {
     @DisplayName("add new tour")
     @Order(1)
     void testTryAdd2TourFirstWrongInputSecondWorksTest() throws SQLException, IOException {
-        String[] parameters = {NEW_TOUR_TITLE, NEW_TOUR_ORIGIN, NEW_TOUR_DESTINATION, "@%!ñKLHFOHS"};
-        Assertions.assertEquals(0, appManager.addTour(parameters));
-        parameters = new String[]{NEW_TOUR_TITLE, NEW_TOUR_ORIGIN, NEW_TOUR_DESTINATION, NEW_TOUR_DESCRIPTION};
-        newTourId = appManager.addTour(parameters);
+        Tour tour = Tour.builder()
+                .title(NEW_TOUR_TITLE)
+                .origin(NEW_TOUR_ORIGIN)
+                .destination(NEW_TOUR_DESTINATION)
+                .description("@%!ñKLHFOHS")
+                .build();
+        Assertions.assertEquals(0, appManager.addTour(tour));
+
+        Tour tour2 = Tour.builder()
+                .title(NEW_TOUR_TITLE)
+                .origin(NEW_TOUR_ORIGIN)
+                .destination(NEW_TOUR_DESTINATION)
+                .description(NEW_TOUR_DESCRIPTION)
+                .build();
+        newTourId = appManager.addTour(tour2);
         Assertions.assertNotEquals(0, newTourId);
     }
 
@@ -59,8 +74,8 @@ class AppManagerDBTest {
     @Order(3)
     @DisplayName("add log to new tour")
     void addLogTest() {
-        Object[] parameters = {LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1};
-        newLogId = appManager.addLog(parameters, newTourId);
+        log.setTourId(newTourId);
+        newLogId = appManager.addLog(log);
         Assertions.assertNotEquals(0, newLogId);
     }
 
@@ -96,8 +111,7 @@ class AppManagerDBTest {
     @Test
     @Order(8)
     void deleteLogTest() {
-        Object[] parameters = {LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1};
-        newLogId = appManager.addLog(parameters, newTourId);
+        newLogId = appManager.addLog(log);
         Assertions.assertTrue(appManager.deleteLogById(newLogId));
     }
 

@@ -13,10 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.garcia.layerBusiness.appmanager.IAppManager;
 import org.garcia.layerView.viewModel.IViewModel;
 import org.garcia.layerView.viewModel.SaveReportViewModel;
-import org.garcia.model.Tour;
 import org.garcia.visitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -76,8 +74,8 @@ public class SaveReportController implements Initializable, IController {
         stage.close();
     }
 
-    public void initViewModel(IAppManager appManager, Tour tour) {
-        viewModel.init(appManager,tour);
+    public void initViewModel(IViewModel previousViewModel) {
+        viewModel.init(previousViewModel);
     }
 
     @Override

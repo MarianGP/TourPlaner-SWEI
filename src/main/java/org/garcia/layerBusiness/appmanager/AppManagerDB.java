@@ -1,7 +1,5 @@
 package org.garcia.layerBusiness.appmanager;
 
-import org.garcia.layerDataAccess.mapper.TourLogMapper;
-import org.garcia.layerDataAccess.mapper.TourMapper;
 import org.garcia.layerBusiness.util.InputValidator;
 import org.garcia.layerDataAccess.common.IDALFactory;
 import org.garcia.layerDataAccess.fileaccess.FileAccess;
@@ -60,11 +58,12 @@ public class AppManagerDB implements IAppManager {
 
     /**
      * Search in the db for tourLogs
+     *
      * @param id from current/selected tour is used for filtering tourLogs
      * @return tourLogs list of tourLogs with tourId = id. if non found list is null
      */
     @Override
-    public List<TourLog> searchLogsByTourId(int id)  {
+    public List<TourLog> searchLogsByTourId(int id) {
         return tourLogService.findByTourId(id);
     }
 
@@ -72,13 +71,13 @@ public class AppManagerDB implements IAppManager {
     /**
      * Create a new tour in db.
      * The input parameters are validated and then a new tour is added to the db.
-     * @param parameters is an array from the input fields of addTourDialog view
+     *
+     * @param newTour is a Tour object with only 4 properties coming from addTourDialog view
      * @return id number of the new added tour
      * @throws IOException wrong parameters type
      */
     @Override
-    public int addTour(String[] parameters) throws IOException {
-        Tour newTour = TourMapper.ParametersToTour(parameters);
+    public int addTour(Tour newTour) throws IOException {
         if (newTour != null) {
             Response resp = mapAPI.getRoute(newTour);
             String imgPath = mapAPI.getMap(resp);
@@ -93,15 +92,12 @@ public class AppManagerDB implements IAppManager {
     /**
      * Add new tourLog to existing tour
      * Input terms are fist validated and mapped to a new tourLog if valid
-     * @param parameters from
-     * @param tourId TourLogEntity foreign key
-     * @return tourLog id when tourLog successfully added to db
+     *
+     * @param tourLog@return tourLog id when tourLog successfully added to db
      */
     @Override
-    public int addLog(Object[] parameters, int tourId) {
+    public int addLog(TourLog tourLog) {
         int logId = 0;
-        //TODO: validate parameters
-        TourLog tourLog = TourLogMapper.GUIInputToLog(parameters, tourId);
         if (tourLog != null)
             logId = tourLogService.addTourLog(tourLog);
         return logId;
@@ -134,17 +130,18 @@ public class AppManagerDB implements IAppManager {
     }
 
     @Override
-    public boolean importTourNLogs(String fileName, String location){
+    public boolean importTourNLogs(String fileName, String location) {
         try {
             List<TourData> tourDataList = fileAccess.getTourDataFromFile(fileName, location);
             for (TourData tourData : tourDataList) {
-                String[] parameters = {
-                        tourData.getTour().getTitle(),
-                        tourData.getTour().getOrigin(),
-                        tourData.getTour().getDestination(),
-                        tourData.getTour().getDescription(),
-                        String.valueOf(tourData.getTour().getId())};
-                addTour(parameters);
+                Tour tour = Tour.builder()
+                        .title(tourData.getTour().getTitle())
+                        .origin(tourData.getTour().getOrigin())
+                        .destination(tourData.getTour().getDestination())
+                        .description(tourData.getTour().getDescription())
+                        .id(tourData.getTour().getId())
+                        .build();
+                addTour(tour);
                 for (TourLog tourLog : tourData.getTourLogList()) {
                     tourLogService.addTourLog(tourLog);
                 }
