@@ -32,9 +32,9 @@ class FileAccessTest {
         foundTours.add(new Tour(1, "first", "nice long tour1", "wien", "graz", "me", "org/garcia/img/dummy.png", 10, 60));
         foundTours.add(new Tour(2, "second", "nice long tour2", "wien", "graz", "me", "org/garcia/img/dummy.png", 10, 60));
         foundTours.add(new Tour(3, "third", "nice long tour3", "wien", "graz", "me", "org/garcia/img/dummy.png", 10, 60));
-        foundTourLogs.add(new TourLog(0, 1, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1));
-        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1));
-        foundTourLogs.add(new TourLog(0, 2, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1));
+        foundTourLogs.add(new TourLog(0, 1, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
+        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
+        foundTourLogs.add(new TourLog(0, 2, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
 
         for (Tour tour : foundTours) {
             TourData tourPair = TourData.builder().tour(tour).build();

@@ -7,6 +7,5 @@ public interface IVisitor {
     void visit(ToursController controller, IViewModel viewModel);
     void visit(SaveReportController controller, IViewModel viewModel);
     void visit(AddTourController controller, IViewModel viewModel);
-    void visit(EditTourController editTourController, IViewModel viewModel);
     void visit(AddTourLogController addTourLogController, IViewModel viewModel);
 }

@@ -24,28 +24,25 @@ import java.util.List;
 @Data
 public class ToursViewModel implements IViewModel {
 
-    private IAppManager appManager;
     private static ToursViewModel viewModel;
+    private IAppManager appManager;
+    private LocalDate localDate;
 
     //tours
     private Tour currentTour;
     private ObservableList<Tour> tourObservableList = FXCollections.observableArrayList();
+    private ObservableList<TourLog> tourLogObservableList = FXCollections.observableArrayList();
     private ObjectProperty<Image> tourImageProperty = new SimpleObjectProperty<>();
     private StringProperty currentTourDescription = new SimpleStringProperty("");
 
-    //logs
-    private TourLog currentLog;
-    private ObservableList<TourLog> tourLogObservableList = FXCollections.observableArrayList();
-
-    //new log
+    //log
+    private TourLog currentTourLog;
     private StringProperty duration = new SimpleStringProperty("");
     private StringProperty distance = new SimpleStringProperty("");
     private StringProperty date = new SimpleStringProperty("");
 
-    //time
-    private LocalDate localDate;
-
-    //menu buttons
+    // disabled elements
+    private BooleanProperty editMode = new SimpleBooleanProperty(false);
     private BooleanProperty menuItemDisabled = new SimpleBooleanProperty();
 
     public static ToursViewModel getInstance() {
@@ -53,6 +50,36 @@ public class ToursViewModel implements IViewModel {
             viewModel = new ToursViewModel();
         }
         return viewModel;
+    }
+
+    /**
+     * ConfigurationManager.getConfigProperty() method determines:
+     * 1) dbType: Which DB is to be used:
+     * - e.g. Postgres ("postgres") or Oracle ("oracle")
+     * 2) mockedDB: Which AppManager is to be used:
+     * - e.g. connected to a DB ("false") or uses a mocked object with hardcoded values ("true")
+     */
+    public void defineAppManager() {
+        boolean mockedDB = Boolean.parseBoolean(ConfigurationManager.getConfigProperty("mockedManager"));
+        String dbType = ConfigurationManager.getConfigProperty("dbType");
+        IDALFactory factory;
+
+        switch (dbType) {
+            case "postgres":
+                factory = new DALPostgresFactory();
+                break;
+            case "oracle":
+                factory = new DALOracleFactory(); // not implemented only as example
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + dbType);
+        }
+
+        if (!mockedDB) {
+            this.appManager = AppManagerFactory.getInstance(new AppManagerDB(factory));
+        } else {
+            this.appManager =  AppManagerFactory.getInstance(new AppManagerMock(factory));
+        }
     }
 
     public void setCurrentTour(Tour tour) {
@@ -99,28 +126,6 @@ public class ToursViewModel implements IViewModel {
 
     }
 
-    public void defineAppManager() {
-        boolean mockedDB = Boolean.parseBoolean(ConfigurationManager.getConfigProperty("mockedDB"));
-        String dbType = ConfigurationManager.getConfigProperty("dbType");
-        IDALFactory factory;
-
-        switch (dbType) {
-            case "postgres":
-                factory = new DALPostgresFactory();
-                break;
-            case "oracle":
-                factory = new DALOracleFactory(); // not implemented only as example
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + dbType);
-        }
-        if (!mockedDB) {
-            this.appManager = AppManagerFactory.getInstance(new AppManagerDB(factory));
-        } else {
-            this.appManager =  AppManagerFactory.getInstance(new AppManagerMock(factory));
-        }
-    }
-
     public void deleteTour() {
         appManager.deleteTour(currentTour);
         currentTour = null;
@@ -143,7 +148,7 @@ public class ToursViewModel implements IViewModel {
     }
 
     public void deleteTourLog() {
-        int logId = currentLog.getId();
+        int logId = currentTourLog.getId();
         if (!appManager.deleteLogById(logId)) {
             System.out.println("Todo. Show alerts"); // TODO: alerts
         } else {
@@ -153,15 +158,17 @@ public class ToursViewModel implements IViewModel {
     }
 
     public void tourSelected(Tour newTour) {
-        setCurrentTour(newTour);
-        searchLogsByTourId();
-        String tourUrl = newTour.getImg();
-        System.out.println("Current tour: " + tourUrl);
-        try {
-            tourImageProperty.set(new Image(tourUrl));
-        } catch (Exception e) {
+        if (newTour != null) {
+            setCurrentTour(newTour);
+            searchLogsByTourId();
+            String tourUrl = newTour.getImg();
+            System.out.println("Current tour: " + tourUrl);
+            try {
+                tourImageProperty.set(new Image(tourUrl));
+            } catch (Exception e) {
 //            logger.log(Level.ERROR, e);
-            System.out.println("Couldn't load img"); //TODO
+                System.out.println("Couldn't load img"); //TODO
+            }
         }
         // tourImageView.setImage(new Image(toursViewModel.getCurrentTour().getImg()));
     }
@@ -173,8 +180,9 @@ public class ToursViewModel implements IViewModel {
     }
 
     @Override
-    public void init(IViewModel viewModel) {
+    public void init(IViewModel previousViewModel) {
         appManager.searchTours("");
+        currentTour = previousViewModel.getCurrentTour();
         System.out.println("TourViewModel init");
     }
 }

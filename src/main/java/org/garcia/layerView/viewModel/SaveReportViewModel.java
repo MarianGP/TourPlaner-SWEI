@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import lombok.Data;
 import org.garcia.layerBusiness.appmanager.IAppManager;
 import org.garcia.model.Tour;
+import org.garcia.model.TourLog;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,6 +22,7 @@ public class SaveReportViewModel implements IViewModel {
 
     private IAppManager appManager;
     private Tour currentTour;
+    private TourLog currentTourLog = null;
     private BooleanProperty isTourSelected = new SimpleBooleanProperty();
     private StringProperty reportTypeName = new SimpleStringProperty();
     private StringProperty reportUrl = new SimpleStringProperty();

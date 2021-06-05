@@ -1,122 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<GridPane alignment="center" hgap="10" minHeight="400.0" minWidth="400.0" prefHeight="700.0" prefWidth="550.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.ToursController">
+<?import java.lang.String?>
+<GridPane alignment="center" hgap="10" minHeight="500.0" minWidth="400.0" prefHeight="800.0" prefWidth="850.0"
+          vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.garcia.layerView.controller.ToursController">
     <columnConstraints>
-        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="210.0" minWidth="200.0" prefWidth="210.0" />
-        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="250.0" />
-        <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="210.0" minWidth="200.0" prefWidth="210.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="250.0"/>
+        <ColumnConstraints halignment="LEFT" hgrow="NEVER"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints percentHeight="0.0" prefHeight="180.0" vgrow="NEVER" />
-        <RowConstraints vgrow="ALWAYS" />
-        <RowConstraints prefHeight="250.0" vgrow="SOMETIMES" />
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints percentHeight="0.0" prefHeight="180.0" vgrow="NEVER"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints prefHeight="250.0" vgrow="SOMETIMES"/>
     </rowConstraints>
     <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
     </padding>
     <MenuBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem fx:id="createTourReportMenuItem" mnemonicParsing="false" onAction="#openSaveReportDialog" text="Save a Report" />
-            <MenuItem fx:id="exportTourMenuItem" mnemonicParsing="false" onAction="#exportTour" text="Export Tours" />
-            <MenuItem mnemonicParsing="false" onAction="#importTour" text="Import Tours" />
-            <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
+            <MenuItem fx:id="createTourReportMenuItem" mnemonicParsing="false" onAction="#openSaveReportDialog"
+                      text="Save a Report"/>
+            <MenuItem fx:id="exportTourMenuItem" mnemonicParsing="false" onAction="#exportTour" text="Export Tours"/>
+            <MenuItem mnemonicParsing="false" onAction="#importTour" text="Import Tours"/>
+            <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Delete" />
+            <MenuItem mnemonicParsing="false" text="Delete"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" text="About"/>
         </Menu>
     </MenuBar>
 
     <!-- filters -->
     <VBox prefHeight="200.0" GridPane.rowIndex="2">
         <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
         </GridPane.margin>
         <ComboBox prefWidth="100.0" promptText="Sort by">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Date" />
-                    <String fx:value="Distance" />
-                    <String fx:value="Sport" />
+                    <String fx:value="Date"/>
+                    <String fx:value="Distance"/>
+                    <String fx:value="Sport"/>
                 </FXCollections>
             </items>
         </ComboBox>
         <Label layoutX="10.0" layoutY="63.0" text="Start Location">
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="10.0"/>
             </VBox.margin>
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="12.0"/>
             </font>
         </Label>
         <Separator prefWidth="150.0">
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="10.0"/>
             </VBox.margin>
         </Separator>
 
         <Label layoutX="10.0" layoutY="63.0" text="Finish Location">
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="10.0"/>
             </VBox.margin>
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="12.0"/>
             </font>
         </Label>
         <Separator prefWidth="150.0">
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="10.0"/>
             </VBox.margin>
         </Separator>
     </VBox>
 
     <!-- selected tour (tabs) -->
-    <TabPane prefHeight="400.0" prefWidth="369.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <TabPane prefHeight="400.0" prefWidth="369.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1"
+             GridPane.rowIndex="2">
         <Tab text=" Route Map ">
-            <AnchorPane fx:id="imageAnchorPane" minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0" style="-fx-border-color: grey;">
+            <AnchorPane fx:id="imageAnchorPane" minHeight="100" minWidth="100" nodeOrientation="LEFT_TO_RIGHT"
+                        prefHeight="180.0" prefWidth="200.0" style="-fx-border-color: grey;">
                 <HBox alignment="CENTER" layoutY="-3.0">
-                    <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+                    <ImageView fx:id="tourImageView" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </AnchorPane>
         </Tab>
         <Tab text=" Details ">
-            <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="170.0" prefWidth="370.0" style="-fx-border-color: grey;">
+            <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="170.0" prefWidth="370.0"
+                        style="-fx-border-color: grey;">
                 <VBox>
-                    <Text fx:id="tourDescription" text="bla bla..." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <Text fx:id="tourDescription" text="bla bla..." AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Text>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                 </VBox>
             </AnchorPane>
         </Tab>
         <Tab text=" Directions ">
-            <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="170.0" prefWidth="370.0" style="-fx-border-color: grey;">
+            <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="170.0" prefWidth="370.0"
+                        style="-fx-border-color: grey;">
                 <opaqueInsets>
-                    <Insets />
+                    <Insets/>
                 </opaqueInsets>
                 <padding>
-                    <Insets top="10.0" />
+                    <Insets top="10.0"/>
                 </padding>
                 <VBox>
-                    <Label text="Steps" />
-                    <Text text="Do this, do that." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label text="Steps"/>
+                    <Text text="Do this, do that." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0"/>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                 </VBox>
             </AnchorPane>
@@ -124,47 +132,62 @@
     </TabPane>
 
     <!-- logs -->
-    <TableView fx:id="tourLogTableView" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+    <TableView fx:id="tourLogTableView" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="2"
+               GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
         <columns>
-            <TableColumn fx:id="dateColumn" prefWidth="75" text="Date" />
-            <TableColumn fx:id="distanceColumn" prefWidth="75" text="Distance" />
-            <TableColumn fx:id="durationColumn" prefWidth="75" text="Duration" />
+            <TableColumn fx:id="dateColumn" prefWidth="75" text="Date"/>
+            <TableColumn fx:id="reportColumn" prefWidth="75" text="Report"/>
+            <TableColumn fx:id="distanceColumn" prefWidth="75" text="Distance"/>
+            <TableColumn fx:id="durationColumn" prefWidth="75" text="Duration"/>
+            <TableColumn fx:id="sportColumn" prefWidth="75" text="Sport"/>
+            <TableColumn fx:id="ratingColumn" prefWidth="75" text="Rating"/>
+            <TableColumn fx:id="avgColumn" prefWidth="75" text="Rating"/>
+            <TableColumn fx:id="startColumn" prefWidth="75" text="Start"/>
+            <TableColumn fx:id="arrivalColumn" prefWidth="75" text="End"/>
+            <TableColumn fx:id="specialColumn" prefWidth="75" text="Cadence/Steps"/>
         </columns>
         <GridPane.margin>
-            <Insets />
+            <Insets/>
         </GridPane.margin>
     </TableView>
 
     <!-- log-add-delete -->
     <VBox prefHeight="200.0" GridPane.rowIndex="3">
         <opaqueInsets>
-            <Insets />
+            <Insets/>
         </opaqueInsets>
         <Label text="Logs Options" GridPane.columnIndex="0" GridPane.rowIndex="2">
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="12.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </VBox.margin>
             <opaqueInsets>
-                <Insets />
+                <Insets/>
             </opaqueInsets>
         </Label>
         <HBox>
-
             <HBox.margin>
-                <Insets bottom="5.0" />
+                <Insets bottom="5.0"/>
             </HBox.margin>
             <VBox.margin>
-                <Insets left="10.0" />
+                <Insets left="10.0"/>
             </VBox.margin>
-            <Button fx:id="addLogBtn" alignment="CENTER" layoutX="10.0" layoutY="90.0" onAction="#openAddLogDialog" prefWidth="25.0" text="+" textAlignment="CENTER">
+            <Button fx:id="addLogBtn" alignment="CENTER" layoutX="10.0" layoutY="90.0" onAction="#openAddLogDialog"
+                    prefWidth="25.0" text="+" textAlignment="CENTER">
                 <HBox.margin>
-                    <Insets right="10.0" />
+                    <Insets right="10.0"/>
                 </HBox.margin>
             </Button>
-            <Button fx:id="deleteLogBtn" alignment="CENTER" disable="true" layoutX="10.0" layoutY="115.0" onAction="#deleteLogTour" prefWidth="25.0" text="-" textAlignment="CENTER" />
+            <Button fx:id="editLogBtn" alignment="CENTER" onAction="#openEditLog" prefWidth="40.0" text="Edit"
+                    textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <HBox.margin>
+                    <Insets right="10.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="deleteLogBtn" alignment="CENTER" disable="true" layoutX="10.0" layoutY="115.0"
+                    onAction="#deleteLogTour" prefWidth="25.0" text="-" textAlignment="CENTER"/>
         </HBox>
     </VBox>
 
@@ -172,45 +195,68 @@
     <VBox prefHeight="200.0" GridPane.rowIndex="1">
         <Label text="Search Tours" GridPane.columnIndex="0" GridPane.rowIndex="1">
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="12.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="5.0" />
+                <Insets bottom="5.0"/>
             </VBox.margin>
         </Label>
         <TextField fx:id="inputSearch" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <VBox.margin>
-                <Insets bottom="5.0" />
+                <Insets bottom="5.0"/>
             </VBox.margin>
         </TextField>
         <HBox>
             <HBox.margin>
-                <Insets bottom="5.0" />
+                <Insets bottom="5.0"/>
             </HBox.margin>
             <Button defaultButton="true"
-                    onAction="#searchTours" prefWidth="55.0" text="Search"
-                    GridPane.columnIndex="1" GridPane.rowIndex="1">
-                Search
+                    onAction="#searchTours"
+                    text="Search"
+                    prefWidth="55.0"
+                    GridPane.columnIndex="1"
+                    GridPane.rowIndex="1">
             </Button>
-            <Button fx:id="editTourBtn" alignment="CENTER" onAction="#openEditTour"
-                    prefWidth="40.0" text="Edit" textAlignment="CENTER"
-                    GridPane.columnIndex="1" GridPane.rowIndex="1">X
+            <Button fx:id="editTourBtn"
+                    onAction="#openEditTour"
+                    text="Edit"
+                    alignment="CENTER"
+                    prefWidth="40.0"
+                    textAlignment="CENTER"
+                    GridPane.columnIndex="1"
+                    GridPane.rowIndex="1">X
             </Button>
-            <Button alignment="CENTER" layoutX="10.0" layoutY="90.0" onAction="#openAddTourDialog" prefWidth="25.0" text="+" textAlignment="CENTER" />
-            <Button fx:id="deleteTourBtn" alignment="CENTER" layoutX="10.0" layoutY="115.0" onAction="#deleteTour" prefWidth="25.0" text="-" textAlignment="CENTER" />
-         <Button alignment="CENTER" layoutX="65.0" layoutY="10.0" onAction="#clearTours" prefWidth="25.0" text="[]" textAlignment="CENTER" />
+            <Button alignment="CENTER"
+                    onAction="#openAddTourDialog"
+                    text="+"
+                    layoutX="10.0"
+                    layoutY="90.0"
+                    prefWidth="25.0"
+                    textAlignment="CENTER"/>
+            <Button fx:id="deleteTourBtn"
+                    onAction="#deleteTour"
+                    text="-"
+                    alignment="CENTER"
+                    layoutX="10.0"
+                    layoutY="115.0"
+                    prefWidth="25.0"
+                    textAlignment="CENTER"/>
+            <Button alignment="CENTER"
+                    onAction="#clearTours"
+                    text="[]"
+                    layoutX="65.0"
+                    layoutY="10.0"
+                    prefWidth="25.0"
+                    textAlignment="CENTER"/>
         </HBox>
     </VBox>
 
     <!-- tour's list -->
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <Label text="Tours" />
-
-        <ListView fx:id="toursListView" prefHeight="160.0" prefWidth="200.0" />
-
-        <Separator prefWidth="150.0" />
-
-        <Pagination maxPageIndicatorCount="5" />
+        <Label text="Tours"/>
+        <ListView fx:id="toursListView" prefHeight="160.0" prefWidth="200.0"/>
+        <Separator prefWidth="150.0"/>
+        <Pagination maxPageIndicatorCount="5"/>
     </VBox>
 
 

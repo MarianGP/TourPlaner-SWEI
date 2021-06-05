@@ -25,5 +25,5 @@ public class TourLog {
     private LocalTime end;
     private int special; //steps or cadence
     private int userId;
-
+    private String report;
 }

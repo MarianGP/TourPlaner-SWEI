@@ -29,7 +29,7 @@ class AppManagerDBTest {
     String NEW_TOUR_ORIGIN = "Santiago";
     String NEW_TOUR_DESTINATION = "Punta Arenas";
     String NEW_TOUR_DESCRIPTION = "ALhhhhFNIUre-deleteInTest";
-    TourLog log = new TourLog(0,1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1);
+    TourLog log = new TourLog(0,1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1, "");
 
     AppManagerDBTest() {
 

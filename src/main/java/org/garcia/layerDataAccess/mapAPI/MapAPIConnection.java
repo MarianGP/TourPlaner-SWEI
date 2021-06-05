@@ -63,7 +63,7 @@ public class MapAPIConnection {
         String sessionId = response.getRoute().getSessionId();
 
         String url = "https://www.mapquestapi.com/staticmap/v5/map?key=" + apiKey +
-                "&size=640,480@2x&type=light&defaultMarker=circle-7B0099-sm&session=" + sessionId +
+                "&size=800,400@2x&type=light&defaultMarker=circle-7B0099-sm&session=" + sessionId +
                 "&boundingBox=" + coordinates + "&zoom=11";
 
         String fileName = NameGenerator.getRandomName() + ".jpg";
@@ -96,9 +96,6 @@ public class MapAPIConnection {
         Gson gson = new Gson();
         BufferedReader br;
         String json;
-
-
-
 
         if (connection.getResponseCode() == 200) {
             try {

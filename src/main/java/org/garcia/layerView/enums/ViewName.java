@@ -8,9 +8,10 @@ import lombok.Getter;
 public enum ViewName {
     HOME("homeView", "Home"),
     TOURS("toursView", "Tour Planner"),
-    ADD_TOUR("addTourDialog", "Add New Tour"),
-    EDIT_TOUR("editTourDialog", "Edit Tour"),
-    ADD_LOG("addTourLogDialog", "Add New Log"),
+    ADD_TOUR("tourFormDialog", "Add New Tour"),
+    EDIT_TOUR("tourFormDialog", "Edit Tour"),
+    ADD_LOG("tourLogFormDialog", "Add New Log"),
+    EDIT_LOG("tourLogFormDialog", "Edit Log"),
     SAVE_TOUR_REPORT("saveReportDialog", "Save Tour Report");
 
     private final String viewName;

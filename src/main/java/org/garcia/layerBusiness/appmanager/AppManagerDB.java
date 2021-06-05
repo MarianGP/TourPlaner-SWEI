@@ -89,6 +89,11 @@ public class AppManagerDB implements IAppManager {
         return 0;
     }
 
+    @Override
+    public int editTour(Tour tour) {
+        return tourService.editTour(tour);
+    }
+
     /**
      * Add new tourLog to existing tour
      * Input terms are fist validated and mapped to a new tourLog if valid
@@ -100,6 +105,14 @@ public class AppManagerDB implements IAppManager {
         int logId = 0;
         if (tourLog != null)
             logId = tourLogService.addTourLog(tourLog);
+        return logId;
+    }
+
+    @Override
+    public int editLog(TourLog tourLog) {
+        int logId = 0;
+        if (tourLog != null)
+            logId = tourLogService.editTourLog(tourLog);
         return logId;
     }
 
@@ -118,15 +131,6 @@ public class AppManagerDB implements IAppManager {
             return tourLogService.deleteById(id) != 0;
         }
         return false;
-    }
-
-    @Override
-    public boolean validTour(Tour tour) {
-        return (InputValidator.validString(tour.getDescription()) &&
-                InputValidator.validString(tour.getTitle()) &&
-                InputValidator.validString(tour.getDestination()) &&
-                InputValidator.validString(tour.getOrigin())
-        );
     }
 
     @Override
@@ -226,13 +230,6 @@ public class AppManagerDB implements IAppManager {
     public void createTourReport(Tour currentTour, String url) throws IOException {
         List<TourLog> tourLogList = new ArrayList<>(tourLogService.findByTourId(currentTour.getId()));
         PDFBuilder.createTourPdf(currentTour, url, tourLogList);
-    }
-
-    @Override
-    public int editTour(Tour tour) {
-        if (validTour(tour))
-            return tourService.editTour(tour);
-        return 0;
     }
 
 }

@@ -1,6 +1,5 @@
 package org.garcia.layerView.controller;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.garcia.layerBusiness.util.InputValidator;
 import org.garcia.layerView.viewModel.AddTourViewModel;
 import org.garcia.layerView.viewModel.IViewModel;
 import org.garcia.visitor.IVisitor;
@@ -22,23 +22,33 @@ public class AddTourController implements Initializable, IController {
     private AddTourViewModel viewModel;
 
     @FXML
-    public Button addBtn;
+    public Button addBtn = new Button();
     @FXML
-    public TextField title;
+    public TextField title = new TextField();
     @FXML
-    public TextField origin;
+    public TextField origin = new TextField();
     @FXML
-    public TextField destination;
+    public TextField destination = new TextField();
     @FXML
-    public TextField description;
+    public TextField description = new TextField();
 
     @FXML
     public void addTour(ActionEvent actionEvent) throws IOException {
         if (viewModel.addNewTour() > 0) {
             closeDialog(actionEvent);
         } else {
-            //TODO: display error
             System.out.println("Couldn't add new tour");
+        }
+    }
+
+    public void editTour(ActionEvent actionEvent) {
+        if (InputValidator.validString(title.getText())
+                && InputValidator.validString(description.getText())) {
+            if (viewModel.editNewTour() > 0) {
+                closeDialog(actionEvent);
+            } else {
+                System.out.println("Couldn't edit tour");
+            }
         }
     }
 
@@ -52,17 +62,10 @@ public class AddTourController implements Initializable, IController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         viewModel = AddTourViewModel.getInstance();
-        title.textProperty().bind(viewModel.getTitle());
-        origin.textProperty().bind(viewModel.getOrigin());
-        destination.textProperty().bind(viewModel.getDestination());
-        description.textProperty().bind(viewModel.getDescription());
-
-        BooleanBinding booleanBind = title.textProperty().isEmpty()
-                .or(origin.textProperty().isEmpty())
-                .or(description.textProperty().isEmpty())
-                .or(destination.textProperty().isEmpty());
-
-        addBtn.disableProperty().bind(booleanBind);
+        title.textProperty().bindBidirectional(viewModel.getTitle());
+        origin.textProperty().bindBidirectional(viewModel.getOrigin());
+        destination.textProperty().bindBidirectional(viewModel.getDestination());
+        description.textProperty().bindBidirectional(viewModel.getDescription());
     }
 
     @Override

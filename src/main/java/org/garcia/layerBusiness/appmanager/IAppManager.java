@@ -15,10 +15,10 @@ public interface IAppManager {
     boolean deleteLogById(int id);
 
     int addTour(Tour newTour) throws IOException;
-    int addLog(TourLog tourLog);
-
     int editTour(Tour tour);
-    boolean validTour(Tour tour);
+
+    int addLog(TourLog tourLog);
+    int editLog(TourLog tourLog);
 
     boolean importTourNLogs(String fileName, String location) throws IOException;
     boolean exportTourNLogs(String fileName, String location) throws IOException;

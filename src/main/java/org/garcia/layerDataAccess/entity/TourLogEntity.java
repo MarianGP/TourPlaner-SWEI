@@ -22,4 +22,5 @@ public class TourLogEntity extends ResourceEntity {
     private final int special; //steps or cadence
     private final int tourId;
     private final int userId;
+    private final String report;
 }

@@ -5,8 +5,8 @@ import org.garcia.layerView.viewModel.IViewModel;
 
 public class InitControllerVisitor implements IVisitor {
     @Override
-    public void visit(ToursController toursController, IViewModel viewModel) {
-        // TODO: maybe
+    public void visit(ToursController controller, IViewModel viewModel) {
+        controller.initViewModel(viewModel);
     }
 
     @Override
@@ -17,11 +17,6 @@ public class InitControllerVisitor implements IVisitor {
     @Override
     public void visit(AddTourController controller, IViewModel viewModel) {
         controller.initViewModel(viewModel);
-    }
-
-    @Override
-    public void visit(EditTourController controller, IViewModel viewModel) {
-        // TODO: maybe
     }
 
     @Override

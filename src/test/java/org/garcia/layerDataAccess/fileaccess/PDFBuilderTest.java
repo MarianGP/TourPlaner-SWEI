@@ -21,9 +21,9 @@ class PDFBuilderTest {
 
     @Test
     void createTourPdf() throws IOException {
-        foundTourLogs.add(new TourLog(0, 1, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1));
-        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1));
-        foundTourLogs.add(new TourLog(0, 2, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1));
+        foundTourLogs.add(new TourLog(0, 1, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
+        foundTourLogs.add(new TourLog(2, 1, LocalDate.of(2018, 9, 30), 30, 60, 1, Sport.WALK, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
+        foundTourLogs.add(new TourLog(0, 2, LocalDate.of(2012, 6, 30), 25, 60, 1, Sport.BIKE, 20, LocalTime.now(), LocalTime.now(), 120, 1, ""));
         PDFBuilder.createTourPdf(currentTour, "C:\\Users\\mgarc\\IdeaProjects\\Projects\\TourPlaner_SWE\\src\\tour-with-logs-summary.pdf", foundTourLogs);
     }
 

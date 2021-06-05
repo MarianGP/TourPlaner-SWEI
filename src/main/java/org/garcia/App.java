@@ -25,8 +25,8 @@ import java.nio.file.Paths;
  */
 public class App extends Application {
 
-    private static final int MAX_WIDTH = 640;
-    private static final int MAX_HEIGHT = 800;
+    private static final int MAX_WIDTH = 1000;
+    private static final int MAX_HEIGHT = 1000;
     private static final InitControllerVisitor visitor = new InitControllerVisitor();
     private static Scene scene;
     private final Logger log;

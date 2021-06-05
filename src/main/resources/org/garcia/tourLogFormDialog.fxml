@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.garcia.layerView.controller.AddTourLogController">
+
+    <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
+        <Text strokeType="OUTSIDE" text="Add new log">
+            <VBox.margin>
+                <Insets bottom="20.0" left="10.0" top="10.0" />
+            </VBox.margin>
+        </Text>
+        <HBox fx:id="dateHBOX" alignment="CENTER" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Date">
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </Label>
+            <DatePicker fx:id="datePicker" />
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT"
+                   text="Rating"
+                   minWidth="100" />
+            <Slider fx:id="ratingSlider"
+                    prefHeight="20.0"
+                    prefWidth="70.0"
+                    minWidth="110.0"
+                    blockIncrement="1.0" cache="true"
+                    majorTickUnit="1.0"
+                    max="5.0" min="1.0"
+                    minorTickCount="0"
+                    showTickLabels="true"
+                    showTickMarks="true"
+                    snapToTicks="true"
+                    value="1.0" />
+            <Label minWidth="25.0"
+                   text="${ratingSlider.value}" />
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <!--  SPORT -->
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Sport" />
+            <ChoiceBox fx:id="sportChoiceBox" layoutX="24.0" layoutY="14.0" minWidth="150.0" prefWidth="150.0">
+            </ChoiceBox>
+        </HBox>
+        <HBox alignment="CENTER" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Duration *" />
+            <TextField fx:id="logDuration" minWidth="100" prefWidth="150" />
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="189.0" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Distance *" />
+            <TextField fx:id="logDistance" minWidth="100" prefWidth="150" />
+        </HBox>
+        <HBox alignment="CENTER" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Avg Speed *" />
+            <TextField fx:id="avgSpeed" minWidth="100" prefWidth="150" />
+        </HBox>
+        <HBox fx:id="startHBOX" alignment="CENTER" layoutX="10.0" layoutY="261.0" prefWidth="150" spacing="20">
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Start" />
+            <ChoiceBox fx:id="startHourChoiceBox"
+                       minWidth="55.0"
+                       prefWidth="70.0" />
+            <ChoiceBox fx:id="startMinutesChoiceBox"
+                       layoutX="130.0"
+                       layoutY="10.0"
+                       minWidth="55.0" prefWidth="150.0" />
+            <padding>
+                <Insets bottom="10.0" />
+            </padding>
+        </HBox>
+        <HBox fx:id="reportHBOX" alignment="CENTER" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT" minWidth="100" text="Report" />
+            <TextField fx:id="report" minWidth="100" prefHeight="80" prefWidth="150" />
+        </HBox>
+        <HBox fx:id="alertHBOX" alignment="CENTER" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Label alignment="CENTER_RIGHT"
+                   fx:id="alertLabel"
+                   minWidth="100" />
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefWidth="150" spacing="20">
+            <VBox.margin>
+                <Insets bottom="10.0" top="20.0" />
+            </VBox.margin>
+            <Button fx:id="addLogBtn"
+                    onAction="#addTourLog"
+                    text="Save"
+                    alignment="CENTER"
+                    defaultButton="true"
+                    prefWidth="55.0"
+                    textAlignment="CENTER" />
+            <Button fx:id="editLogBtn"
+                    onAction="#editTourLog"
+                    text="Edit"
+                    alignment="CENTER"
+                    defaultButton="true"
+                    prefWidth="55.0"
+                    textAlignment="CENTER" />
+            <Button alignment="CENTER"
+                    onAction="#closeDialog"
+                    text="Cancel"
+                    prefWidth="55.0"
+                    textAlignment="CENTER" />
+        </HBox>
+    </VBox>
+   <padding>
+      <Insets bottom="20.0" right="50.0" />
+   </padding>
+</AnchorPane>
