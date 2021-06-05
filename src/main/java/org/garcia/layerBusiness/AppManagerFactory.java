@@ -1,4 +1,4 @@
-package org.garcia.layerBusiness.appmanager;
+package org.garcia.layerBusiness;
 
 public class AppManagerFactory {
 

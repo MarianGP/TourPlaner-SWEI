@@ -1,4 +1,4 @@
-package org.garcia.layerBusiness.appmanager;
+package org.garcia.layerBusiness;
 
 import org.garcia.layerDataAccess.common.DALPostgresFactory;
 import org.garcia.layerDataAccess.dbconnection.PostgresDBConnection;
@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -36,7 +34,7 @@ class AppManagerDBTest {
     }
 
     @Before
-    public void init() throws SQLException, InterruptedException {
+    public void init() throws InterruptedException {
         deleteNewlyCreatedTourTest();
         testingService.addTestingTours();
     }
@@ -44,29 +42,22 @@ class AppManagerDBTest {
     @Test
     @DisplayName("add new tour")
     @Order(1)
-    void testTryAdd2TourFirstWrongInputSecondWorksTest() throws SQLException, IOException {
+    void testTryAdd2TourFirstWrongInputSecondWorksTest() {
         Tour tour = Tour.builder()
-                .title(NEW_TOUR_TITLE)
-                .origin(NEW_TOUR_ORIGIN)
-                .destination(NEW_TOUR_DESTINATION)
-                .description("@%!ñKLHFOHS")
-                .build();
-        Assertions.assertEquals(0, appManager.addTour(tour));
-
-        Tour tour2 = Tour.builder()
                 .title(NEW_TOUR_TITLE)
                 .origin(NEW_TOUR_ORIGIN)
                 .destination(NEW_TOUR_DESTINATION)
                 .description(NEW_TOUR_DESCRIPTION)
                 .build();
-        newTourId = appManager.addTour(tour2);
+        newTourId = appManager.addTour(tour);
         Assertions.assertNotEquals(0, newTourId);
     }
 
     @Test
     @Order(2)
     void searchToursTest() {
-        Tour createdTour = appManager.searchTours(NEW_TOUR_DESCRIPTION).get(0);
+        List<Tour> tours = appManager.searchTours(NEW_TOUR_DESCRIPTION);
+        Tour createdTour = tours.get(0);
         Assertions.assertNotNull(createdTour);
     }
 
@@ -103,7 +94,7 @@ class AppManagerDBTest {
     @Test
     @Order(7)
     @DisplayName("Create Summary Report from created tours")
-    void createSummaryReportTest() throws IOException {
+    void createSummaryReportTest() {
         List<Tour> tourList = appManager.searchTours("");
         appManager.createSummaryReport("C:\\\\Users\\\\mgarc\\\\IdeaProjects\\\\Projects\\\\TourPlaner_SWE\\\\src\\\\testing-summary-report.pdf", tourList);
     }

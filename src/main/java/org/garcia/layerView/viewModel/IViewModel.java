@@ -1,6 +1,6 @@
 package org.garcia.layerView.viewModel;
 
-import org.garcia.layerBusiness.appmanager.IAppManager;
+import org.garcia.layerBusiness.IAppManager;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 

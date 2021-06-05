@@ -26,7 +26,7 @@ public class TourLogMapper {
 
     public static TourLog logEntityToTourLog(TourLogEntity logEntity) {
         return TourLog.builder()
-                .id(logEntity.getId()) //TODO: get from db
+                .id(logEntity.getId())
                 .tourId(logEntity.getTourId())
                 .date(logEntity.getDate())
                 .duration(logEntity.getDuration())

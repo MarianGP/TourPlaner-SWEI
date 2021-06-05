@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Builder
 @Getter
-public class TourLogEntity extends ResourceEntity {
+public class TourLogEntity implements ResourceEntity {
     private final int id;
     private final LocalDate date;
     private final int distance;

@@ -1,10 +1,12 @@
 package org.garcia.layerDataAccess.fileaccess;
 
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.garcia.layerBusiness.util.SecondsToTime;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 import org.garcia.model.TourStats;
+import org.garcia.model.util.SecondsToTime;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +17,9 @@ import java.util.List;
 
 public class PDFBuilder {
 
-    public static void createSummaryPdf(String url, List<Tour> tourList, TourStats stats) throws IOException {
+    private static final Logger logger = LogManager.getLogger(PDFBuilder.class);
+
+    public static void createSummaryPdf(String url, List<Tour> tourList, TourStats stats) {
         StringBuilder sbHtml = new StringBuilder();
 
         sbHtml.append(
@@ -103,7 +107,7 @@ public class PDFBuilder {
         createReportFromHtml(url, String.valueOf(sbHtml));
     }
 
-    public static void createTourPdf(Tour currentTour, String url, List<TourLog> tourLogs) throws IOException {
+    public static void createTourPdf(Tour currentTour, String url, List<TourLog> tourLogs) {
         Path configDirectory = Paths.get("src", "main", "resources");
         String imageUrl = configDirectory.toFile().getAbsolutePath() + "\\" + currentTour.getImg();
 
@@ -203,12 +207,17 @@ public class PDFBuilder {
         createReportFromHtml(url, String.valueOf(sbHtml));
     }
 
-    public static void createReportFromHtml(String url, String html) throws IOException {
+    public static void createReportFromHtml(String url, String html) {
         String[] urlElements = url.split("\\\\");
         String baseUrl = url.replace(urlElements[urlElements.length - 1], "");
         File file = new File(baseUrl);
-        file.mkdirs();
-        HtmlConverter.convertToPdf(html, new FileOutputStream(url));
+        try {
+            file.mkdirs();
+            HtmlConverter.convertToPdf(html, new FileOutputStream(url));
+            logger.info("Report created - url: " + url);
+        } catch (IOException e) {
+            logger.error(e);
+        }
     }
 
 

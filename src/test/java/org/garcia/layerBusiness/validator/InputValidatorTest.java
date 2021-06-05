@@ -1,6 +1,7 @@
 package org.garcia.layerBusiness.validator;
 
-import org.garcia.layerBusiness.util.InputValidator;
+
+import org.garcia.layerView.util.InputValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ class InputValidatorTest {
     String correctLocation = "Wien";
     String correctLocation_lc = "wien";
     String germanLocation = "sankt pölten";
-    String hifenLocation = "sankt-pölten";
+    String hyphenLocation = "sankt-pölten";
     String wrongLocation = "Gr@z";
     String viennaAddress = "Landstraße 45-50, 1030, Wien, Österreich";
 
@@ -21,7 +22,7 @@ class InputValidatorTest {
         Assertions.assertTrue(InputValidator.validString(correctLocation));
         Assertions.assertTrue(InputValidator.validString(correctLocation_lc));
         Assertions.assertTrue(InputValidator.validString(germanLocation));
-        Assertions.assertTrue(InputValidator.validString(hifenLocation));
+        Assertions.assertTrue(InputValidator.validString(hyphenLocation));
         Assertions.assertTrue(InputValidator.validString(viennaAddress));
         Assertions.assertFalse(InputValidator.validString(wrongLocation));
     }

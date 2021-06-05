@@ -7,7 +7,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Data;
-import org.garcia.layerBusiness.appmanager.IAppManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.garcia.layerBusiness.IAppManager;
 import org.garcia.model.Tour;
 import org.garcia.model.TourLog;
 import org.garcia.model.enums.Sport;
@@ -18,9 +20,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
-public class AddLogViewModel implements IViewModel {
+public class TourLogFormViewModel implements IViewModel {
 
-    private static AddLogViewModel viewModel;
+    private static final Logger logger = LogManager.getLogger(TourLogFormViewModel.class);
+    private static final String LOG_ADDED = "Tour added";
+    private static final String LOG_EDITED = "Tour edited";
+    private static final String LOG_ADDED_FAIL = "Couldn't add tour";
+    private static final String LOG_EDIT_FAIL = "Couldn't edit tour";
+    private static final String WRONG_INPUT = "Wrong input";
+
+    private static TourLogFormViewModel viewModel;
     private ToursViewModel tourViewModel;
     private IAppManager appManager;
     private LocalDate localDate;
@@ -49,46 +58,46 @@ public class AddLogViewModel implements IViewModel {
 
     private StringProperty alertMessage = new SimpleStringProperty();
 
-    public static AddLogViewModel getInstance() {
+    public static TourLogFormViewModel getInstance() {
         if (viewModel == null) {
-            viewModel = new AddLogViewModel();
+            viewModel = new TourLogFormViewModel();
         }
         return viewModel;
     }
 
     public int addTourLog() {
-        //validate
-        TourLog log = validateLog();
-        if (log == null) {
-            alertMessage.set("Wrong input");
+        TourLog tourLog = validateLog();
+        if (tourLog == null) {
             return -1;
         }
 
-        int tourLogId = appManager.addLog(log);
+        int tourLogId = appManager.addLog(tourLog);
         if (tourLogId != 0) {
-            tourViewModel.searchTours("");
+            tourViewModel.searchTours();
             tourViewModel.tourSelected(tourViewModel.getCurrentTour());
             alertMessage.set("");
+            logger.info(LOG_ADDED);
         } else {
-            alertMessage.set("Wrong input");
+            logger.error(LOG_ADDED_FAIL);
         }
         return tourLogId;
     }
 
     public int editTourLog() {
-        TourLog log = validateLog();
-        if (log == null) {
-            alertMessage.set("Wrong input");
+        TourLog tourLog = validateLog();
+        if (tourLog == null) {
             return -1;
         }
-        log.setId(tourViewModel.getCurrentTourLog().getId());
-        int tourLogId = appManager.editLog(log);
+        tourLog.setId(tourViewModel.getCurrentTourLog().getId());
+        int tourLogId = appManager.editLog(tourLog);
         if (tourLogId != 0) {
-            tourViewModel.searchTours("");
+            tourViewModel.searchTours();
+            tourViewModel.getEditMode().set(false);
             tourViewModel.tourSelected(tourViewModel.getCurrentTour());
             alertMessage.set("");
+            logger.info(LOG_EDITED);
         } else {
-            alertMessage.set("Something went wrong");
+            logger.info(LOG_EDIT_FAIL);
         }
         return tourLogId;
     }
@@ -104,8 +113,9 @@ public class AddLogViewModel implements IViewModel {
             specialInt = (!special.getValue().equals("")) ? Integer.parseInt(special.getValue()) : 0;
             avgInt = (avg != null) ? Integer.parseInt(avg.getValue()) : 0;
             dateInput = (!date.getValue().equals("")) ? LocalDate.parse(date.getValue()) : LocalDate.now();
-        } catch (RuntimeException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            alertMessage.set(WRONG_INPUT);
+            logger.warn(WRONG_INPUT);
             return null;
         }
 
@@ -145,7 +155,4 @@ public class AddLogViewModel implements IViewModel {
             currentTour = previousViewModel.getCurrentTour();
     }
 
-    public void setEditMode(boolean b) {
-        tourViewModel.getEditMode().set(b);
-    }
 }

@@ -1,6 +1,8 @@
 package org.garcia.layerDataAccess.dbconnection;
 
 import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.garcia.config.ConfigurationManager;
 
 import java.sql.Connection;
@@ -9,6 +11,8 @@ import java.sql.SQLException;
 
 @Data
 public class PostgresDBConnection implements DBConnection {
+
+    private static final Logger logger = LogManager.getLogger(PostgresDBConnection.class);
 
     private String containerName;
 
@@ -27,7 +31,7 @@ public class PostgresDBConnection implements DBConnection {
             conn.setAutoCommit(false);
             return conn;
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            logger.error(e.getClass().getName() + ": " + e.getMessage());
         }
         return null;
     }
@@ -37,7 +41,7 @@ public class PostgresDBConnection implements DBConnection {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.err.println("PostgreSQL JDBC driver not found");
+            logger.error("PostgreSQL JDBC driver not found.");
             e.printStackTrace();
         }
     }

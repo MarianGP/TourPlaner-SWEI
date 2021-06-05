@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class TourEntity extends ResourceEntity {
+public class TourEntity implements ResourceEntity {
     private final int id;
     private final String title;
     private final String description;

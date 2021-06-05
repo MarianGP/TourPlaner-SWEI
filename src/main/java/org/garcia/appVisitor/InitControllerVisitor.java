@@ -1,4 +1,4 @@
-package org.garcia.visitor;
+package org.garcia.appVisitor;
 
 import org.garcia.layerView.controller.*;
 import org.garcia.layerView.viewModel.IViewModel;
@@ -10,17 +10,17 @@ public class InitControllerVisitor implements IVisitor {
     }
 
     @Override
-    public void visit(SaveReportController controller, IViewModel viewModel) {
+    public void visit(ReportFormController controller, IViewModel viewModel) {
         controller.initViewModel(viewModel);
     }
 
     @Override
-    public void visit(AddTourController controller, IViewModel viewModel) {
+    public void visit(TourFormController controller, IViewModel viewModel) {
         controller.initViewModel(viewModel);
     }
 
     @Override
-    public void visit(AddTourLogController controller, IViewModel viewModel) {
+    public void visit(TourLogFormController controller, IViewModel viewModel) {
         controller.initViewModel(viewModel);
     }
 

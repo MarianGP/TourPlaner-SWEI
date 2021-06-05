@@ -1,6 +1,7 @@
 package org.garcia.layerView.controller;
 
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -9,14 +10,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.garcia.App;
+import org.garcia.appVisitor.IVisitor;
 import org.garcia.layerView.enums.ViewName;
 import org.garcia.layerView.viewModel.IViewModel;
 import org.garcia.layerView.viewModel.ToursViewModel;
 import org.garcia.model.Tour;
+import org.garcia.model.TourDirection;
 import org.garcia.model.TourLog;
-import org.garcia.visitor.IVisitor;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,46 +25,57 @@ import java.util.ResourceBundle;
 
 public class ToursController implements Initializable, IController {
 
-    //tours
-    public ListView<Tour> toursListView = new ListView<>();
-    public TextField inputSearch = new TextField("");
-    public Button deleteTourBtn = new Button();
-    public Button editTourBtn = new Button();
-
-    //selected tour
-    public ImageView tourImageView = new ImageView();
-    public AnchorPane imageAnchorPane = new AnchorPane();
-    public Text tourDescription = new Text();
-
-    //log
-    public Button addLogBtn = new Button();
-    public Button editLogBtn = new Button();
-    public Button deleteLogBtn = new Button();
-
-    // menu
-    public MenuItem createTourReportMenuItem = new MenuItem();
-    public MenuItem exportTourMenuItem = new MenuItem();
-
-    // report
-//    public ChoiceBox<String> reportTypeChoice = new ChoiceBox<>();
     private ToursViewModel viewModel;
 
-    // logs table
-    public TableView<TourLog> tourLogTableView = new TableView<>();
-    public TableColumn<TourLog, LocalDate> dateColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> distanceColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> durationColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> ratingColumn = new TableColumn<>();
-    public TableColumn<TourLog, String> sportColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> avgColumn = new TableColumn<>();
-    public TableColumn<TourLog, LocalTime> startColumn = new TableColumn<>();
-    public TableColumn<TourLog, LocalTime> arrivalColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> specialColumn = new TableColumn<>();
-    public TableColumn<TourLog, Integer> reportColumn = new TableColumn<>();
+    //tours
+    @FXML
+    public ListView<Tour> toursListView;
+    @FXML
+    public TextField inputSearch;
+    @FXML
+    public Button deleteTourBtn;
+    @FXML
+    public Button editTourBtn;
+    @FXML
+    public ListView<TourDirection> stepsListView;
+    @FXML
+    public ImageView tourImageView;
+    @FXML
+    public AnchorPane imageAnchorPane;
+    @FXML
+    public Text tourDescription;
+
+    // menu
+    @FXML
+    public MenuItem createTourReportMenuItem;
+    @FXML
+    public MenuItem exportTourMenuItem;
+
+    //log
+    @FXML
+    public Button addLogBtn;
+    @FXML
+    public Button editLogBtn;
+    @FXML
+    public Button deleteLogBtn;
+
+    // table
+    @FXML
+    public TableView<TourLog> tourLogTableView;
+    public TableColumn<TourLog, LocalDate> dateColumn;
+    public TableColumn<TourLog, Integer> distanceColumn;
+    public TableColumn<TourLog, Integer> durationColumn;
+    public TableColumn<TourLog, Integer> ratingColumn;
+    public TableColumn<TourLog, String> sportColumn;
+    public TableColumn<TourLog, Integer> avgColumn;
+    public TableColumn<TourLog, LocalTime> startColumn;
+    public TableColumn<TourLog, LocalTime> arrivalColumn;
+    public TableColumn<TourLog, Integer> specialColumn;
+    public TableColumn<TourLog, Integer> reportColumn;
 
     @FXML
     public void searchTours() {
-        viewModel.searchTours(inputSearch.textProperty().getValue());
+        viewModel.searchTours();
         inputSearch.textProperty().setValue("");
     }
 
@@ -85,33 +97,33 @@ public class ToursController implements Initializable, IController {
     }
 
     @FXML
-    public void openAddTourDialog() throws IOException {
+    public void openAddTourDialog() {
+        viewModel.getEditMode().set(false);
         App.openDialog(ViewName.ADD_TOUR.getViewName(), ViewName.ADD_TOUR.getViewTitle(), viewModel);
     }
 
     @FXML
-    public void openAddLogDialog() throws IOException {
-        if (viewModel.getCurrentTour().getOrigin() != null) {
-            App.openDialog(ViewName.ADD_LOG.getViewName(), ViewName.ADD_LOG.getViewTitle(), viewModel);
-        }
+    public void openAddLogDialog() {
+        viewModel.getEditMode().set(false);
+        App.openDialog(ViewName.ADD_LOG.getViewName(), ViewName.ADD_LOG.getViewTitle(), viewModel);
     }
 
     @FXML
-    public void openEditTour() throws IOException {
+    public void openEditTour() {
         if (viewModel.getCurrentTour().getOrigin() != null)
             viewModel.getEditMode().set(true);
             App.openDialog(ViewName.EDIT_TOUR.getViewName(), ViewName.EDIT_TOUR.getViewTitle(), viewModel);
     }
 
     @FXML
-    public void openEditLog() throws IOException {
+    public void openEditLog() {
         if (viewModel.getCurrentTourLog() != null)
             viewModel.getEditMode().set(true);
             App.openDialog(ViewName.EDIT_LOG.getViewName(), ViewName.EDIT_LOG.getViewTitle(), viewModel);
     }
 
     @FXML
-    public void openSaveReportDialog() throws IOException {
+    public void openSaveReportDialog() {
         App.openDialog(ViewName.SAVE_TOUR_REPORT.getViewName(), ViewName.SAVE_TOUR_REPORT.getViewTitle(), viewModel);
     }
 
@@ -120,11 +132,11 @@ public class ToursController implements Initializable, IController {
         System.exit(0);
     }
 
-    public void exportTour() throws IOException {
+    public void exportTour() {
         viewModel.exportTour();
     }
 
-    public void importTour() throws IOException {
+    public void importTour() {
         viewModel.importTour();
         searchTours();
     }
@@ -171,14 +183,17 @@ public class ToursController implements Initializable, IController {
 
     private void initializeTours() {
         setTourListViewFormatCells();
+        setDirectionsViewFormatCells();
         addTourListener();
 
-        viewModel.searchTours("");
-        toursListView.setItems(viewModel.getTourObservableList());
+        inputSearch.textProperty().bindBidirectional(viewModel.getInputSearch());
+        viewModel.searchTours();
         tourDescription.textProperty().bind(viewModel.getCurrentTourDescription());
         tourImageView.fitWidthProperty().bind(imageAnchorPane.widthProperty());
-        tourImageView.imageProperty().bind(viewModel.getTourImageProperty());
-//        Bindings.bindBidirectional(tourImageView.imageProperty(), toursViewModel.getTourImageProperty());
+        tourImageView.fitHeightProperty().bind(imageAnchorPane.heightProperty());
+        tourImageView.imageProperty().bindBidirectional(viewModel.getTourImageProperty());
+        toursListView.setItems(viewModel.getTourObservableList());
+        stepsListView.setItems(viewModel.getTourDirections());
     }
 
     public void addTourListener() {
@@ -218,6 +233,22 @@ public class ToursController implements Initializable, IController {
         }));
     }
 
+    public void setDirectionsViewFormatCells() {
+        stepsListView.setCellFactory((param -> new ListCell<>() {
+
+            @Override
+            protected void updateItem(TourDirection tourDirection, boolean empty) {
+                super.updateItem(tourDirection, empty);
+                if (empty || (tourDirection == null) || tourDirection.getDirection().equals("")) {
+                    setText("");
+                } else {
+                    setGraphic(new ImageView(tourDirection.getIconUrl()));
+                    setText(tourDirection.getDirection());
+                }
+            }
+        }));
+    }
+
     @Override
     public void accept(IVisitor visitor, IViewModel viewModel) {
         visitor.visit(this, viewModel);
@@ -225,5 +256,9 @@ public class ToursController implements Initializable, IController {
 
     public void initViewModel(IViewModel previousViewModel) {
         viewModel.init(previousViewModel);
+    }
+
+    public void showDirections(Event event) {
+
     }
 }

@@ -1,8 +1,7 @@
 package org.garcia.layerDataAccess.mapAPI;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import org.garcia.layerBusiness.util.NameGenerator;
+import org.apache.logging.log4j.LogManager;
 import org.garcia.layerDataAccess.fileaccess.FileAccess;
 import org.garcia.layerDataAccess.mapAPI.ApiCollection.Response;
 import org.garcia.model.Tour;
@@ -17,7 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MapAPIConnection {
-
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(MapAPIConnection.class);
+    private static final String DUMMY_IMG_NAME = "dummy.png";
     private static String apiKey;
     private final FileAccess fileAccess = new FileAccess();
 
@@ -43,7 +43,7 @@ public class MapAPIConnection {
         return connection;
     }
 
-    public String getMap(Tour tour) throws IOException {
+    public String getMap(Tour tour) {
         String fileName = NameGenerator.getRandomName() + ".jpg";
         String origin = escapeEmptySpace(tour.getOrigin());
         String destination = escapeEmptySpace(tour.getDestination());
@@ -54,41 +54,54 @@ public class MapAPIConnection {
         return "org/garcia/img/" + ((sendRequest(url, fileName, "img")) ? fileName : "dummy.png");
     }
 
-    public String getMap(Response response) throws IOException {
-        String coordinates =
-                        response.getRoute().getBoundingBox().getUl().getLat() + "," +
-                        response.getRoute().getBoundingBox().getUl().getLng() + "," +
-                        response.getRoute().getBoundingBox().getLr().getLat() + "," +
-                        response.getRoute().getBoundingBox().getLr().getLng();
+    public String getMap(Response response) {
+
+        if (response == null) {
+            logger.error("Empty response from MapQuest");
+            return "org/garcia/img/" + DUMMY_IMG_NAME;
+        }
+
+        String fileName = NameGenerator.getRandomName() + ".jpg";
         String sessionId = response.getRoute().getSessionId();
+        String coordinates =
+                response.getRoute().getBoundingBox().getUl().getLat() + "," +
+                response.getRoute().getBoundingBox().getUl().getLng() + "," +
+                response.getRoute().getBoundingBox().getLr().getLat() + "," +
+                response.getRoute().getBoundingBox().getLr().getLng();
 
         String url = "https://www.mapquestapi.com/staticmap/v5/map?key=" + apiKey +
                 "&size=800,400@2x&type=light&defaultMarker=circle-7B0099-sm&session=" + sessionId +
                 "&boundingBox=" + coordinates + "&zoom=11";
 
-        String fileName = NameGenerator.getRandomName() + ".jpg";
+        boolean request = sendRequest(url, fileName, "img");
 
-        return "org/garcia/img/" + ((sendRequest(url, fileName, "img")) ? fileName : "dummy.png");
+        if (request)
+            logger.info("Map image was saved");
+        else
+            logger.error("Map image couldn't be saved");
+
+        return "org/garcia/img/" + ((request) ? fileName : DUMMY_IMG_NAME);
     }
 
-    public String getDirections(Tour tour) throws IOException {
+    public String getDirections(Tour tour) {
         String fileName = NameGenerator.getRandomName() + ".txt";
         String origin = escapeEmptySpace(tour.getOrigin());
         String destination = escapeEmptySpace(tour.getDestination());
-
-        String url = "http://www.mapquestapi.com/directions/v2/route?key=" + apiKey +
+        String url = "https://www.mapquestapi.com/directions/v2/route?key=" + apiKey +
                 "&from=" + origin +
                 "&to=" + destination;
 
-        String location = ((sendRequest(url, fileName, "dir")) ? fileName : "default.txt");
+        boolean request = sendRequest(url, fileName, "dir");
+        String location = ((request) ? fileName : "default.txt");
+
         return "org/garcia/dir/" + location;
     }
 
-    public Response getRoute(Tour tour) throws IOException {
+    public Response getRoute(Tour tour) {
         String origin = escapeEmptySpace(tour.getOrigin());
         String destination = escapeEmptySpace(tour.getDestination());
 
-        String url = "http://www.mapquestapi.com/directions/v2/route?key=" + apiKey +
+        String url = "https://www.mapquestapi.com/directions/v2/route?key=" + apiKey +
                 "&from=" + origin +
                 "&to=" + destination;
         Response routeResponse = null;
@@ -97,31 +110,34 @@ public class MapAPIConnection {
         BufferedReader br;
         String json;
 
-        if (connection.getResponseCode() == 200) {
-            try {
+        try {
+            if (connection.getResponseCode() == 200) {
                 br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 json = br.readLine();
                 routeResponse = gson.fromJson(json, Response.class);
-            } catch (IOException | JsonSyntaxException e) {
-                e.printStackTrace();
+                connection.disconnect();
             }
-
-            connection.disconnect();
+        } catch (Exception e) {
+            logger.error(e);
         }
+
         return routeResponse;
     }
 
-    private boolean sendRequest(String aURL, String fileName, String directory) throws IOException {
+    private boolean sendRequest(String aURL, String fileName, String directory) {
         HttpURLConnection connection = httpConnection(aURL);
 
-        if (connection.getResponseCode() == 200) {
-            InputStream is = connection.getInputStream();
-            if (is != null)
-                fileAccess.saveFile(is, fileName, directory);
-            connection.disconnect();
-            return true;
+        try {
+            if (connection.getResponseCode() == 200) {
+                InputStream is = connection.getInputStream();
+                if (is != null)
+                    fileAccess.saveFile(is, fileName, directory);
+                connection.disconnect();
+                return true;
+            }
+        } catch (IOException e) {
+            logger.error(e);
         }
-
         connection.disconnect();
         return false;
     }
@@ -129,6 +145,5 @@ public class MapAPIConnection {
     private String escapeEmptySpace(String location) {
         return location.replace(" ", "+");
     }
-
 
 }

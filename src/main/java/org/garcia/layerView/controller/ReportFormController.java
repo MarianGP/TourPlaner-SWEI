@@ -14,8 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.garcia.layerView.viewModel.IViewModel;
-import org.garcia.layerView.viewModel.SaveReportViewModel;
-import org.garcia.visitor.IVisitor;
+import org.garcia.layerView.viewModel.ReportFormViewModel;
+import org.garcia.appVisitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SaveReportController implements Initializable, IController {
+public class ReportFormController implements Initializable, IController {
 
-    private static SaveReportViewModel viewModel;
+    private static ReportFormViewModel viewModel;
     public AnchorPane paneView = new AnchorPane();
     public TextField reportName = new TextField();
     public ChoiceBox<String> reportTypeChoice = new ChoiceBox<>();
@@ -60,7 +60,7 @@ public class SaveReportController implements Initializable, IController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        viewModel = SaveReportViewModel.getInstance();
+        viewModel = ReportFormViewModel.getInstance();
         Bindings.bindBidirectional(viewModel.getReportTypeName(), reportTypeChoice.valueProperty());
         Bindings.bindBidirectional(chosenReportType.textProperty(), viewModel.getReportTypeName());
         Bindings.bindBidirectional(reportName.textProperty(), viewModel.getReportName());

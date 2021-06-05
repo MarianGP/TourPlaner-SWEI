@@ -1,9 +1,8 @@
 package org.garcia.layerDataAccess.dbconnection;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
 
 public interface DBConnection {
-    Connection connect() throws SQLException, IOException;
+    Connection connect();
     void installDriver();
     void changeContainer(String containerName);
 }

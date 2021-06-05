@@ -1,4 +1,4 @@
-package org.garcia.layerBusiness.util;
+package org.garcia.model.util;
 
 public class SecondsToTime {
 

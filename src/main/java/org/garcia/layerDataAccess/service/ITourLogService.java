@@ -4,7 +4,7 @@ import org.garcia.model.TourLog;
 
 import java.util.List;
 
-public interface ITourLogService extends IService {
+public interface ITourLogService {
     int addTourLog(TourLog tourLog);
     int editTourLog(TourLog tourLog);
     int deleteById(int id);

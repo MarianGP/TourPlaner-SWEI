@@ -1,10 +1,10 @@
-package org.garcia.layerBusiness.appmanager;
+package org.garcia.layerBusiness;
 
 import org.garcia.layerDataAccess.common.IDALFactory;
 import org.garcia.model.Tour;
+import org.garcia.model.TourDirection;
 import org.garcia.model.TourLog;
 
-import java.io.IOException;
 import java.util.List;
 
 public class AppManagerMock implements  IAppManager {
@@ -22,6 +22,11 @@ public class AppManagerMock implements  IAppManager {
     }
 
     @Override
+    public List<TourDirection> searchDirections(int tourId) {
+        return null;
+    }
+
+    @Override
     public boolean deleteTour(Tour tour) {
         return false;
     }
@@ -32,7 +37,7 @@ public class AppManagerMock implements  IAppManager {
     }
 
     @Override
-    public int addTour(Tour newTour) throws IOException {
+    public int addTour(Tour newTour) {
         return 0;
     }
 
@@ -52,22 +57,22 @@ public class AppManagerMock implements  IAppManager {
     }
 
     @Override
-    public boolean importTourNLogs(String fileName, String location) throws IOException {
+    public boolean importTourNLogs(String fileName, String location) {
         return false;
     }
 
     @Override
-    public boolean exportTourNLogs(String fileName, String location) throws IOException {
+    public boolean exportTourNLogs(String fileName, String location) {
         return false;
     }
 
     @Override
-    public void createSummaryReport(String url, List<Tour> allTours) throws IOException {
+    public void createSummaryReport(String url, List<Tour> allTours) {
 
     }
 
     @Override
-    public void createTourReport(Tour currentTour, String url) throws IOException {
+    public void createTourReport(Tour currentTour, String url) {
 
     }
 }

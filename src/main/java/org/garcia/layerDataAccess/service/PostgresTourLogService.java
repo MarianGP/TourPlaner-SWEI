@@ -1,12 +1,11 @@
 package org.garcia.layerDataAccess.service;
 
 import lombok.AllArgsConstructor;
-import org.garcia.layerDataAccess.mapper.TourLogMapper;
 import org.garcia.layerDataAccess.entity.ResourceEntity;
+import org.garcia.layerDataAccess.mapper.TourLogMapper;
 import org.garcia.layerDataAccess.repository.Repository;
 import org.garcia.model.TourLog;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +26,10 @@ public class PostgresTourLogService implements ITourLogService {
     private static final String SQL_FIND_BY_LOG_ID =
             "SELECT * FROM public.tour_log WHERE tour_id = ?;";
 
+    @Override
     public int addTourLog(TourLog tourLog) {
 
         List<Object> logParameters = new ArrayList<>();
-
         logParameters.add(tourLog.getDate());
         logParameters.add(tourLog.getDistance());
         logParameters.add(tourLog.getDuration());
@@ -44,19 +43,13 @@ public class PostgresTourLogService implements ITourLogService {
         logParameters.add(tourLog.getUserId());
         logParameters.add(tourLog.getReport());
 
-        try {
-            return repository.modifyResources(SQL_ADD_TOUR_LOG, logParameters);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return repository.modifyResources(SQL_ADD_TOUR_LOG, logParameters);
     }
 
     @Override
     public int editTourLog(TourLog tourLog) {
 
         List<Object> logParameters = new ArrayList<>();
-
         logParameters.add(tourLog.getDistance());
         logParameters.add(tourLog.getDuration());
         logParameters.add(tourLog.getRating());
@@ -65,39 +58,24 @@ public class PostgresTourLogService implements ITourLogService {
         logParameters.add(tourLog.getSpecial());
         logParameters.add(tourLog.getId());
 
-        try {
-            return repository.modifyResources(SQL_EDIT_TOUR_LOG, logParameters);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return repository.modifyResources(SQL_EDIT_TOUR_LOG, logParameters);
     }
 
+    @Override
     public int deleteById(int id) {
-
         List<Object> parameters = new ArrayList<>();
         parameters.add(id);
-        try {
-            return repository.modifyResources(SQL_DELETE_LOG, parameters);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+
+        return repository.modifyResources(SQL_DELETE_LOG, parameters);
     }
 
+    @Override
     public List<TourLog> findByTourId(int tourId) {
         List<ResourceEntity> tourLogs;
-
         List<Object> logParameters = new ArrayList<>();
         logParameters.add(tourId);
+        tourLogs = repository.findByTerm(SQL_FIND_BY_LOG_ID, logParameters, "tour_log");
 
-        try {
-            tourLogs = repository.findByTerm(SQL_FIND_BY_LOG_ID, logParameters, "tour_log");
-            return TourLogMapper.getMappedTourLogs(tourLogs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return TourLogMapper.getMappedTourLogs(tourLogs);
     }
 }

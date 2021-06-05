@@ -8,16 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import org.garcia.layerView.viewModel.AddLogViewModel;
+import org.garcia.layerView.viewModel.TourLogFormViewModel;
 import org.garcia.layerView.viewModel.IViewModel;
-import org.garcia.visitor.IVisitor;
+import org.garcia.appVisitor.IVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddTourLogController implements Initializable, IController {
+public class TourLogFormController implements Initializable, IController {
 
     @FXML
     public ChoiceBox<String> startHourChoiceBox;
@@ -51,10 +51,10 @@ public class AddTourLogController implements Initializable, IController {
     public HBox reportHBOX;
     @FXML
     public HBox alertHBOX;
-
+    @FXML
     public Label alertLabel;
 
-    private AddLogViewModel viewModel;
+    private TourLogFormViewModel viewModel;
 
 
     @FXML
@@ -74,7 +74,6 @@ public class AddTourLogController implements Initializable, IController {
     public void closeDialog(@NotNull ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        viewModel.setEditMode(false);
         stage.close();
     }
 
@@ -93,7 +92,7 @@ public class AddTourLogController implements Initializable, IController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        viewModel = AddLogViewModel.getInstance();
+        viewModel = TourLogFormViewModel.getInstance();
         setDatePicker();
 
         // bindings

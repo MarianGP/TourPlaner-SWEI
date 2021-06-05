@@ -1,13 +1,15 @@
 package org.garcia.layerDataAccess.repository;
 
 import lombok.Getter;
-import org.garcia.layerDataAccess.mapper.TourLogMapper;
-import org.garcia.layerDataAccess.mapper.TourMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.garcia.layerDataAccess.dbconnection.DBConnection;
 import org.garcia.layerDataAccess.dbconnection.visitor.DBVisitor;
 import org.garcia.layerDataAccess.entity.ResourceEntity;
+import org.garcia.layerDataAccess.mapper.TourDirectionsMapper;
+import org.garcia.layerDataAccess.mapper.TourLogMapper;
+import org.garcia.layerDataAccess.mapper.TourMapper;
 
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,6 +19,7 @@ import java.util.List;
 @Getter
 public class Repository implements IRepository {
 
+    private static final Logger logger = LogManager.getLogger(Repository.class);
     private final DBConnection dbConnection;
     private String containerName;
 
@@ -25,7 +28,7 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public int modifyResources(String query, List<Object> parameters) throws SQLException  {
+    public int modifyResources(String query, List<Object> parameters) {
         try (Connection conn = this.dbConnection.connect()) {
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < parameters.size(); i++) {
@@ -52,16 +55,17 @@ public class Repository implements IRepository {
             } else {
                 conn.commit();
                 conn.close();
-                return 0;
             }
-        } catch (SQLException | IOException e) {
+            return 0;
+        } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Modifying resource in DB failed.");
+            return 0;
         }
-        throw new SQLException("Modifying resource in DB failed.");
     }
 
     @Override
-    public List<ResourceEntity> findByTerm(String query, List<Object> parameters, String resourceType) throws SQLException {
+    public List<ResourceEntity> findByTerm(String query, List<Object> parameters, String resourceType) {
         try (Connection conn = this.dbConnection.connect()) {
             PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -76,35 +80,56 @@ public class Repository implements IRepository {
 
             if (resourceType.equals("tour"))
                 return tourEntityList(rs, conn);
-            else if ((resourceType.equals("tour_log"))) {
+            else if (resourceType.equals("tour_log")) {
                 return tourLogEntityList(rs, conn);
+            } else if (resourceType.equals("direction")) {
+                return tourDirectionEntityList(rs, conn);
             } else {
                 return null;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            logger.error("Couldn't retrieve data. DID YOU START THE CONTAINER? ***");
             e.printStackTrace();
+            return null;
         }
-        throw new SQLException("Couldn't retrieve data. DID YOU START THE CONTAINER? ***");
     }
 
-    private List<ResourceEntity> tourEntityList(ResultSet rs, Connection conn) throws SQLException {
+    private List<ResourceEntity> tourDirectionEntityList(ResultSet rs, Connection conn) {
         List<ResourceEntity> list = new ArrayList<>();
         try {
             if (rs.next()) {
                 do {
-                    list.add(TourMapper.dbRowToTourEntity(rs)); // TODO: dependency?
+                    list.add(TourDirectionsMapper.dbRowToTourDirectionEntity(rs));
                 } while (rs.next());
             }
             conn.close();
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Couldn't create TourEntity");
+            return null;
         }
-        throw new SQLException("Couldn't create TourEntity");
     }
 
-    private List<ResourceEntity> tourLogEntityList(ResultSet rs, Connection conn) throws SQLException {
+    private List<ResourceEntity> tourEntityList(ResultSet rs, Connection conn) {
+        List<ResourceEntity> list = new ArrayList<>();
+        try {
+            if (rs.next()) {
+                do {
+                    list.add(TourMapper.dbRowToTourEntity(rs));
+                } while (rs.next());
+            }
+            conn.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Couldn't create TourEntity");
+            return null;
+        }
+    }
+
+    private List<ResourceEntity> tourLogEntityList(ResultSet rs, Connection conn) {
         List<ResourceEntity> list = new ArrayList<>();
         try {
             if (rs.next()) {
@@ -116,8 +141,9 @@ public class Repository implements IRepository {
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Couldn't create LogEntity");
+            return null;
         }
-        throw new SQLException("Couldn't create LogEntity");
     }
 
     public void accept(DBVisitor visitor, String newContainerName) {

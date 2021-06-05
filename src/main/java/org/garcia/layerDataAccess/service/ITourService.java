@@ -4,7 +4,7 @@ import org.garcia.model.Tour;
 
 import java.util.List;
 
-public interface ITourService extends IService {
+public interface ITourService {
     List<Tour> findAll();
     List<Tour> findBySearchInput(String searchInput);
     int addTour(Tour tour);

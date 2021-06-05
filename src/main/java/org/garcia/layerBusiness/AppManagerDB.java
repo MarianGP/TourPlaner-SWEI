@@ -1,31 +1,35 @@
-package org.garcia.layerBusiness.appmanager;
+package org.garcia.layerBusiness;
 
-import org.garcia.layerBusiness.util.InputValidator;
+import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.garcia.layerDataAccess.common.IDALFactory;
 import org.garcia.layerDataAccess.fileaccess.FileAccess;
 import org.garcia.layerDataAccess.fileaccess.PDFBuilder;
+import org.garcia.layerDataAccess.mapAPI.ApiCollection.LegsItem;
+import org.garcia.layerDataAccess.mapAPI.ApiCollection.ManeuversItem;
 import org.garcia.layerDataAccess.mapAPI.ApiCollection.Response;
 import org.garcia.layerDataAccess.mapAPI.MapAPIConnection;
+import org.garcia.layerDataAccess.service.ITourDirectionsService;
 import org.garcia.layerDataAccess.service.ITourLogService;
 import org.garcia.layerDataAccess.service.ITourService;
-import org.garcia.model.Tour;
-import org.garcia.model.TourData;
-import org.garcia.model.TourLog;
-import org.garcia.model.TourStats;
+import org.garcia.model.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Responsable for the interaction between GUI and data access layer.
  */
+@Getter
 public class AppManagerDB implements IAppManager {
 
+    private static final Logger logger = LogManager.getLogger(AppManagerDB.class);
     private static final String CONTAINER_NAME = "postgresDB1";
     private static final String API_NAME = "mapQuestApi";
     private final ITourService tourService;
     private final ITourLogService tourLogService;
+    private final ITourDirectionsService tourDirectionsService;
     private final MapAPIConnection mapAPI;
     private final FileAccess fileAccess;
 
@@ -39,6 +43,7 @@ public class AppManagerDB implements IAppManager {
         tourLogService = factory.createTourLogService();
         mapAPI = factory.createMapAPIConnection(API_NAME);
         fileAccess = factory.createFileAccess();
+        tourDirectionsService = factory.createDirectionService();
     }
 
     /**
@@ -49,12 +54,15 @@ public class AppManagerDB implements IAppManager {
     public List<Tour> searchTours(String inputSearch) {
         if (inputSearch.equals(""))
             return tourService.findAll();
-        if (InputValidator.validString(inputSearch)) {
+        else
             return tourService.findBySearchInput(inputSearch);
-        }
-        return null;
     }
 
+
+    @Override
+    public List<TourDirection> searchDirections(int tourId) {
+        return tourDirectionsService.findByTourId(tourId);
+    }
 
     /**
      * Search in the db for tourLogs
@@ -74,19 +82,34 @@ public class AppManagerDB implements IAppManager {
      *
      * @param newTour is a Tour object with only 4 properties coming from addTourDialog view
      * @return id number of the new added tour
-     * @throws IOException wrong parameters type
      */
     @Override
-    public int addTour(Tour newTour) throws IOException {
-        if (newTour != null) {
-            Response resp = mapAPI.getRoute(newTour);
+    public int addTour(Tour tour) {
+        if (tour != null) {
+            Response resp = mapAPI.getRoute(tour);
+            if (resp == null)
+                return -1;
             String imgPath = mapAPI.getMap(resp);
-            newTour.setImg(imgPath);
-            newTour.setDistance((int) resp.getRoute().getDistance());
-            newTour.setDuration(resp.getRoute().getTime());
-            return tourService.addTour(newTour);
+            if (imgPath.contains("dummy"))
+                return -1;
+            tour.setImg(imgPath);
+            tour.setDistance((int) resp.getRoute().getDistance());
+            tour.setDuration(resp.getRoute().getTime());
+            int newTourId = tourService.addTour(tour);
+            addTourDirections(newTourId, resp);
+            return newTourId;
         }
         return 0;
+    }
+
+    private void addTourDirections(int newTourId, Response resp) {
+        List<LegsItem> leg = resp.getRoute().getLegs();
+        if (leg.size() > 0) {
+            for (ManeuversItem maneuver: leg.get(0).getManeuvers()) {
+                String url = maneuver.getIconUrl().replace("http://content.mqcdn.com/mqsite/turnsigns/","org/garcia/img/icons/");
+                tourDirectionsService.addTourDirection(newTourId, maneuver.getNarrative(), url);
+            }
+        }
     }
 
     @Override
@@ -119,12 +142,10 @@ public class AppManagerDB implements IAppManager {
     @Override
     public boolean deleteTour(Tour tour) {
         if (tourService.deleteTour(tour.getId()) != 0) {
-            fileAccess.deleteFile("img", tour.getImg());
-            return true;
+            return fileAccess.deleteFile("img", tour.getImg());
         }
         return false;
     }
-
     @Override
     public boolean deleteLogById(int id) {
         if (id != 0) {
@@ -135,26 +156,22 @@ public class AppManagerDB implements IAppManager {
 
     @Override
     public boolean importTourNLogs(String fileName, String location) {
-        try {
-            List<TourData> tourDataList = fileAccess.getTourDataFromFile(fileName, location);
-            for (TourData tourData : tourDataList) {
-                Tour tour = Tour.builder()
-                        .title(tourData.getTour().getTitle())
-                        .origin(tourData.getTour().getOrigin())
-                        .destination(tourData.getTour().getDestination())
-                        .description(tourData.getTour().getDescription())
-                        .id(tourData.getTour().getId())
-                        .build();
-                addTour(tour);
-                for (TourLog tourLog : tourData.getTourLogList()) {
-                    tourLogService.addTourLog(tourLog);
-                }
+        List<TourData> tourDataList = fileAccess.getTourDataFromFile(fileName, location);
+        if (tourDataList.size() == 0) return false;
+        for (TourData tourData : tourDataList) {
+            Tour tour = Tour.builder()
+                    .title(tourData.getTour().getTitle())
+                    .origin(tourData.getTour().getOrigin())
+                    .destination(tourData.getTour().getDestination())
+                    .description(tourData.getTour().getDescription())
+                    .id(tourData.getTour().getId())
+                    .build();
+            addTour(tour);
+            for (TourLog tourLog : tourData.getTourLogList()) {
+                tourLogService.addTourLog(tourLog);
             }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
         }
+        return true;
     }
 
     @Override
@@ -171,17 +188,12 @@ public class AppManagerDB implements IAppManager {
             tourDataList.add(tourPair);
         }
 
-        try {
-            fileAccess.exportTours(fileName, location, tourDataList);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        fileAccess.exportTours(fileName, location, tourDataList);
+        return true;
     }
 
     @Override
-    public void createSummaryReport(String url, List<Tour> allTours) throws IOException {
+    public void createSummaryReport(String url, List<Tour> allTours) {
 
         TourStats stats = calculateMetrics(allTours);
         PDFBuilder.createSummaryPdf(url, allTours, stats);
@@ -227,9 +239,10 @@ public class AppManagerDB implements IAppManager {
     }
 
     @Override
-    public void createTourReport(Tour currentTour, String url) throws IOException {
+    public void createTourReport(Tour currentTour, String url) {
         List<TourLog> tourLogList = new ArrayList<>(tourLogService.findByTourId(currentTour.getId()));
         PDFBuilder.createTourPdf(currentTour, url, tourLogList);
     }
 
 }
+
