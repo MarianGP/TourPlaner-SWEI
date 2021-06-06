@@ -132,7 +132,7 @@ public class ToursViewModel implements IViewModel {
             logger.error("Couldn't delete item");
         } else {
             searchLogsByTourId();
-            System.out.println("delete: " + logId);
+            logger.error("Tour Log with id: " + logId + " deleted from db");
         }
     }
 

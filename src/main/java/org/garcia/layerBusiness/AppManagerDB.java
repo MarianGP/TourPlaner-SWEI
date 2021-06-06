@@ -106,8 +106,7 @@ public class AppManagerDB implements IAppManager {
         List<LegsItem> leg = resp.getRoute().getLegs();
         if (leg.size() > 0) {
             for (ManeuversItem maneuver: leg.get(0).getManeuvers()) {
-                String url = maneuver.getIconUrl().replace("http://content.mqcdn.com/mqsite/turnsigns/","org/garcia/img/icons/");
-                tourDirectionsService.addTourDirection(newTourId, maneuver.getNarrative(), url);
+                tourDirectionsService.addTourDirection(newTourId, maneuver.getNarrative(), maneuver.getIconUrl());
             }
         }
     }

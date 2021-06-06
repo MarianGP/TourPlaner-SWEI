@@ -9,6 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.garcia.App;
 import org.garcia.appVisitor.IVisitor;
 import org.garcia.layerView.enums.ViewName;
@@ -24,7 +26,7 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class ToursController implements Initializable, IController {
-
+    private static final Logger logger = LogManager.getLogger(ToursController.class);
     private ToursViewModel viewModel;
 
     //tours
@@ -239,10 +241,17 @@ public class ToursController implements Initializable, IController {
             @Override
             protected void updateItem(TourDirection tourDirection, boolean empty) {
                 super.updateItem(tourDirection, empty);
-                if (empty || (tourDirection == null) || tourDirection.getDirection().equals("")) {
-                    setText("");
-                } else {
-                    setGraphic(new ImageView(tourDirection.getIconUrl()));
+                if (!empty && (tourDirection != null) && !tourDirection.getDirection().equals("")) {
+                    String local = tourDirection.getIconUrl().replace("http://content.mqcdn.com/mqsite/turnsigns/","org/garcia/img/icons/");
+                    String online = tourDirection.getIconUrl();
+                    ImageView imageView;
+                    try {
+                        imageView = new ImageView(local);
+                    } catch (IllegalArgumentException e) {
+                        logger.warn("Image not found locally (" + online + "). " + e);
+                        imageView = new ImageView(online);
+                    }
+                    setGraphic(imageView);
                     setText(tourDirection.getDirection());
                 }
             }
